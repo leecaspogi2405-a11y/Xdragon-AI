@@ -128,7 +128,7 @@
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            min-width: 120px;
+            min-width: 130px;
             transition: all 0.2s;
         }
         .nav-card:hover, .nav-card.active {
@@ -138,7 +138,7 @@
         }
 
         .nav-card h3 { margin: 0 0 4px 0; font-size: 0.75rem; color: #a4b0be; text-transform: uppercase; }
-        .nav-card p { margin: 0; font-size: 1.1rem; font-weight: bold; }
+        .nav-card p { margin: 0; font-size: 1rem; font-weight: bold; }
 
         .modal-overlay {
             position: fixed;
@@ -221,15 +221,15 @@
 
     <div class="game-selection-matrix" id="selection-tower">
         <div class="nav-card active" data-mode="shop"><h3>Vendor</h3><p>🛍️ Core Shop</p></div>
-        <div class="nav-card" data-mode="laser"><h3>Laser Game</h3><p>⚡ Matrix</p></div>
-        <div class="nav-card" data-mode="train"><h3>Train Game</h3><p>🚂 Chase</p></div>
-        <div class="nav-card" data-mode="farm"><h3>Farm Simulator</h3><p>🌾 Fields</p></div>
-        <div class="nav-card" data-mode="burger"><h3>Burger Bomb</h3><p>🍔 Mines</p></div>
-        <div class="nav-card" data-mode="jet"><h3>Jet Shooter</h3><p>🚀 Fighter</p></div>
-        <div class="nav-card" data-mode="chen"><h3>Maze Runner</h3><p>👻 Corridor</p></div>
-        <div class="nav-card" data-mode="flappy"><h3>Flappy Plane</h3><p>🛩️ Flight</p></div>
-        <div class="nav-card" data-mode="guess"><h3>Guess Number</h3><p>🔮 Oracle</p></div>
-        <div class="nav-card" data-mode="restaurant"><h3>Restaurant</h3><p>🧑‍🍳 Kitchen</p></div>
+        <div class="nav-card" data-mode="laser"><h3>Survival</h3><p>⚡ Laser Dodge</p></div>
+        <div class="nav-card" data-mode="sigmabeam"><h3>Skibidi</h3><p>👁️ Sigma Beam</p></div>
+        <div class="nav-card" data-mode="luckyblock"><h3>Luck</h3><p>📦 Block Opener</p></div>
+        <div class="nav-card" data-mode="meteors"><h3>Apocalypse</h3><p>☄️ Meteor Rain</p></div>
+        <div class="nav-card" data-mode="skate"><h3>Subway</h3><p>🛹 Noob Surf</p></div>
+        <div class="nav-card" data-mode="fanum"><h3>Taxation</h3><p>🍕 Fanum Tax</p></div>
+        <div class="nav-card" data-mode="walljump"><h3>Obby</h3><p>🧗 Wall Jumper</p></div>
+        <div class="nav-card" data-mode="clicker"><h3>Economy</h3><p>🖱️ Noob Clicker</p></div>
+        <div class="nav-card" data-mode="memematch"><h3>Memory</h3><p>🧠 Brainrot Pairs</p></div>
     </div>
 
     <div class="interactive-overlay-surface hidden" id="ui-left-surface">
@@ -256,18 +256,17 @@
         <div class="panel-modal">
             <h2>📜 OPERATIONS MANUAL</h2>
             <div style="max-height: 50vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; padding-right: 5px;">
-                <p><strong>1. CORE VENDOR:</strong> Purchase items via cash reserves. Generates immutable cryptographic string hashes.</p>
-                <p><strong>2. LASER MATRIX:</strong> 3D vertical kinetic workspace dodge. Avoid crimson beams descending down track lines.</p>
-                <p><strong>3. TRAIN CHASE:</strong> Gather gold tokens. Hitting a natural wall flora obstacle triggers a rear-bound high-speed locomotive chase script block.</p>
-                <p><strong>4. FARM FIELDS:</strong> Click dynamic geometric field parcels. Grow pets, update matrix plots, apply wheat resources.</p>
-                <p><strong>5. BURGER BOMB:</strong> Local node matching selection topology matrix grid. Map hidden explosives, sweep sector matrices safely.</p>
-                <p><strong>6. JET FIGHTER:</strong> Auto-fire horizontal sweeping projectile system map workspace stack vectors. Eliminate hostiles.</p>
-                <p><strong>7. MAZE CORRIDOR:</strong> Orthogonal vector shifts. Outmaneuver tracking phantom AI entities across corridors loop.</p>
-                <p><strong>8. FLAPPY PLANE:</strong> Maintain rhythmic hover states via continuous vertical force allocations.</p>
-                <p><strong>9. GUESS ORACLE:</strong> Deduce target constants from numeric binary bounds fields.</p>
-                <p><strong>10. RESTAURANT KITCHEN:</strong> Assemble multi-part inventory recipe vectors matching requested client stack configurations.</p>
+                <p><strong>1. LASER DODGE:</strong> Iwasan ang pababang mapupulang laser lines sa 3D field.</p>
+                <p><strong>2. SIGMA BEAM:</strong> Wasakin ang mga umaatakeng floating orbs gamit ang iyong directional blaster vectors.</p>
+                <p><strong>3. BLOCK OPENER:</strong> Magbukas ng lucky blocks gamit ang nakaimbak na swerte para makakuha ng rare models at pera.</p>
+                <p><strong>4. METEOR RAIN:</strong> Gumalaw pakanan at pakaliwa para iwasan ang naglalakihang apocalypse falling meteors.</p>
+                <p><strong>5. NOOB SURF:</strong> Humataw sa riles! Kolektahin ang lumulutang na coins habang iniiwasan ang mga solid blocks.</p>
+                <p><strong>6. FANUM TAX:</strong> I-click ang mga Pizza Model bago sila makuha ni Fanum para protektahan ang iyong cash backup storage.</p>
+                <p><strong>7. WALL JUMPER:</strong> Ritwal na vertical obby flight mechanics. Tumingin sa timing para lumaktaw sa gumagalaw na tiles.</p>
+                <p><strong>8. NOOB CLICKER:</strong> Dagdagan ang core engine value gamit ang pure multi-clicks para mag-generate ng mabilisang cash flow.</p>
+                <p><strong>9. BRAINROT PAIRS:</strong> Isang memory matching challenge sa matrix board para i-verify ang iyong brain capacity parameters.</p>
             </div>
-            <button class="btn-primary" id="btn-manual-close" style="margin-top: 20px; padding: 12px;">ACKNOWLEDGE SYSTEM PARAMETERS</button>
+            <button class="btn-primary" id="btn-manual-close" style="margin-top: 20px; padding: 12px;">ACKNOWLEDGE PARAMETERS</button>
         </div>
     </div>
 
@@ -279,22 +278,16 @@
     </div>
 
     <script>
-        // Data and Core Persistence Architectures
-        let cash = parseInt(localStorage.getItem("X3D_Cash")) || 5000; // Default buffer allocation for convenient staging verification
+        let cash = parseInt(localStorage.getItem("X3D_Cash")) || 5000;
         let currentMode = "shop";
         let activeScore = 0;
         let gameActive = false;
-        let wheatInventory = parseInt(localStorage.getItem("X3D_Wheat")) || 0;
 
-        // 3D Engine Core Properties
+        // 3D Framework Parameters
         let scene, camera, renderer, raycaster, mouse;
-        let environmentLights = [], gameplayEntitiesGroup;
-        let machineCoreMesh; 
-
-        // Shared Input Vector Struct States
+        let gameplayEntitiesGroup, machineCoreMesh;
         let inputState = { left: false, right: false, action: false };
 
-        // Initialization Hooks
         const hudCash = document.getElementById("hud-cash");
         const selectionTower = document.getElementById("selection-tower");
         const shopDeck = document.getElementById("shop-deck");
@@ -308,7 +301,6 @@
         }
         syncFinancialHUD();
 
-        // System Notification Modal Interceptor Loop
         let noteCallback = null;
         function pushSystemAlert(message, borderHex = "#ffa502", callback = null) {
             document.getElementById("note-text-node").innerText = message;
@@ -321,25 +313,21 @@
             if(noteCallback) { let cb = noteCallback; noteCallback = null; cb(); }
         };
 
-        // Manual Navigation Events Handling Setup
         document.getElementById("btn-manual").onclick = () => document.getElementById("manual-modal").classList.remove("hidden");
         document.getElementById("btn-manual-close").onclick = () => document.getElementById("manual-modal").classList.add("hidden");
 
-        // Vendor Asset Token System Engine Generator
         document.getElementById("btn-purchase-item").onclick = () => {
             if(cash >= 25000) {
                 cash -= 25000; syncFinancialHUD();
                 let cryptoToken = "X3D-DRGN-" + Array.from({length:16}, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*36)]).join("");
-                let outNode = document.getElementById("shop-token-output");
-                outNode.innerText = `ASSET PAYLOAD ENCRYPTED AUTH HASH:\n${cryptoToken}`;
-                outNode.classList.remove("hidden");
-                pushSystemAlert("Asset runtime token allocated inside local storage segment array architecture.", "#2ed573");
+                document.getElementById("shop-token-output").innerText = `ASSET PAYLOAD ENCRYPTED AUTH HASH:\n${cryptoToken}`;
+                document.getElementById("shop-token-output").classList.remove("hidden");
+                pushSystemAlert("Quantum dynamic asset loop successfully unlocked!", "#2ed573");
             } else {
-                pushSystemAlert("Transaction Aborted: Insufficient quantitative financial assets for inventory sequence.", "#ff4757");
+                pushSystemAlert("Transaction Aborted: Insufficient quantitative asset structures.", "#ff4757");
             }
         };
 
-        // Standard Universal System Workspace Factory Architecture Initialization
         function initializeUniversalGraphicsSandbox() {
             const viewport = document.getElementById("webgl-engine-container");
             scene = new THREE.Scene();
@@ -359,51 +347,37 @@
             raycaster = new THREE.Raycaster();
             mouse = new THREE.Vector2();
 
-            // Lighting Setup Elements
-            const ambient = new THREE.AmbientLight(0xffffff, 0.2);
-            scene.add(ambient);
-
-            const platformDirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+            const platformDirLight = new THREE.DirectionalLight(0xffffff, 0.85);
             platformDirLight.position.set(10, 20, 10);
-            platformDirLight.castShadow = true;
             scene.add(platformDirLight);
 
-            // Construct Aesthetic 3D Cyberpunk Grid Arena Space Floors
             const structuralFloorGrid = new THREE.GridHelper(100, 50, 0xff4757, 0x1e1e24);
             structuralFloorGrid.position.y = -0.01;
             scene.add(structuralFloorGrid);
 
-            // Universal Object Tracking Target Nodes Core Group Allocation Workspace
             gameplayEntitiesGroup = new THREE.Group();
             scene.add(gameplayEntitiesGroup);
 
-            // Assemble Centralized Multi-Cabinet Base Machine Visual Frame Representation Anchor
-            const frameGeometry = new THREE.BoxGeometry(4, 6, 2);
-            const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x1c1c24, roughness: 0.4, metalness: 0.8, edgecolor: 0xff4757 });
-            machineCoreMesh = new THREE.Mesh(frameGeometry, frameMaterial);
+            machineCoreMesh = new THREE.Mesh(new THREE.BoxGeometry(4, 6, 2), new THREE.MeshStandardMaterial({ color: 0x1c1c24, roughness: 0.4, metalness: 0.8 }));
             machineCoreMesh.position.set(0, 3, -2);
             scene.add(machineCoreMesh);
 
-            const marqueeScreenGeom = new THREE.PlaneGeometry(3.6, 2.5);
-            const marqueeScreenMat = new THREE.MeshBasicMaterial({ color: 0x121216 });
-            const screenMeshInstance = new THREE.Mesh(marqueeScreenGeom, marqueeScreenMat);
+            const screenMeshInstance = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 2.5), new THREE.MeshBasicMaterial({ color: 0x121216 }));
             screenMeshInstance.position.set(0, 4.2, -0.95);
             scene.add(screenMeshInstance);
 
-            window.addEventListener('resize', handleViewportResizingResolution);
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
             window.addEventListener('click', handle3DSpaceRaycastInteraction);
 
             setupInputControlSystemHooks();
             executeEngineRenderPassLoop();
         }
 
-        function handleViewportResizingResolution() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        // Standard Keyboard + Screen Virtual Node Mappings Input Core Handler Map Array
         function setupInputControlSystemHooks() {
             window.addEventListener('keydown', (e) => {
                 if(e.key === "a" || e.key === "ArrowLeft") inputState.left = true;
@@ -416,7 +390,6 @@
                 if(e.key === " " || e.key === "Enter") inputState.action = false;
             });
 
-            // Touch Interface Binding Mechanics Setup Loop Map Vector Instance Structures
             const attachTouchNode = (nodeId, keyProp) => {
                 const el = document.getElementById(nodeId);
                 el.addEventListener('touchstart', (e) => { e.preventDefault(); inputState[keyProp] = true; });
@@ -427,7 +400,6 @@
             attachTouchNode("ctrl-action", "action");
         }
 
-        // Modular Switching Terminal System Router Config
         selectionTower.addEventListener('click', (e) => {
             const card = e.target.closest(".nav-card");
             if(!card) return;
@@ -437,60 +409,35 @@
             purgeActiveSimulationEntities();
             currentMode = card.dataset.mode;
             
-            // Standard GUI Configuration Interface Pipeline States Core Directives
             shopDeck.classList.add("hidden");
             uiLeftSurface.classList.add("hidden");
             touchControllerDeck.classList.add("hidden");
             gameActive = false;
 
-            // Focus Reset Matrix Vectors Camera Core Viewport Position Alignments Map Array Structure Setup
             if(currentMode === "shop") {
                 shopDeck.classList.remove("hidden");
-                transformCameraTrackTarget(0, 5, 12, 0, 1.5, 0);
+                camera.position.set(0, 5, 12); camera.lookAt(0, 1.5, 0);
             } else {
-                transformCameraTrackTarget(0, 4.5, 4, 0, 4.2, -2);
+                camera.position.set(0, 4.5, 4); camera.lookAt(0, 4.2, -2);
                 initializeTargetGameEngineSubspace(currentMode);
             }
         });
 
-        function transformCameraTrackTarget(px, py, pz, tx, ty, tz) {
-            camera.position.set(px, py, pz);
-            camera.lookAt(tx, ty, tz);
-        }
-
         function purgeActiveSimulationEntities() {
             while(gameplayEntitiesGroup.children.length > 0){
-                const obj = gameplayEntitiesGroup.children[0];
-                gameplayEntitiesGroup.remove(obj);
+                gameplayEntitiesGroup.remove(gameplayEntitiesGroup.children[0]);
             }
         }
 
-        // 3D Runtime Global Scene Graph Simulation Processing Loop Step Function Array
         function executeEngineRenderPassLoop() {
             requestAnimationFrame(executeEngineRenderPassLoop);
-            const deltaTicks = 0.016; // Fixed timestep standardization vector frame proxy
-
-            if(gameActive) {
-                runActive3DGameSimulationTick(deltaTicks);
-            }
-
-            // Animate idle background visualizer components parameters properties indices configurations arrays
-            if(machineCoreMesh) {
-                if(!gameActive) {
-                    machineCoreMesh.position.y = 3 + Math.sin(Date.now() * 0.0015) * 0.15;
-                } else {
-                    machineCoreMesh.position.y = 3;
-                }
-            }
-
+            if(gameActive) runActive3DGameSimulationTick(0.016);
             renderer.render(scene, camera);
         }
 
         // =========================================================================
-        // MULTI-GAME 3D ENGINE ARCHITECTURAL ENGINE LOGIC SUBSPACE IMPLEMENTATIONS
+        // NEW 9 GAME REGISTRY IMPLEMENTATION SYSTEM
         // =========================================================================
-        
-        // Game Engine Tracking Struct References Local Array Context Blocks
         let localPlayerMesh = null;
         let internalEntitiesArray = [];
         let executionSpawnTimer = 0;
@@ -503,870 +450,339 @@
             activeScore = 0;
             internalStateTracker = {};
             uiLeftSurface.classList.remove("hidden");
-            
-            // Generate Screen Boundaries Backplate Playfield Grid Reference Wireframe Boxes
+
+            // Base Wireframe Screen Box Staging
             const playBoundsWireframeMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(3.2, 2.2, 4),
-                new THREE.MeshBasicMaterial({ color: 0xff4757, wireframe: true, transparent: true, opacity: 0.15 })
+                new THREE.MeshBasicMaterial({ color: 0xff4757, wireframe: true, transparent: true, opacity: 0.1 })
             );
             playBoundsWireframeMesh.position.set(0, 4.2, -1.5);
             gameplayEntitiesGroup.add(playBoundsWireframeMesh);
 
-            // Construct 3D Representative Object Mesh Node Structures Framework
-            if(["laser", "train", "jet", "flappy"].includes(mode)) {
+            // Setup movement keys for active running simulations
+            if(["laser", "sigmabeam", "meteors", "skate", "walljump"].includes(mode)) {
                 touchControllerDeck.classList.remove("hidden");
-                
-                let geometryForm = mode === "flappy" ? new THREE.ConeGeometry(0.08, 0.25, 8) : new THREE.BoxGeometry(0.15, 0.15, 0.15);
-                let matForm = new THREE.MeshStandardMaterial({ color: 0x00d2d3, emissive: 0x00a8ff });
-                localPlayerMesh = new THREE.Mesh(geometryForm, matForm);
-                
-                if(mode === "flappy") {
-                    localPlayerMesh.rotation.z = Math.PI / 2;
-                    localPlayerMesh.position.set(-1, 4.2, -0.5);
-                } else {
-                    localPlayerMesh.position.set(0, 3.3, -0.5);
-                }
+                localPlayerMesh = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.16, 0.16, 0.16),
+                    new THREE.MeshStandardMaterial({ color: 0x00d2d3, emissive: 0x00a8ff })
+                );
+                localPlayerMesh.position.set(0, 3.3, -0.5);
                 gameplayEntitiesGroup.add(localPlayerMesh);
                 gameActive = true;
             }
 
-            // Map and Deploy Concrete Game Sub-modes Dynamic HUD Structural Components Loops
+            // Game UI Router Configurations
             if(mode === "laser") {
-                surfaceInjector.innerHTML = `
-                    <h3>⚡ LASER MATRIX</h3>
-                    <div class="ticker-hud">SYSTEM: READY</div>
-                    <p style="font-size:0.85rem; color:#a4b0be;">Score Level Trace: <span id='game-hud-score'>0</span></p>
-                `;
-            } 
-            else if(mode === "train") {
-                internalStateTracker.isAlertActive = false;
-                internalStateTracker.alertEnds = 0;
-                
-                // Append Locomotive Agent Mesh Node Representational Staging Core Geometry Object
-                let locomotiveGroup = new THREE.Group();
-                let bodyMesh = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.8), new THREE.MeshStandardMaterial({color: 0x4b4b4b}));
-                let cabinMesh = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.3, 0.35), new THREE.MeshStandardMaterial({color: 0xff4757}));
-                cabinMesh.position.set(0, 0.2, -0.2);
-                locomotiveGroup.add(bodyMesh, cabinMesh);
-                locomotiveGroup.position.set(0, 3.3, -3.2); // Sits at back of simulation tray array map zone
-                gameplayEntitiesGroup.add(locomotiveGroup);
-                internalStateTracker.trainMeshRef = locomotiveGroup;
-
-                surfaceInjector.innerHTML = `
-                    <h3>🚂 TRAIN CHASE 3D</h3>
-                    <div class="ticker-hud" id="train-status-ticker">TRACK SECURE</div>
-                    <p style="font-size:0.85rem; color:#a4b0be;">Tokens Harvested: <span id='game-hud-score'>0</span></p>
-                `;
+                surfaceInjector.innerHTML = `<h3>⚡ SURVIVE LASER</h3><div class="ticker-hud">EVADE RADIAL BEAMS</div><p>Score: <span id='game-hud-score'>0</span></p>`;
             }
-            else if(mode === "farm") {
-                touchControllerDeck.classList.add("hidden");
-                surfaceInjector.innerHTML = `
-                    <h3>🌾 3D FARM MATRIX</h3>
-                    <div class="ticker-hud">WHEAT STOCK: ${wheatInventory}</div>
-                    <div id="farm-dynamic-deck">Click on grid parcels inside machine array view to step tracking properties loops.</div>
-                `;
-                build3DFarmFieldsSpatialGraph();
+            else if(mode === "sigmabeam") {
+                surfaceInjector.innerHTML = `<h3>👁️ SIGMA BEAM</h3><div class="ticker-hud">PRESS ACTION / SPACE TO BLAST</div><p>Eliminated: <span id='game-hud-score'>0</span></p>`;
             }
-            else if(mode === "burger") {
-                touchControllerDeck.classList.add("hidden");
-                surfaceInjector.innerHTML = `
-                    <h3>🍔 BURGER BOMB 3D</h3>
-                    <div class="ticker-hud" id="burger-hud-alert">SETUP PHASE: DEPLOY 3 MINES</div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:10px;">
-                        <span id="burger-p1-h">YOU: ❤️❤️❤️</span>
-                        <span id="burger-p2-h">BOT: ❤️❤️❤️</span>
-                    </div>
-                    <button class="btn-primary" id="btn-burger-radar" style="font-size:0.8rem; padding:8px; margin-bottom:10px;">Buy Intel Radar (-$1500)</button>
-                    <div id="burger-interactive-log" style="font-size:0.75rem; color:#2ed573; max-height:80px; overflow-y:auto; font-family:monospace;">System primed. Click grid blocks inside screen mesh.</div>
-                `;
-                build3DBurgerBombSimulationBoard();
+            else if(mode === "luckyblock") {
+                surfaceInjector.innerHTML = `<h3>📦 LUCKY BLOCK OPENER</h3><div class="ticker-hud">TEST YOUR ENGINE LUCK</div><button class="btn-primary" onclick="window.rollLuckyBlock()">OPEN LUCKY BLOCK (-$500)</button><div id="lucky-log" style="margin-top:10px; font-size:0.8rem; color:#ffd32a;">Ready to roll...</div>`;
+                build3DLuckyBlockWorld();
             }
-            else if(mode === "jet") {
-                surfaceInjector.innerHTML = `
-                    <h3>🚀 JET FIGHTER STACK</h3>
-                    <div class="ticker-hud">DEFENSE ENVELOPE HIGH ALIGNMENT</div>
-                    <p style="font-size:0.85rem; color:#a4b0be;">Aliens Neutralized: <span id='game-hud-score'>0</span></p>
-                `;
+            else if(mode === "meteors") {
+                surfaceInjector.innerHTML = `<h3>☄️ APOCALYPSE METEORS</h3><div class="ticker-hud">DODGE THE SKY FALLOUT</div><p>Survived: <span id='game-hud-score'>0</span></p>`;
             }
-            else if(mode === "chen") {
-                touchControllerDeck.classList.add("hidden");
-                surfaceInjector.innerHTML = `
-                    <h3>👻 MAZE TRACKER CORRIDOR</h3>
-                    <div class="ticker-hud" id="chen-ticker">CLICK CORRIDORS TO SHIFT POSITION MATRIX</div>
-                    <p style="font-size:0.85rem; color:#a4b0be;">Tokens Kept: <span id='game-hud-score'>0</span></p>
-                `;
-                build3DChenMazeGraphGridStructure();
+            else if(mode === "skate") {
+                surfaceInjector.innerHTML = `<h3>🛹 NOOB RAIL SURF</h3><div class="ticker-hud">COLLECT COINS, AVOID OBSTACLES</div><p>Coins: <span id='game-hud-score'>0</span></p>`;
             }
-            else if(mode === "flappy") {
-                surfaceInjector.innerHTML = `
-                    <h3>🛩️ FLAPPY FLIGHT 3D</h3>
-                    <div class="ticker-hud">TAP CTR ACTION OR SPACE TO JUMP</div>
-                    <p style="font-size:0.85rem; color:#a4b0be;">Altitude Clearance: <span id='game-hud-score'>0</span></p>
-                `;
-                internalStateTracker.velocity = 0;
+            else if(mode === "fanum") {
+                surfaceInjector.innerHTML = `<h3>🍕 FANUM TAX IMMUNITY</h3><div class="ticker-hud">CLICK INCOMING PIZZAS FAST</div><p>Saved Core: <span id='game-hud-score'>0</span></p>`;
+                gameActive = true;
             }
-            else if(mode === "guess") {
-                touchControllerDeck.classList.add("hidden");
-                surfaceInjector.innerHTML = `
-                    <h3>🔮 ORACLE BINARY SECTOR</h3>
-                    <div class="ticker-hud" id="guess-ticker-status">INITIALIZING TARGET FIELD CODE</div>
-                    <div id="guess-injection-matrix-deck" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:4px; max-height:180px; overflow-y:auto; background:#0e0e12; padding:6px; border-radius:6px;"></div>
-                `;
-                build3DGuessGameMatrixGridStructure();
+            else if(mode === "walljump") {
+                localPlayerMesh.position.set(-1.2, 3.3, -1.5);
+                internalStateTracker.jumpState = 0; // Grounded state initialization
+                surfaceInjector.innerHTML = `<h3>🧗 WALL JUMPER OBBY</h3><div class="ticker-hud">ACTION / SPACE TO JUMP WALLS</div><p>Score Trace: <span id='game-hud-score'>0</span></p>`;
             }
-            else if(mode === "restaurant") {
-                touchControllerDeck.classList.add("hidden");
-                surfaceInjector.innerHTML = `
-                    <h3>🧑‍🍳 CLOUDE RESTAURANT 3D</h3>
-                    <div class="ticker-hud" id="rest-order-badge">TICKET: Loading...</div>
-                    <div style="font-size:0.8rem; color:#ffa502; margin-bottom:6px; font-weight:bold;">Kitchen Ingredient Assembly Array:</div>
-                    <div id="rest-ingredients-rack" style="display:grid; grid-template-columns: repeat(4,1fr); gap:4px; margin-bottom:10px;"></div>
-                    <div style="font-size:0.75rem; color:#888;">Mixing Bowl State Node:</div>
-                    <div id="rest-bowl-node" style="background:#111; padding:6px; border-radius:4px; min-height:24px; text-align:center; font-size:1.1rem; margin-bottom:10px; border:1px dashed #444;">[Empty]</div>
-                    <div style="display:flex; gap:6px;">
-                        <button class="btn-primary" onclick="window.clear3DRestaurantBowl()" style="background:#747d8c; padding:8px; font-size:0.9rem;">Clear</button>
-                        <button class="btn-primary" onclick="window.serve3DRestaurantOrder()" style="background:#2ed573; padding:8px; font-size:0.9rem;">SERVE</button>
-                    </div>
-                `;
-                build3DRestaurantKitchenWorkspace();
+            else if(mode === "clicker") {
+                internalStateTracker.clicks = 0;
+                surfaceInjector.innerHTML = `<h3>🖱️ NOOB CLICKER MATRIX</h3><div class="ticker-hud">TAP CENTER CONSOLE SPHERE</div><p>Click Level Accumulation: <span id='click-hud-count'>0</span></p><button class="btn-primary" onclick="window.claimClickerPayout()" style="background:#2ed573; margin-top:10px;">CLAIM ASSET BONUS FLOW</button>`;
+                build3DClickerSphereNode();
+            }
+            else if(mode === "memematch") {
+                surfaceInjector.innerHTML = `<h3>🧠 BRAINROT MEME PAIRS</h3><div class="ticker-hud" id="memo-status">MATCH THE BLOCK IDENTIFIERS</div><div style="font-size:0.8rem; color:#aaa;">Click cards on the screen.</div>`;
+                build3DMemoryMatchBoardTopology();
             }
         }
 
-        // Processing Continuous Delta Framework Updates Core Target Iteration Loops Arrays
         function runActive3DGameSimulationTick(dt) {
             executionSpawnTimer += dt;
             const scoreLabel = document.getElementById("game-hud-score");
-
-            // Define Global Dynamic Boundaries
             const horizontalLimitBound = 1.4;
 
             if(currentMode === "laser") {
-                activeScore += 1;
-                if(scoreLabel) scoreLabel.innerText = activeScore;
-
-                // Move Player based on dynamic inputs maps
-                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.0 * dt;
-                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.0 * dt;
-
-                // Spawn Cylindrical Laser Node Elements down the track Z line vectors
-                if(executionSpawnTimer > 0.12) {
-                    executionSpawnTimer = 0;
-                    let laserGeom = new THREE.CylinderGeometry(0.04, 0.04, 0.4, 6);
-                    let laserMat = new THREE.MeshBasicMaterial({ color: 0xff4757 });
-                    let laserMesh = new THREE.Mesh(laserGeom, laserMat);
-                    laserMesh.rotation.x = Math.PI / 2;
-                    laserMesh.position.set((Math.random() * 2.8) - 1.4, (Math.random() * 1.8) + 3.2, -3.5);
-                    gameplayEntitiesGroup.add(laserMesh);
-                    internalEntitiesArray.push({ mesh: laserMesh, type: "laser", speed: 4.5 });
-                }
-
-                // Object Iteration System Updates Pipeline Map Trace Loop Arrays
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i];
-                    ent.mesh.position.z += ent.speed * dt;
-
-                    // Evaluate Core Intersection Vector Spaces Matrix Collision State Loop Parameters Properties
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.22) {
-                        gameActive = false;
-                        cash += activeScore; syncFinancialHUD();
-                        pushSystemAlert(`💥 KINETIC LASER INTERACTION SHUTDOWN!\nScore Vector Frame Captured: ${activeScore}\nQuantitative Cash Transferred: +$${activeScore}`, "#ff4757");
-                        return;
-                    }
-
-                    if(ent.mesh.position.z > 0.5) {
-                        gameplayEntitiesGroup.remove(ent.mesh);
-                        internalEntitiesArray.splice(i, 1);
-                    }
-                }
-            }
-            else if(currentMode === "train") {
+                activeScore++; if(scoreLabel) scoreLabel.innerText = activeScore;
                 if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.2 * dt;
                 if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.2 * dt;
 
-                let trainControl = internalStateTracker;
-                let tMesh = trainControl.trainMeshRef;
-
-                if(trainControl.isAlertActive) {
-                    let timeLeft = trainControl.alertEnds - Date.now();
-                    document.getElementById("train-status-ticker").innerText = `⚠️ INCOMING LOCOMOTIVE: ${Math.ceil(timeLeft/1000)}s`;
-                    document.getElementById("train-status-ticker").style.color = "#ffa502";
-                    
-                    // Trace Intercept Vector Target Paths towards Tracking Player Nodes Core X positions
-                    tMesh.position.z += ( (-0.6) - tMesh.position.z ) * 0.08;
-                    tMesh.position.x += ( localPlayerMesh.position.x - tMesh.position.x ) * 0.05;
-
-                    if(tMesh.position.distanceTo(localPlayerMesh.position) < 0.35) {
-                        gameActive = false;
-                        pushSystemAlert("🚂 REAR-BOUND TRAIN CHASE INTERCEPT COMPLETE: RUNTIME DESTROYED.", "#ff4757");
-                        return;
-                    }
-
-                    if(timeLeft <= 0) {
-                        trainControl.isAlertActive = false;
-                        document.getElementById("train-status-ticker").innerText = "TRACK SECURE";
-                        document.getElementById("train-status-ticker").style.color = "#2ed573";
-                    }
-                } else {
-                    tMesh.position.z += ( (-3.2) - tMesh.position.z ) * 0.05;
-                }
-
-                // Random Target Generation for Spawning Coins and Green Shrub Obstacle Vectors
-                if(executionSpawnTimer > 0.4) {
+                if(executionSpawnTimer > 0.15) {
                     executionSpawnTimer = 0;
-                    let isFloraObstacle = Math.random() < 0.4;
-                    let geom = isFloraObstacle ? new THREE.SphereGeometry(0.12, 8, 8) : new THREE.TorusGeometry(0.08, 0.02, 4, 12);
-                    let mat = isFloraObstacle ? new THREE.MeshStandardMaterial({color:0x2ed573}) : new THREE.MeshStandardMaterial({color:0xffd32a, metalness:0.9});
-                    let itemMesh = new THREE.Mesh(geom, mat);
-                    itemMesh.position.set((Math.random() * 2.6) - 1.3, 3.3, -3.5);
-                    gameplayEntitiesGroup.add(itemMesh);
-                    internalEntitiesArray.push({ mesh: itemMesh, type: isFloraObstacle ? "bush" : "coin", speed: 3.0 });
+                    let m = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.3, 6), new THREE.MeshBasicMaterial({ color: 0xff4757 }));
+                    m.rotation.x = Math.PI / 2; m.position.set((Math.random()*2.8)-1.4, 3.3, -3.5);
+                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, speed: 4.8 });
                 }
-
                 for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i];
-                    ent.mesh.position.z += ent.speed * dt;
+                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.22) {
+                        gameActive = false; cash += activeScore; syncFinancialHUD();
+                        pushSystemAlert(`💥 HIT BY LASER!\nScore: ${activeScore}\nPayout: +$${activeScore}`); return;
+                    }
+                    if(ent.mesh.position.z > 0.5) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
+                }
+            }
 
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
-                        if(ent.type === "coin") {
-                            activeScore += 1; cash += 5; syncFinancialHUD();
-                            if(scoreLabel) scoreLabel.innerText = activeScore;
-                        } else {
-                            if(!trainControl.isAlertActive) {
-                                trainControl.isAlertActive = true;
-                                trainControl.alertEnds = Date.now() + 5000;
-                            } else {
-                                gameActive = false;
-                                pushSystemAlert("🚂 DUAL BOUND LOCOMOTIVE IMPACT TRACK COLLISION TRACE RECORDED.", "#ff4757");
-                                return;
+            else if(currentMode === "sigmabeam") {
+                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.5 * dt;
+                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.5 * dt;
+
+                if(inputState.action && executionSpawnTimer > 0.2) {
+                    executionSpawnTimer = 0;
+                    let b = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.2), new THREE.MeshBasicMaterial({color:0x00ffcc}));
+                    b.position.set(localPlayerMesh.position.x, localPlayerMesh.position.y, localPlayerMesh.position.z - 0.1);
+                    gameplayEntitiesGroup.add(b); internalEntitiesArray.push({ mesh: b, type: "laser_beam", speed: -6.0 });
+                }
+                if(Math.random() < 0.04) {
+                    let o = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshStandardMaterial({color:0xff00ff, wireframe:true}));
+                    o.position.set((Math.random()*2.6)-1.3, 3.3, -3.5);
+                    gameplayEntitiesGroup.add(o); internalEntitiesArray.push({ mesh: o, type: "skibidi_orb", speed: 1.8 });
+                }
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
+                    if(ent.type === "skibidi_orb" && ent.mesh.position.z > -0.3) {
+                        gameActive = false; pushSystemAlert("🚨 THREAT PENETRATION INTEGRITY FAILURE."); return;
+                    }
+                    if(ent.type === "laser_beam" && ent.mesh.position.z < -3.6) {
+                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); continue;
+                    }
+                    if(ent.type === "skibidi_orb") {
+                        for(let j = internalEntitiesArray.length - 1; j >= 0; j--) {
+                            let bCheck = internalEntitiesArray[j];
+                            if(bCheck.type === "laser_beam" && bCheck.mesh.position.distanceTo(ent.mesh.position) < 0.22) {
+                                activeScore++; cash += 25; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
+                                gameplayEntitiesGroup.remove(ent.mesh); gameplayEntitiesGroup.remove(bCheck.mesh);
+                                internalEntitiesArray.splice(i, 1); internalEntitiesArray.splice(j, 1); break;
                             }
                         }
-                        gameplayEntitiesGroup.remove(ent.mesh);
-                        internalEntitiesArray.splice(i, 1);
-                        continue;
-                    }
-
-                    if(ent.mesh.position.z > 0.5) {
-                        gameplayEntitiesGroup.remove(ent.mesh);
-                        internalEntitiesArray.splice(i, 1);
                     }
                 }
             }
-            else if(currentMode === "jet") {
+
+            else if(currentMode === "meteors") {
+                activeScore++; if(scoreLabel) scoreLabel.innerText = activeScore;
                 if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.0 * dt;
                 if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.0 * dt;
 
-                // Automatic Weapon Projectile Firing Output Loop Mapping Setup Trace
-                if(executionSpawnTimer > 0.15) {
-                    let bulletGeom = new THREE.BoxGeometry(0.02, 0.02, 0.15);
-                    let bulletMat = new THREE.MeshBasicMaterial({color:0xffff00});
-                    let bMesh = new THREE.Mesh(bulletGeom, bulletMat);
-                    bMesh.position.set(localPlayerMesh.position.x, localPlayerMesh.position.y, localPlayerMesh.position.z - 0.1);
-                    gameplayEntitiesGroup.add(bMesh);
-                    internalEntitiesArray.push({ mesh: bMesh, type: "bullet", speed: -5.0 });
-                    
-                    // Throttle hostile entity asset spawning pipelines
-                    if(Math.random() < 0.3) {
-                        let alienGeom = new THREE.OctahedronGeometry(0.12, 0);
-                        let alienMat = new THREE.MeshStandardMaterial({color:0xff00ff, wireframe:true});
-                        let aMesh = new THREE.Mesh(alienGeom, alienMat);
-                        aMesh.position.set((Math.random()*2.6)-1.3, 3.3, -3.5);
-                        gameplayEntitiesGroup.add(aMesh);
-                        internalEntitiesArray.push({ mesh: aMesh, type: "alien", speed: 1.5 });
-                    }
+                if(executionSpawnTimer > 0.25) {
                     executionSpawnTimer = 0;
+                    let m = new THREE.Mesh(new THREE.DodecahedronGeometry(0.16, 0), new THREE.MeshStandardMaterial({color:0xeccc68, roughness:0.9}));
+                    m.position.set((Math.random()*2.8)-1.4, 4.8, -2.0 - (Math.random()*1.5));
+                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, vy: -2.5, vz: 1.5 });
                 }
-
-                // Bullet and Threat Object Processing Loops Mapping Setup Array Framework
                 for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
                     let ent = internalEntitiesArray[i];
-                    ent.mesh.position.z += ent.speed * dt;
-
-                    if(ent.type === "bullet" && ent.mesh.position.z < -3.6) {
-                        gameplayEntitiesGroup.remove(ent.mesh);
-                        internalEntitiesArray.splice(i, 1);
-                        continue;
+                    ent.mesh.position.y += ent.vy * dt; ent.mesh.position.z += ent.vz * dt;
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.26) {
+                        gameActive = false; cash += activeScore * 2; syncFinancialHUD();
+                        pushSystemAlert(`☄️ METEOR COLLISION TERMINATION!\nEarned: +$${activeScore * 2}`); return;
                     }
+                    if(ent.mesh.position.y < 3.0) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
+                }
+            }
 
-                    if(ent.type === "alien") {
-                        if(ent.mesh.position.z > -0.3) {
-                            gameActive = false;
-                            pushSystemAlert("🚨 SHIELD ENVELOPE PENETRATED: HOSTILE TARGET CAPTURE CRITICAL NODE.", "#ff4757");
-                            return;
+            else if(currentMode === "skate") {
+                if(inputState.left && localPlayerMesh.position.x > -1.0) localPlayerMesh.position.x = -1.0;
+                if(inputState.right && localPlayerMesh.position.x < 1.0) localPlayerMesh.position.x = 1.0;
+                if(!inputState.left && !inputState.right) localPlayerMesh.position.x = 0;
+
+                if(executionSpawnTimer > 0.4) {
+                    executionSpawnTimer = 0;
+                    let isCoin = Math.random() < 0.6;
+                    let lane = [ -1.0, 0, 1.0 ][Math.floor(Math.random()*3)];
+                    let geo = isCoin ? new THREE.TorusGeometry(0.06, 0.02, 4, 8) : new THREE.BoxGeometry(0.2, 0.3, 0.2);
+                    let mat = isCoin ? new THREE.MeshBasicMaterial({color:0xffd32a}) : new THREE.MeshStandardMaterial({color:0xff4757});
+                    let m = new THREE.Mesh(geo, mat); m.position.set(lane, 3.3, -3.8);
+                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, isCoin: isCoin, speed: 4.5 });
+                }
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
+                        if(ent.isCoin) {
+                            activeScore++; cash += 50; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
+                        } else {
+                            gameActive = false; pushSystemAlert("💥 RAILWAY OBSTACLE CRASH OUT!"); return;
                         }
-                        
-                        // Check Intercept against Player Bullet Arrays
-                        for(let j = internalEntitiesArray.length - 1; j >= 0; j--) {
-                            let bulletCheck = internalEntitiesArray[j];
-                            if(bulletCheck.type === "bullet" && bulletCheck.mesh.position.distanceTo(ent.mesh.position) < 0.2) {
-                                activeScore++; cash += 10; syncFinancialHUD();
-                                if(scoreLabel) scoreLabel.innerText = activeScore;
-                                gameplayEntitiesGroup.remove(ent.mesh);
-                                gameplayEntitiesGroup.remove(bulletCheck.mesh);
-                                internalEntitiesArray.splice(i, 1);
-                                internalEntitiesArray.splice(j, 1);
-                                break;
-                            }
-                        }
+                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); continue;
+                    }
+                    if(ent.mesh.position.z > 0.5) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
+                }
+            }
+
+            else if(currentMode === "fanum") {
+                if(executionSpawnTimer > 0.5) {
+                    executionSpawnTimer = 0;
+                    let p = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.02, 8), new THREE.MeshStandardMaterial({color:0xffa502}));
+                    p.rotation.x = Math.PI / 2; p.position.set((Math.random()*2.4)-1.2, (Math.random()*1.4)+3.4, -2.5);
+                    p.userData = { type: "fanum_pizza" };
+                    gameplayEntitiesGroup.add(p); internalEntitiesArray.push({ mesh: p, timer: 1.5 });
+                }
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i]; ent.timer -= dt;
+                    ent.mesh.scale.setScalar(ent.timer / 1.5);
+                    if(ent.timer <= 0) {
+                        gameActive = false; cash = Math.max(0, cash - 800); syncFinancialHUD();
+                        pushSystemAlert("🍕 PIZZA TAXED BY FANUM!\nLost: -$800 Backup Resources."); return;
                     }
                 }
             }
-            else if(currentMode === "flappy") {
-                let state = internalStateTracker;
-                state.velocity += 9.8 * dt * 0.15; 
-                localPlayerMesh.position.y -= state.velocity * dt;
 
-                if(inputState.action || inputState.left || inputState.right) {
-                    state.velocity = -1.8;
+            else if(currentMode === "walljump") {
+                if(inputState.action && internalStateTracker.jumpState === 0) {
+                    internalStateTracker.jumpState = 1; internalStateTracker.vy = 3.5;
                 }
-
-                // Render Moving Structural Pipeline Column Pillars Blocks Core Parameters Setup
-                if(executionSpawnTimer > 1.2) {
+                if(internalStateTracker.jumpState === 1) {
+                    localPlayerMesh.position.y += internalStateTracker.vy * dt;
+                    internalStateTracker.vy -= 9.8 * dt;
+                    if(localPlayerMesh.position.y <= 3.3) {
+                        localPlayerMesh.position.y = 3.3; internalStateTracker.jumpState = 0;
+                    }
+                }
+                if(executionSpawnTimer > 0.8) {
                     executionSpawnTimer = 0;
-                    let passageGapY = (Math.random() * 0.8) + 3.8; // Central opening window offset array vector trace
-                    
-                    let upperGeom = new THREE.BoxGeometry(0.2, 2.0, 0.2);
-                    let upperMat = new THREE.MeshStandardMaterial({color:0x2ed573});
-                    let upperMesh = new THREE.Mesh(upperGeom, upperMat);
-                    upperMesh.position.set(1.6, passageGapY + 1.2, -0.5);
-
-                    let lowerGeom = new THREE.BoxGeometry(0.2, 2.0, 0.2);
-                    let lowerMesh = new THREE.Mesh(lowerGeom, upperMat);
-                    lowerMesh.position.set(1.6, passageGapY - 1.2, -0.5);
-
-                    gameplayEntitiesGroup.add(upperMesh, lowerMesh);
-                    internalEntitiesArray.push({ mesh: upperMesh, mesh2: lowerMesh, type: "pipe", speed: -1.8, verified: false });
+                    let w = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.4, 0.2), new THREE.MeshStandardMaterial({color:0xa4b0be}));
+                    w.position.set(1.5, 3.3, -1.5);
+                    gameplayEntitiesGroup.add(w); internalEntitiesArray.push({ mesh: w });
                 }
-
-                if(localPlayerMesh.position.y > 5.3 || localPlayerMesh.position.y < 3.1) {
-                    gameActive = false;
-                    pushSystemAlert("💥 JET FLIGHT BOUNDS CRASH STRUCTURAL TERMINATION ERROR.", "#ff4757");
-                    return;
-                }
-
                 for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i];
-                    ent.mesh.position.x += ent.speed * dt;
-                    ent.mesh2.position.x += ent.speed * dt;
-
-                    // Compute Proximity Overlap Envelopes for Intercept Logic
-                    if(Math.abs(ent.mesh.position.x - localPlayerMesh.position.x) < 0.15) {
-                        if(localPlayerMesh.position.y > (ent.mesh.position.y - 1.0) || localPlayerMesh.position.y < (ent.mesh2.position.y + 1.0)) {
-                            gameActive = false;
-                            pushSystemAlert("💥 HIGH VELOCITY BOUNDARY PILLAR COLLISION RECOGNIZED.", "#ff4757");
-                            return;
-                        }
+                    let ent = internalEntitiesArray[i]; ent.mesh.position.x -= 2.0 * dt;
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
+                        gameActive = false; pushSystemAlert("🧗 OBBY TRIPPED: RESET PROGRESSION NODE."); return;
                     }
-
-                    if(!ent.verified && ent.mesh.position.x < localPlayerMesh.position.x) {
-                        ent.verified = true;
-                        activeScore++; cash += 2; syncFinancialHUD();
-                        if(scoreLabel) scoreLabel.innerText = activeScore;
-                    }
-
-                    if(ent.mesh.position.x < -1.8) {
-                        gameplayEntitiesGroup.remove(ent.mesh);
-                        gameplayEntitiesGroup.remove(ent.mesh2);
-                        internalEntitiesArray.splice(i, 1);
+                    if(ent.mesh.position.x < -1.5) {
+                        activeScore++; cash += 100; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
+                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1);
                     }
                 }
             }
         }
 
         // =========================================================================
-        // RAYCAST INTERACTION HANDLER FOR SIMULATED GRID MOUSE ACTIONS (FARM, MAZE, MINES)
+        // STATIC & CLICKEABLE GAME SUBSYSTEM CONSTRUCTORS
         // =========================================================================
+        function build3DLuckyBlockWorld() {
+            let b = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({color:0xffd32a, metalness:0.5, roughness:0.2}));
+            b.position.set(0, 4.2, -1.5); b.userData = { type: "lucky_block_root" };
+            gameplayEntitiesGroup.add(b); internalStateTracker.blockRef = b;
+        }
+
+        window.rollLuckyBlock = () => {
+            if(cash < 500) { pushSystemAlert("Insufficient funds to open block."); return; }
+            cash -= 500; syncFinancialHUD();
+
+            let roll = Math.random();
+            let log = document.getElementById("lucky-log");
+            if(roll > 0.85) {
+                cash += 8000; log.innerText = "⭐ MYTHICAL BLOCK OPENED! +$8,000";
+                internalStateTracker.blockRef.material.color.setHex(0x2ed573);
+            } else if(roll > 0.4) {
+                cash += 1000; log.innerText = "📦 RARE DROP! +$1,000 Cash Payload Added.";
+                internalStateTracker.blockRef.material.color.setHex(0x1e90ff);
+            } else {
+                log.innerText = "💩 COMMON BRAINROT NOOB GARBAGE TRASH ITEM.";
+                internalStateTracker.blockRef.material.color.setHex(0xff4757);
+            }
+            syncFinancialHUD();
+        };
+
+        function build3DClickerSphereNode() {
+            let s = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 16), new THREE.MeshStandardMaterial({color:0x2ed573, emissive:0x10ac84}));
+            s.position.set(0, 4.2, -1.5); s.userData = { type: "clicker_target_node" };
+            gameplayEntitiesGroup.add(s);
+        }
+
+        window.claimClickerPayout = () => {
+            let amount = internalStateTracker.clicks * 15;
+            cash += amount; syncFinancialHUD();
+            pushSystemAlert(`💰 CLICK EXTRACTION COMPLETE!\nGenerated Allocation Dividend: +$${amount}`);
+            internalStateTracker.clicks = 0;
+            document.getElementById("click-hud-count").innerText = 0;
+        };
+
+        let memoReferences = [];
+        function build3DMemoryMatchBoardTopology() {
+            memoReferences = [];
+            let pool = ["🔥","🔥","⚡","⚡","👑","👑","🚀","🚀"];
+            pool.sort(() => Math.random() - 0.5);
+
+            internalStateTracker.cardsData = pool.map((icon, idx) => ({ id: idx, icon: icon, flipped: false, matched: false }));
+            internalStateTracker.selectedSlots = [];
+
+            for(let i=0; i<8; i++) {
+                let rx = ((i % 4) - 1.5) * 0.7;
+                let rz = -1.2 - (Math.floor(i / 4) * 0.8);
+                let c = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.6, 0.05), new THREE.MeshStandardMaterial({color:0x2f3542}));
+                c.position.set(rx, 4.2, rz); c.userData = { type: "memo_card_node", cardIndex: i };
+                gameplayEntitiesGroup.add(c); memoReferences.push(c);
+            }
+        }
+
         function handle3DSpaceRaycastInteraction(e) {
             mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
             raycaster.setFromCamera(mouse, camera);
-            const intersectionsList = raycaster.intersectObjects(gameplayEntitiesGroup.children, true);
-            if(intersectionsList.length === 0) return;
+            const hits = raycaster.intersectObjects(gameplayEntitiesGroup.children, true);
+            if(hits.length === 0) return;
 
-            const selectedPrimitiveTarget = intersectionsList[0].object;
-            if(!selectedPrimitiveTarget.userData) return;
-            
-            const metadata = selectedPrimitiveTarget.userData;
+            let obj = hits[0].object; if(!obj.userData) return;
+            let meta = obj.userData;
 
-            if(currentMode === "farm") {
-                process3DFarmClickActionNode(metadata);
+            if(currentMode === "fanum" && meta.type === "fanum_pizza") {
+                gameplayEntitiesGroup.remove(obj);
+                activeScore++; cash += 150; syncFinancialHUD();
+                document.getElementById("game-hud-score").innerText = activeScore;
+                internalEntitiesArray = internalEntitiesArray.filter(ent => ent.mesh !== obj);
             }
-            else if(currentMode === "burger") {
-                process3DBurgerClickActionNode(metadata);
+            else if(currentMode === "clicker" && meta.type === "clicker_target_node") {
+                internalStateTracker.clicks++;
+                obj.scale.setScalar(1.1); setTimeout(() => obj.scale.setScalar(1.0), 60);
+                document.getElementById("click-hud-count").innerText = internalStateTracker.clicks;
             }
-            else if(currentMode === "chen") {
-                process3DChenMazeClickActionNode(metadata);
-            }
-        }
+            else if(currentMode === "memematch" && meta.type === "memo_card_node") {
+                let idx = meta.cardIndex; let st = internalStateTracker;
+                if(st.cardsData[idx].flipped || st.cardsData[idx].matched || st.selectedSlots.length >= 2) return;
 
-        // =========================================================================
-        // FARM SYSTEM DESIGN PATTERN ENGINE (3D HOOKS)
-        // =========================================================================
-        let farmParcelMeshReferences = [];
-        function build3DFarmFieldsSpatialGraph() {
-            farmParcelMeshReferences = [];
-            // Parse local matrix properties structures loops
-            let fieldRegistry = JSON.parse(localStorage.getItem("X3D_FencesData")) || [
-                { id: 0, locked: false, pet: null, age: 1, xp: 0 },
-                { id: 1, locked: false, pet: null, age: 1, xp: 0 },
-                { id: 2, locked: true,  pet: null, age: 1, xp: 0 },
-                { id: 3, locked: true,  pet: null, age: 1, xp: 0 },
-                { id: 4, locked: true,  pet: null, age: 1, xp: 0 },
-                { id: 5, locked: true,  pet: null, age: 1, xp: 0 }
-            ];
-            internalStateTracker.fields = fieldRegistry;
+                st.cardsData[idx].flipped = true; obj.material.color.setHex(0xffa502);
+                st.selectedSlots.push(idx);
 
-            // Generate Master Harvest Field Hub Base Block
-            const harvestHubGeom = new THREE.BoxGeometry(0.8, 0.1, 0.4);
-            const harvestHubMat = new THREE.MeshStandardMaterial({ color: 0xffa500, roughness: 0.9 });
-            const harvestMeshInstance = new THREE.Mesh(harvestHubGeom, harvestHubMat);
-            harvestMeshInstance.position.set(0, 3.2, -0.6);
-            harvestMeshInstance.userData = { type: "crop_master" };
-            gameplayEntitiesGroup.add(harvestMeshInstance);
-
-            // Populate Sub-parcel Geometry Elements Grid Map Matrices
-            fieldRegistry.forEach((parcel, index) => {
-                let cx = ((index % 3) - 1) * 0.8;
-                let cz = -1.4 - (Math.floor(index / 3) * 0.8);
-                
-                let parcelGroup = new THREE.Group();
-                let baseMesh = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.6, 0.08, 0.6),
-                    new THREE.MeshStandardMaterial({ color: parcel.locked ? 0x3a2323 : 0x2ed573 })
-                );
-                parcelGroup.add(baseMesh);
-
-                if(parcel.pet) {
-                    let petAvatarGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-                    let petAvatarMat = new THREE.MeshStandardMaterial({color: 0x1e90ff});
-                    let petMesh = new THREE.Mesh(petAvatarGeo, petAvatarMat);
-                    petMesh.position.y = 0.15;
-                    parcelGroup.add(petMesh);
-                }
-
-                parcelGroup.position.set(cx, 3.2, cz);
-                // Attach targeting contextual tags directly to standard object instances properties pointers
-                baseMesh.userData = { type: "parcel_node", arrayIndex: index };
-                
-                gameplayEntitiesGroup.add(parcelGroup);
-                farmParcelMeshReferences.push(parcelGroup);
-            });
-        }
-
-        function process3DFarmClickActionNode(meta) {
-            const outputDeck = document.getElementById("farm-dynamic-deck");
-            if(meta.type === "crop_master") {
-                wheatInventory++;
-                localStorage.setItem("X3D_Wheat", wheatInventory);
-                document.querySelector(".ticker-hud").innerText = `WHEAT STOCK: ${wheatInventory}`;
-                outputDeck.innerHTML = `💸 Generated agricultural item load stack units. Current wheat stock holds: <strong>${wheatInventory} Stacks</strong>`;
-            }
-            else if(meta.type === "parcel_node") {
-                let idx = meta.arrayIndex;
-                let data = internalStateTracker.fields[idx];
-                
-                if(data.locked) {
-                    outputDeck.innerHTML = `
-                        <p>Plot Vector Allocation Parcel #${idx+1} is Locked.</p>
-                        <button class="btn-primary" onclick="window.processPlotClearance(${idx})" style="font-size:0.85rem; padding:6px;">Unlock Plot Node Vector (-$150)</button>
-                    `;
-                } else if(!data.pet) {
-                    outputDeck.innerHTML = `
-                        <p>Plot Vector Space #${idx+1} Available. Deploy livestock unit payload:</p>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
-                            <button class="btn-primary" onclick="window.acquireLiveAsset(${idx}, '🐕', 100)" style="font-size:0.75rem; padding:4px;">K9 Unit ($100)</button>
-                            <button class="btn-primary" onclick="window.acquireLiveAsset(${idx}, '🐄', 250)" style="font-size:0.75rem; padding:4px;">Bovine Unit ($250)</button>
-                        </div>
-                    `;
-                } else {
-                    outputDeck.innerHTML = `
-                        <p>Livestock Type: ${data.pet} | Evolution Phase: Level ${data.age} (${data.xp}%)</p>
-                        <button class="btn-primary" onclick="window.nourishLiveAsset(${idx})" style="font-size:0.85rem; padding:6px; background:#ffa502;">Apply Wheat Feed Allocation Node</button>
-                    `;
-                }
-            }
-        }
-
-        window.processPlotClearance = (idx) => {
-            if(cash >= 150) {
-                cash -= 150; syncFinancialHUD();
-                internalStateTracker.fields[idx].locked = false;
-                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
-                build3DFarmFieldsSpatialGraph();
-                document.getElementById("farm-dynamic-deck").innerText = "Parcel spatial envelope mapping updated to Clear state.";
-            } else { pushSystemAlert("Insufficient transactional capability value markers.", "#ff4757"); }
-        };
-
-        window.acquireLiveAsset = (idx, petSign, value) => {
-            if(cash >= value) {
-                cash -= value; syncFinancialHUD();
-                let f = internalStateTracker.fields[idx];
-                f.pet = petSign; f.age = 1; f.xp = 0;
-                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
-                build3DFarmFieldsSpatialGraph();
-                document.getElementById("farm-dynamic-deck").innerText = "Biological instance asset vector appended.";
-            } else { pushSystemAlert("Insufficient assets.", "#ff4757"); }
-        };
-
-        window.nourishLiveAsset = (idx) => {
-            if(wheatInventory > 0) {
-                wheatInventory--;
-                localStorage.setItem("X3D_Wheat", wheatInventory);
-                document.querySelector(".ticker-hud").innerText = `WHEAT STOCK: ${wheatInventory}`;
-                
-                let f = internalStateTracker.fields[idx];
-                f.xp += 35;
-                if(f.xp >= 100) {
-                    f.xp = 0; f.age++;
-                    let bonusPayout = f.age * 75;
-                    cash += bonusPayout; syncFinancialHUD();
-                    pushSystemAlert(`✨ BIOLOGICAL EVOLUTION ADVANCED!\nUnit matched evolution criteria to Level ${f.age}.\nQuantitative Payout Granted: +$${bonusPayout}`, "#2ed573");
-                }
-                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
-                build3DFarmFieldsSpatialGraph();
-                document.getElementById("farm-dynamic-deck").innerText = "Nutrient processing operation loop evaluated.";
-            } else { pushSystemAlert("Agricultural resource stores depleted.", "#ffa502"); }
-        };
-
-        // =========================================================================
-        // BURGER BOMB HAZARD TOPOLOGY SWEEPER MECHANICAL ARCHITECTURE
-        // =========================================================================
-        let burgerTilesMeshList = [];
-        function build3DBurgerBombSimulationBoard() {
-            burgerTilesMeshList = [];
-            internalStateTracker.playerBombs = [];
-            internalStateTracker.botBombs = [];
-            internalStateTracker.revealedByPlayer = [];
-            internalStateTracker.revealedByBot = [];
-            internalStateTracker.phase = "setup";
-            internalStateTracker.playerHearts = 3;
-            internalStateTracker.botHearts = 3;
-
-            for(let i=0; i<9; i++) {
-                let rx = ((i % 3) - 1) * 0.8;
-                let rz = -1.2 - (Math.floor(i / 3) * 0.8);
-
-                let tileMesh = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.6, 0.1, 0.6),
-                    new THREE.MeshStandardMaterial({ color: 0x2f3542, roughness: 0.5 })
-                );
-                tileMesh.position.set(rx, 3.2, rz);
-                tileMesh.userData = { type: "burger_node", gridIndex: i };
-                gameplayEntitiesGroup.add(tileMesh);
-                burgerTilesMeshList.push(tileMesh);
-            }
-        }
-
-        function process3DBurgerClickActionNode(meta) {
-            if(meta.type !== "burger_node") return;
-            let idx = meta.gridIndex;
-            let st = internalStateTracker;
-            let log = document.getElementById("burger-interactive-log");
-
-            if(st.phase === "setup") {
-                if(!st.playerBombs.includes(idx)) {
-                    st.playerBombs.push(idx);
-                    burgerTilesMeshList[idx].material.color.setHex(0x2ed573);
-                    log.innerHTML += `<br>Placed structural mine protection node on Cell #${idx+1}`;
-                    
-                    if(st.playerBombs.length === 3) {
-                        // Generate opposing AI hazard configuration parameters arrays securely
-                        while(st.botBombs.length < 3) {
-                            let rSlot = Math.floor(Math.random()*9);
-                            if(!st.botBombs.includes(rSlot)) st.botBombs.push(rSlot);
+                if(st.selectedSlots.length === 2) {
+                    let first = st.selectedSlots[0]; let second = st.selectedSlots[1];
+                    if(st.cardsData[first].icon === st.cardsData[second].icon) {
+                        st.cardsData[first].matched = st.cardsData[second].matched = true;
+                        memoReferences[first].material.color.setHex(0x2ed573);
+                        memoReferences[second].material.color.setHex(0x2ed573);
+                        st.selectedSlots = [];
+                        if(st.cardsData.every(c => c.matched)) {
+                            cash += 3000; syncFinancialHUD();
+                            pushSystemAlert("🏆 BOARD CLEARED! Brain intelligence fully verified. +$3,000");
+                            build3DMemoryMatchBoardTopology();
                         }
-                        st.phase = "battle";
-                        document.getElementById("burger-hud-alert").innerText = "COMBAT PHASE: DISCOVER SAFE NODES";
-                        document.getElementById("burger-hud-alert").style.color = "#ff4757";
-                        // Reset architectural color profiles interfaces maps models representation indices arrays
-                        burgerTilesMeshList.forEach(m => m.material.color.setHex(0x57606f));
+                    } else {
+                        document.getElementById("memo-status").innerText = "MISMATCH! PINALTI";
+                        setTimeout(() => {
+                            st.cardsData[first].flipped = st.cardsData[second].flipped = false;
+                            memoReferences[first].material.color.setHex(0x2f3542);
+                            memoReferences[second].material.color.setHex(0x2f3542);
+                            st.selectedSlots = [];
+                            document.getElementById("memo-status").innerText = "MATCH THE IDENTIFIERS";
+                        }, 1000);
                     }
                 }
-            } 
-            else if(st.phase === "battle") {
-                if(st.revealedByPlayer.includes(idx)) return;
-                st.revealedByPlayer.push(idx);
-
-                if(st.botBombs.includes(idx)) {
-                    st.playerHearts--;
-                    document.getElementById("burger-p1-h").innerText = "YOU: " + ("❤️".repeat(st.playerHearts) || "💀");
-                    burgerTilesMeshList[idx].material.color.setHex(0xff4757);
-                    pushSystemAlert(`💥 COUNTER-HAZARD DETONATION CRITICAL DETECTED AT NODE #${idx+1}!`, "#ff4757", () => {
-                        evaluate3DBurgerGameVictoryStateRules();
-                        if(st.phase === "battle") triggerAutomatedEnemyBotTurnActionSequence();
-                    });
-                } else {
-                    burgerTilesMeshList[idx].material.color.setHex(0x1e90ff);
-                    log.innerHTML += `<br>Discovered clear path vectors structure segment inside sector #${idx+1}`;
-                    evaluate3DBurgerGameVictoryStateRules();
-                    if(st.phase === "battle") triggerAutomatedEnemyBotTurnActionSequence();
-                }
             }
         }
 
-        function triggerAutomatedEnemyBotTurnActionSequence() {
-            let st = internalStateTracker;
-            let openSlots = Array.from({length:9}, (_,i)=>i).filter(x => !st.revealedByBot.includes(x));
-            if(openSlots.length === 0) return;
-
-            let botSelectionIdx = openSlots[Math.floor(Math.random()*openSlots.length)];
-            st.revealedByBot.push(botSelectionIdx);
-
-            if(st.playerBombs.includes(botSelectionIdx)) {
-                st.botHearts--;
-                document.getElementById("burger-p2-h").innerText = "BOT: " + ("❤️".repeat(st.botHearts) || "💀");
-                pushSystemAlert(`🤖 AUTOMATED BOT ENGINE DETONATED ENEMY BOMB GRID BLOCK NODE AT POSITION #${botSelectionIdx+1}!`, "#2ed573", () => {
-                    evaluate3DBurgerGameVictoryStateRules();
-                });
-            } else {
-                evaluate3DBurgerGameVictoryStateRules();
-            }
-        }
-
-        function evaluate3DBurgerGameVictoryStateRules() {
-            let st = internalStateTracker;
-            if(st.botHearts <= 0) {
-                st.phase = "game_over"; gameActive = false;
-                cash += 1000; syncFinancialHUD();
-                pushSystemAlert("🏆 CONGRATULATIONS: ENEMY HAZARD THREAT CORES OFFLINE. +$1000 GRANTED.", "#2ed573");
-            } else if(st.playerHearts <= 0) {
-                st.phase = "game_over"; gameActive = false;
-                cash = Math.max(0, cash - 500); syncFinancialHUD();
-                pushSystemAlert("💀 CRITICAL INTEGRITY DEGRADATION FAILURE: MATCH PENALTY -$500 RESERVES.", "#ff4757");
-            }
-        }
-
-        document.body.addEventListener('click', (e) => {
-            if(e.target && e.target.id === "btn-burger-radar") {
-                if(currentMode !== "burger" || internalStateTracker.phase !== "battle") return;
-                if(cash >= 1500) {
-                    cash -= 1500; syncFinancialHUD();
-                    let unrevealedHazards = internalStateTracker.botBombs.filter(b => !internalStateTracker.revealedByPlayer.includes(b));
-                    if(unrevealedHazards.length > 0) {
-                        let targetClueIndex = unrevealedHazards[Math.floor(Math.random()*unrevealedHazards.length)];
-                        burgerTilesMeshList[targetClueIndex].material.color.setHex(0xffa502);
-                        pushSystemAlert(`🧐 Intel radar sweeps revealed warning hazard configurations inside Node Vector Array block reference index value map parameter: #${targetClueIndex+1}`, "#ffd32a");
-                    }
-                } else { pushSystemAlert("Insufficient verification payload tokens.", "#ff4757"); }
-            }
-        });
-
-        // =========================================================================
-        // CHEN CHEN MULTI-CORRIDOR SPATIAL ORIENTATION MAZE
-        // =========================================================================
-        let mazeStructuralMeshReferencesArray = [];
-        let mazeInternalGridStorageMap = [];
-        let playerTokenSpatialMarker, ghostTokenSpatialMarker;
-
-        function build3DChenMazeGraphGridStructure() {
-            mazeStructuralMeshReferencesArray = [];
-            mazeInternalGridStorageMap = [
-                [0,0,0,1,0,0,0],
-                [0,1,0,1,0,1,0],
-                [0,1,0,0,0,1,0],
-                [0,0,1,1,1,0,0],
-                [0,1,0,0,0,1,0],
-                [0,0,0,1,0,0,0]
-            ];
-
-            internalStateTracker.px = 0; internalStateTracker.py = 0;
-            internalStateTracker.gx = 6; internalStateTracker.gy = 5;
-            internalStateTracker.mazeTokensCount = 0;
-            internalStateTracker.stepTickerCount = 0;
-
-            for(let r=0; r<6; r++) {
-                for(let c=0; c<7; c++) {
-                    let mx = (c - 3) * 0.45;
-                    let mz = -1.0 - (r * 0.45);
-                    
-                    let isBlockWall = mazeInternalGridStorageMap[r][c] === 1;
-                    let blockGeo = new THREE.BoxGeometry(0.4, isBlockWall ? 0.3 : 0.04, 0.4);
-                    let blockMat = new THREE.MeshStandardMaterial({
-                        color: isBlockWall ? 0x2c3e50 : 0x111115,
-                        roughness: 0.8
-                    });
-                    let cellMesh = new THREE.Mesh(blockGeo, blockMat);
-                    cellMesh.position.set(mx, 3.2 + (isBlockWall ? 0.13 : 0), mz);
-                    cellMesh.userData = { type: "maze_tile_node", cx: c, cy: r, wallFlag: isBlockWall };
-                    gameplayEntitiesGroup.add(cellMesh);
-                    mazeStructuralMeshReferencesArray.push(cellMesh);
-                }
-            }
-
-            // Append Object Representational Node Tokens directly into the spatial array
-            playerTokenSpatialMarker = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({color: 0x00ff7f}));
-            ghostTokenSpatialMarker = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.14, 0.1), new THREE.MeshBasicMaterial({color: 0xff0055}));
-            gameplayEntitiesGroup.add(playerTokenSpatialMarker, ghostTokenSpatialMarker);
-
-            realignChenMazeVisualTokenVectorsPositions();
-        }
-
-        function realignChenMazeVisualTokenVectorsPositions() {
-            let st = internalStateTracker;
-            playerTokenSpatialMarker.position.set((st.px - 3)*0.45, 3.32, -1.0 - (st.py * 0.45));
-            ghostTokenSpatialMarker.position.set((st.gx - 3)*0.45, 3.35, -1.0 - (st.gy * 0.45));
-        }
-
-        function process3DChenMazeClickActionNode(meta) {
-            if(meta.type !== "maze_tile_node" || meta.wallFlag) return;
-            let st = internalStateTracker;
-
-            // Direct Path Clearance Step Vectors Calculation Loop Pipeline Array Map Core Logic
-            let dx = meta.cx - st.px;
-            let dy = meta.cy - st.py;
-
-            if(Math.abs(dx) > 0 && dy === 0) {
-                let step = dx > 0 ? 1 : -1;
-                while(st.px + step >= 0 && st.px + step < 7 && mazeInternalGridStorageMap[st.py][st.px + step] === 0) {
-                    st.px += step;
-                    st.mazeTokensCount++; cash += 5; syncFinancialHUD();
-                }
-            } 
-            else if(Math.abs(dy) > 0 && dx === 0) {
-                let step = dy > 0 ? 1 : -1;
-                while(st.py + step >= 0 && st.py + step < 6 && mazeInternalGridStorageMap[st.py + step][st.px] === 0) {
-                    st.py += step;
-                    st.mazeTokensCount++; cash += 5; syncFinancialHUD();
-                }
-            }
-
-            document.getElementById("game-hud-score").innerText = st.mazeTokensCount;
-            executeAutomatedGhostPathingStepAllocation();
-            realignChenMazeVisualTokenVectorsPositions();
-
-            if(st.px === st.gx && st.py === st.gy) {
-                gameActive = false;
-                pushSystemAlert(`💀 ENEMY PHANTOM INTERCEPT DISRUPTED RUNTIME MATRIX!\nCollected Path Iteration Token Payouts: $${st.mazeTokensCount * 5}`, "#ff4757");
-            }
-        }
-
-        function executeAutomatedGhostPathingStepAllocation() {
-            let st = internalStateTracker;
-            let targetXStep = st.px - st.gx;
-            let targetYStep = st.py - st.gy;
-
-            if(Math.abs(targetXStep) > Math.abs(targetYStep)) {
-                let shift = targetXStep > 0 ? 1 : -1;
-                if(mazeInternalGridStorageMap[st.gy][st.gx + shift] === 0) st.gx += shift;
-            } else {
-                let shift = targetYStep > 0 ? 1 : -1;
-                if(mazeInternalGridStorageMap[st.gy + shift]?.[st.gx] === 0) st.gy += shift;
-            }
-        }
-
-        // =========================================================================
-        // GUESS CODE ORACLE ENGINE ARCHITECTURE SUBSPACE BLOCK
-        // =========================================================================
-        function build3DGuessGameMatrixGridStructure() {
-            const matrixBox = document.getElementById("guess-injection-matrix-deck");
-            matrixBox.innerHTML = "";
-            internalStateTracker.secretCodeTarget = Math.floor(Math.random() * 50) + 1;
-            internalStateTracker.turnsRemainingCount = 6;
-
-            document.getElementById("guess-ticker-status").innerText = `ATTEMPTS REGISTERED ENVELOPE STRUCT: 6`;
-
-            for(let i=1; i<=50; i++) {
-                let gridNodeBtn = document.createElement("button");
-                gridNodeBtn.className = "btn-primary";
-                gridNodeBtn.style.padding = "6px"; gridNodeBtn.style.fontSize = "0.75rem";
-                gridNodeBtn.innerText = i;
-                gridNodeBtn.onclick = () => evaluateBinaryOracleGuessActionLoop(i, gridNodeBtn);
-                matrixBox.appendChild(gridNodeBtn);
-            }
-        }
-
-        function evaluateBinaryOracleGuessActionLoop(guessedVal, elementButtonRef) {
-            let st = internalStateTracker;
-            if(st.turnsRemainingCount <= 0) return;
-
-            elementButtonRef.disabled = true;
-            elementButtonRef.style.background = "#3f4452";
-
-            if(guessedVal === st.secretCodeTarget) {
-                cash += 1500; syncFinancialHUD();
-                pushSystemAlert(`🎉 ORACLE COMPASS SYNCHRONIZATION PERFECT!\nTarget value core discovered inside memory segment [${st.secretCodeTarget}].\nQuantitative Financial Allocation: +$1,500`, "#2ed573");
-                build3DGuessGameMatrixGridStructure();
-            } else {
-                st.turnsRemainingCount--;
-                document.getElementById("guess-ticker-status").innerText = `ATTEMPTS REGISTERED ENVELOPE STRUCT: ${st.turnsRemainingCount}`;
-                
-                let conditionalDirectionHint = guessedVal < st.secretCodeTarget ? "HIGHER AXIS VECTOR ⬆️" : "LOWER AXIS VECTOR ⬇️";
-                pushSystemAlert(`❌ INTERCEPT MISSED!\nEvaluated spatial signal vector registers parameter target alignment as: ${conditionalDirectionHint}`, "#ffa502");
-
-                if(st.turnsRemainingCount <= 0) {
-                    cash = Math.max(0, cash - 1000); syncFinancialHUD();
-                    pushSystemAlert(`💀 SYSTEM FLUSH PARSING ERROR: Target storage matrix index was locked at reference position [${st.secretCodeTarget}]. Core Penalty: -$1000`, "#ff4757");
-                    build3DGuessGameMatrixGridStructure();
-                }
-            }
-        }
-
-        // =========================================================================
-        // 3D KITCHEN WORKSPACE ASSEMBLY SIMULATOR SYSTEM DIRECTIVES
-        // =========================================================================
-        function build3DRestaurantKitchenWorkspace() {
-            internalStateTracker.activeRecipeProfile = "";
-            internalStateTracker.selectedIngredientsStackArray = [];
-            
-            const listRack = document.getElementById("rest-ingredients-rack");
-            listRack.innerHTML = "";
-            
-            const rawIngredientsMetadataArray = ['🥔','🍶','🍞','🥦','🥕','🥬','🥑','🫓','🍖','🍋'];
-            rawIngredientsMetadataArray.forEach(item => {
-                let binBtn = document.createElement("button");
-                binBtn.className = "btn-primary";
-                binBtn.style.padding = "8px 2px"; binBtn.style.fontSize = "1.1rem";
-                binBtn.innerText = item;
-                binBtn.onclick = () => {
-                    internalStateTracker.selectedIngredientsStackArray.push(item);
-                    document.getElementById("rest-bowl-node").innerText = internalStateTracker.selectedIngredientsStackArray.join(" ");
-                };
-                listRack.appendChild(binBtn);
-            });
-
-            generateSequentialClientOrderTicketNode();
-        }
-
-        function generateSequentialClientOrderTicketNode() {
-            const recipeProfilesBook = ["Fries Node [🥔+🍶]", "Sandwich Unit [🍞+🥦+🥕]", "Taco Vector [🫓+🍖+🍋]"];
-            internalStateTracker.activeRecipeProfile = recipeProfilesBook[Math.floor(Math.random()*recipeProfilesBook.length)];
-            document.getElementById("rest-order-badge").innerText = `CLIENT TICKET REQUIREMENT: ${internalStateTracker.activeRecipeProfile}`;
-            window.clear3DRestaurantBowl();
-        }
-
-        window.clear3DRestaurantBowl = () => {
-            if(internalStateTracker && internalStateTracker.selectedIngredientsStackArray) {
-                internalStateTracker.selectedIngredientsStackArray = [];
-                document.getElementById("rest-bowl-node").innerText = "[Empty]";
-            }
-        };
-
-        window.serve3DRestaurantOrder = () => {
-            let st = internalStateTracker;
-            let evaluationSignatureString = [...st.selectedIngredientsStackArray].sort().join("");
-            
-            let matchedCoreFlag = false;
-            if(st.activeRecipeProfile.includes("Fries") && evaluationSignatureString === ['🥔','🍶'].sort().join("")) matchedCoreFlag = true;
-            if(st.activeRecipeProfile.includes("Sandwich") && evaluationSignatureString === ['🍞','🥦','🥕'].sort().join("")) matchedCoreFlag = true;
-            if(st.activeRecipeProfile.includes("Taco") && evaluationSignatureString === ['🫓','🍖','🍋'].sort().join("")) matchedCoreFlag = true;
-
-            if(matchedCoreFlag) {
-                let payloadDividend = Math.floor(Math.random()*150) + 100;
-                cash += payloadDividend; syncFinancialHUD();
-                pushSystemAlert(`✨ INVENTORY VECTOR CONFIGURATION VALID!\nClient interface processed completely.\nAsset generation value: +$${payloadDividend}`, "#2ed573", () => {
-                    generateSequentialClientOrderTicketNode();
-                });
-            } else {
-                pushSystemAlert("🤢 SCRAMBLED MATRIX PROFILE PAYLOAD CONFIGURATION DETECTED: Execution Aborted.", "#ff4757", () => {
-                    generateSequentialClientOrderTicketNode();
-                });
-            }
-        };
-
-        // Trigger Main Processing Execution Sequence Context Setup Lifecycle Hooks
-        window.onload = () => {
-            initializeUniversalGraphicsSandbox();
-        };
+        window.onload = () => { initializeUniversalGraphicsSandbox(); };
     </script>
 </body>
 </html>
