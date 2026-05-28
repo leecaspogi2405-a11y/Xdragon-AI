@@ -7,8 +7,11 @@
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0f0f12; color: #e0e0e0; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        header { background: linear-gradient(90deg, #ff4500, #ff8c00); padding: 15px; text-align: center; font-size: 1.4rem; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        header { background: linear-gradient(90deg, #ff4500, #ff8c00); padding: 15px; text-align: center; font-size: 1.4rem; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; position: relative; }
         
+        .reset-btn { position: absolute; right: 15px; background: rgba(0,0,0,0.4); border: 1px solid #ff4500; color: #ff8c00; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .reset-btn:hover { background: #ff4500; color: white; }
+
         /* Login Overlays Style */
         #login-overlay, #key-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0f0f12; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; gap: 15px; }
         .login-box { background-color: #141419; padding: 30px; border-radius: 12px; border: 1px solid #333; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 90%; max-width: 400px; }
@@ -46,7 +49,10 @@
         </div>
     </div>
 
-    <header>🐉 XDRAGON-AI ASSISTANT 🐉</header>
+    <header>
+        🐉 XDRAGON-AI ASSISTANT 🐉
+        <button class="reset-btn" onclick="manualResetKey()">⚙️ Reset Key</button>
+    </header>
 
     <div id="chat-container">
         <div class="message ai-message">Yo! I am Xdragon-AI. Access granted, boss! What are we working on or talking about today? 🔥</div>
@@ -58,7 +64,6 @@
     </div>
 
     <script>
-        // Password configuration
         const passPart1 = "Xdragonofficial558724050990";
         const passPart2 = ".Real Account";
         const MY_PASSWORD = passPart1 + passPart2; 
@@ -70,7 +75,6 @@
             if(enteredPass === MY_PASSWORD) {
                 document.getElementById("login-overlay").style.display = "none";
                 
-                // Check if browser already remembers your API key
                 if (!localStorage.getItem("gemini_api_key")) {
                     document.getElementById("key-overlay").style.display = "flex";
                 } else {
@@ -93,6 +97,12 @@
             }
         }
 
+        function manualResetKey() {
+            localStorage.removeItem("gemini_api_key");
+            alert("API Key cleared from local storage! Reloading page to set up a new one...");
+            window.location.reload();
+        }
+
         function launchMainInterface() {
             document.getElementById("chat-container").style.display = "flex";
             document.getElementById("input-container").style.display = "flex";
@@ -113,14 +123,16 @@
             const loadingDiv = appendMessage("Dragon is thinking...", "ai-message");
 
             const activeKey = localStorage.getItem("gemini_api_key");
-            const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
+            
+            // Fixed stable endpoint format for standard production models
+            const targetUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
 
             try {
                 const response = await fetch(targetUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `${SYSTEM_INSTRUCTION}\n\nUser says: ${messageText}` }] }]
+                        contents: [{ parts: [{ text: `${SYSTEM_INSTRUCTION}\n\nUser request: ${messageText}` }] }]
                     })
                 });
 
@@ -129,13 +141,12 @@
                 if (data.candidates && data.candidates[0].content.parts[0].text) {
                     loadingDiv.innerText = data.candidates[0].content.parts[0].text;
                 } else {
-                    // IF IT FAILS: Clear the bad key so the user can enter a new one next reload!
                     localStorage.removeItem("gemini_api_key");
-                    loadingDiv.innerText = `API Error! The key saved was invalid or blocked. Refresh the page to enter a fresh key.\n\nDetails: ${data.error ? data.error.message : "Unknown verification error."}`;
+                    loadingDiv.innerText = `API Error! The key saved was rejected. Refresh or click Reset Key to try a different one.\n\nDetails: ${data.error ? data.error.message : "Structure error."}`;
                 }
 
             } catch (error) {
-                loadingDiv.innerText = "Network pipeline error! Verify active web configurations.";
+                loadingDiv.innerText = "Network pipeline error! Please check your internet connection.";
             }
 
             chatContainer.scrollTop = chatContainer.scrollHeight;
