@@ -3,56 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xdragon Web Shop & 3D Arcade Matrix</title>
+    <title>Xdragon Web Shop & Arcade</title>
     <style>
         body {
             margin: 0;
-            background-color: #09090b;
+            background-color: #121212;
             color: #ffffff;
             font-family: 'Segoe UI', Arial, sans-serif;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
             user-select: none;
             -webkit-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        #webgl-engine-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-        }
-
-        .heads-up-display {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 500px;
+        .header-board {
+            width: 100%;
+            max-width: 420px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(30, 30, 35, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 14px 24px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 71, 87, 0.3);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            z-index: 10;
+            background-color: #1e1e1e;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             box-sizing: border-box;
         }
 
-        .brand-meta h1 {
-            margin: 0;
-            font-size: 1.15rem;
-            color: #ff4757;
-            text-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+        .shop-title-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
-        .manual-trigger {
+        .shop-title {
+            font-weight: bold;
+            color: #ff4757;
+            font-size: 1.1rem;
+        }
+
+        .how-to-play-btn {
             background: none;
             border: none;
             color: #2ed573;
@@ -60,729 +53,2316 @@
             font-size: 0.85rem;
             font-weight: bold;
             padding: 0;
+            text-align: left;
             text-decoration: underline;
+            outline: none;
         }
 
-        .currency-badge {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
+        .cash-display {
+            background-color: #ff4757;
             color: white;
-            padding: 8px 18px;
+            padding: 6px 15px;
             border-radius: 20px;
-            font-weight: 800;
+            font-weight: bold;
             font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
         }
 
-        .arcade-cabinet-interface {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 440px;
-            background: rgba(20, 20, 25, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
-            border: 2px solid #ff4757;
-            padding: 24px;
+        .card {
+            background-color: #1e1e1e;
+            width: 100%;
+            max-width: 420px;
+            margin-top: 25px;
+            border-radius: 20px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             box-sizing: border-box;
-            z-index: 5;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .icon-art-container {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            color: #ff4757;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .description {
+            color: #a4b0be;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .price-tag {
+            color: #2ed573;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            outline: none;
+        }
+
+        .btn:hover {
+            background-color: #ff6b81;
+            transform: scale(1.02);
+        }
+
+        .game-menu-container {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .game-column {
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 85px;
+            flex: 1 1 calc(50% - 15px);
+            box-sizing: border-box;
+        }
+
+        .game-section-title {
+            color: #ffa502;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 5px 0;
+        }
+
+        .play-trigger-btn {
+            color: #ff4757;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-align: center;
+            background: none;
+            border: none;
+            transition: transform 0.15s;
+            padding: 0;
+            outline: none;
+        }
+
+        .play-trigger-btn:hover {
+            transform: scale(1.1);
+        }
+
+        #game-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            z-index: 100;
+            overflow-y: auto;
+            padding: 15px 0;
+            box-sizing: border-box;
+        }
+
+        .game-stats {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ff4757;
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        canvas {
+            background-color: #1e1e1e;
+            border: 3px solid #ff4757;
+            border-radius: 10px;
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .hidden { display: none !important; }
 
-        .btn-primary {
-            background: #ff4757;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-primary:hover { background: #ff6b81; }
-
-        .game-selection-matrix {
-            position: absolute;
-            right: 20px;
-            top: 100px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 10;
-            max-height: 75vh;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .nav-card {
-            background: rgba(30, 30, 35, 0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 12px;
+        .popup-box {
+            background-color: #2f3542;
+            border: 2px dashed #2ed573;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-family: monospace;
+            color: #2ed573;
+            margin-top: 15px;
             text-align: center;
-            cursor: pointer;
-            min-width: 130px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            word-wrap: break-word;
         }
-        .nav-card:hover, .nav-card.active {
-            border-color: #ff4757;
-            background: rgba(255, 71, 87, 0.15);
-            transform: translateX(-5px);
-        }
-
-        .nav-card h3 { margin: 0 0 4px 0; font-size: 0.75rem; color: #a4b0be; text-transform: uppercase; }
-        .nav-card p { margin: 0; font-size: 1rem; font-weight: bold; }
 
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
-        }
-
-        .panel-modal {
-            background: #1e1e24;
-            border: 2px solid #ff4757;
-            border-radius: 20px;
-            width: 90%; max-width: 400px;
-            padding: 30px; box-sizing: border-box;
-        }
-
-        .panel-modal h2 { margin-top: 0; color: #ff4757; text-align: center; }
-
-        .controller-touch-bar {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.85);
             display: flex;
-            gap: 40px;
-            z-index: 15;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
         }
 
-        .touch-node {
-            width: 75px; height: 75px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; font-weight: bold;
-            color: white; backdrop-filter: blur(4px);
-        }
-
-        .interactive-overlay-surface {
-            position: absolute;
-            top: 110px;
-            left: 30px;
-            z-index: 10;
-            background: rgba(15, 15, 20, 0.85);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
+        .modal-content {
+            background-color: #1e1e1e;
+            border: 2px solid #ff4757;
             border-radius: 16px;
-            width: 280px;
-            max-height: 60vh;
-            overflow-y: auto;
+            width: 90%;
+            max-width: 360px;
+            padding: 25px;
+            box-sizing: border-box;
+            text-align: left;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .ticker-hud {
-            font-family: monospace;
-            background: #0b0b0d;
-            border: 1px solid #2ed573;
-            color: #2ed573;
-            padding: 8px;
-            font-size: 0.8rem;
+        .modal-content h3 {
+            color: #ff4757;
+            margin-top: 0;
+            font-size: 1.4rem;
             text-align: center;
-            border-radius: 6px;
+        }
+
+        .modal-content ol {
+            color: #ffffff;
+            padding-left: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .modal-content ol li {
+            margin-bottom: 10px;
+        }
+
+        .close-modal-btn {
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            outline: none;
+        }
+
+        .farm-action-bubble {
+            width: 100%;
+            max-width: 360px;
+            background-color: #2ed573;
+            color: white;
+            border: 2px solid #26af5f;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .farm-action-bubble.feed-style {
+            background-color: #ffa502;
+            border-color: #d68100;
+        }
+        .farm-action-bubble.lock-style {
+            background-color: #3f4452;
+            border-color: #747d8c;
+            color: #ffa502;
+        }
+
+        .farm-shop-container {
+            background-color: #1e1e1e;
+            width: 100%;
+            max-width: 360px;
+            border: 2px solid #ffa502;
+            border-radius: 12px;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .farm-shop-title {
+            color: #ffa502;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 0 0 8px 0;
+        }
+
+        .farm-shop-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .farm-shop-item {
+            background-color: #2f3542;
+            border: 1px solid #747d8c;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .farm-shop-item:hover {
+            border-color: #ff4757;
+            background-color: #3f4452;
+        }
+        .farm-shop-emoji {
+            font-size: 1.3rem;
+        }
+
+        .exit-btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .burger-game-panel {
+            width: 100%;
+            max-width: 400px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            border: 2px solid #ff9f43;
+        }
+
+        .burger-mode-select {
+            display: flex;
+            gap: 10px;
+            width: 100%;
             margin-bottom: 12px;
         }
+
+        .mode-tab-btn {
+            flex: 1;
+            padding: 10px;
+            background-color: #2f3542;
+            color: #ffffff;
+            border: 2px solid #3f4452;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mode-tab-btn.active {
+            background-color: #ff9f43;
+            color: #121212;
+            border-color: #ffa502;
+        }
+
+        .burger-instruction-banner {
+            background-color: #2c3e50;
+            color: #f1c40f;
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+
+        .action-log-ticker {
+            background-color: #151515;
+            color: #2ed573;
+            border: 1px dashed #2ed573;
+            width: 100%;
+            padding: 6px;
+            font-size: 0.85rem;
+            font-family: monospace;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            min-height: 28px;
+        }
+
+        .battle-grids-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .grid-section-box {
+            width: 100%;
+            background: #151515;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ff9f43;
+            box-sizing: border-box;
+        }
+
+        .grid-header-status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #444;
+        }
+
+        .burger-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+        }
+
+        .burger-tile {
+            width: 85px;
+            height: 85px;
+            background-color: #2f3542;
+            border: 3px solid #747d8c;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .burger-tile:hover {
+            border-color: #ff9f43;
+            background-color: #3f4452;
+            transform: scale(1.03);
+        }
+
+        .burger-tile.revealed {
+            background-color: #121212;
+            cursor: not-allowed;
+        }
+
+        .tile-marker-label {
+            position: absolute;
+            bottom: 2px;
+            font-size: 0.6rem;
+            color: #ffa502;
+            font-weight: bold;
+        }
+
+        .burger-hint-btn {
+            background-color: #ffa502;
+            color: #121212;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 100%;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .burger-hint-btn:hover {
+            background-color: #ffb123;
+        }
+
+        .burger-end-overlay {
+            background-color: rgba(30, 30, 30, 0.95);
+            border: 2px solid #ff4757;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .burger-end-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .burger-end-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .burger-action-btn {
+            flex: 1;
+            padding: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .guess-game-panel {
+            width: 100%;
+            max-width: 400px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            border: 2px solid #38ef7d;
+        }
+
+        .guess-grid-scroll {
+            width: 100%;
+            max-height: 260px;
+            overflow-y: auto;
+            background-color: #151515;
+            padding: 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            border: 1px solid #2f3542;
+        }
+
+        .guess-matrix {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+
+        .guess-num-btn {
+            background-color: #2f3542;
+            color: #ffffff;
+            border: 1px solid #4b5263;
+            border-radius: 6px;
+            padding: 10px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            outline: none;
+        }
+
+        .guess-num-btn:hover {
+            border-color: #38ef7d;
+            background-color: #3f4452;
+        }
+
+        .guess-num-btn.selected-p1 {
+            background-color: #1e90ff !important;
+            border-color: #00c4ff !important;
+            color: white !important;
+        }
+
+        /* RESTAURANT REHAUL */
+        .restaurant-panel {
+            width: 100%;
+            max-width: 400px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            border: 2px solid #54a0ff;
+        }
+
+        .restaurant-kitchen-bench {
+            width: 100%;
+            background-color: #2c3e50;
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            border-bottom: 4px solid #34495e;
+        }
+
+        .restaurant-ingredient-strip {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            background-color: #151515;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-ingredient-bin {
+            background-color: #2f3542;
+            border: 1px solid #57606f;
+            border-radius: 6px;
+            padding: 10px 0;
+            font-size: 1.4rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.1s, transform 0.1s;
+        }
+
+        .restaurant-ingredient-bin:hover {
+            background-color: #54a0ff;
+            transform: scale(1.05);
+        }
+
+        .restaurant-center-stage {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            min-height: 80px;
+            background-color: #1a252f;
+            padding: 10px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-chef-avatar {
+            font-size: 2.5rem;
+        }
+
+        .restaurant-order-ticket {
+            background-color: #f1c40f;
+            color: #121212;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            max-width: 65%;
+            border-left: 5px solid #e67e22;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .restaurant-mixing-bowl {
+            width: 100%;
+            background-color: #151515;
+            border: 2px dashed #747d8c;
+            padding: 12px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            min-height: 50px;
+            font-size: 1.3rem;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-recipe-book {
+            width: 100%;
+            background-color: #1c222e;
+            border: 1px solid #34495e;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .restaurant-recipe-book h4 {
+            margin: 0 0 6px 0;
+            color: #54a0ff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .recipe-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .recipe-row {
+            display: flex;
+            justify-content: space-between;
+            background-color: #151b26;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .recipe-name {
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .restaurant-control-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .restaurant-done-btn {
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            flex: 2;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .restaurant-done-btn:hover {
+            background-color: #26af5f;
+        }
+
+        .restaurant-clear-btn {
+            background-color: #747d8c;
+            color: white;
+            border: none;
+            flex: 1;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .restaurant-clear-btn:hover {
+            background-color: #57606f;
+        }
+
+        .notification-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+
+        .notification-popup {
+            background-color: #2f3542;
+            border: 3px solid #ffa502;
+            padding: 20px;
+            border-radius: 12px;
+            width: 280px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .notification-msg {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+            white-space: pre-line;
+        }
+
+        .notification-ok-btn {
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-    <div id="webgl-engine-container"></div>
-
-    <div class="heads-up-display">
-        <div class="brand-meta">
-            <h1>🎮 XDRAGON 3D ARCADE</h1>
-            <button class="manual-trigger" id="btn-manual">System Operations Manual</button>
+    <div class="header-board">
+        <div class="shop-title-container">
+            <span class="shop-title">🛠️ Xdragon Web Shop</span>
+            <button class="how-to-play-btn" id="how-to-play-btn">Gameplay Manual</button>
         </div>
-        <div class="currency-badge">💰 $<span id="hud-cash">0</span></div>
+        <span class="cash-display">💰 Cash: $<span id="cash-amount">0</span></span>
     </div>
 
-    <div class="game-selection-matrix" id="selection-tower">
-        <div class="nav-card active" data-mode="shop"><h3>Vendor</h3><p>🛍️ Core Shop</p></div>
-        <div class="nav-card" data-mode="laser"><h3>Survival</h3><p>⚡ Laser Dodge</p></div>
-        <div class="nav-card" data-mode="sigmabeam"><h3>Skibidi</h3><p>👁️ Sigma Beam</p></div>
-        <div class="nav-card" data-mode="luckyblock"><h3>Luck</h3><p>📦 Block Opener</p></div>
-        <div class="nav-card" data-mode="meteors"><h3>Apocalypse</h3><p>☄️ Meteor Rain</p></div>
-        <div class="nav-card" data-mode="skate"><h3>Subway</h3><p>🛹 Noob Surf</p></div>
-        <div class="nav-card" data-mode="fanum"><h3>Taxation</h3><p>🍕 Fanum Tax</p></div>
-        <div class="nav-card" data-mode="walljump"><h3>Obby</h3><p>🧗 Wall Jumper</p></div>
-        <div class="nav-card" data-mode="clicker"><h3>Economy</h3><p>🖱️ Noob Clicker</p></div>
-        <div class="nav-card" data-mode="memematch"><h3>Memory</h3><p>🧠 Brainrot Pairs</p></div>
-    </div>
-
-    <div class="interactive-overlay-surface hidden" id="ui-left-surface">
-        <div id="surface-content-injector"></div>
-    </div>
-
-    <div class="arcade-cabinet-interface" id="shop-deck">
-        <div style="text-align: center; margin-bottom: 12px;">
-            <h2 style="color: #ff4757; margin: 0 0 6px 0; font-size: 1.6rem;">Strawberry Elephant</h2>
-            <p style="color: #a4b0be; margin: 0; font-size: 0.9rem;">Ultra-rare inventory token asset payload instance structure loop.</p>
-            <h3 style="color: #2ed573; margin: 12px 0; font-size: 1.8rem;">💰 $25,000</h3>
+    <div id="custom-notification-module" class="modal-overlay hidden">
+        <div class="notification-popup" id="notification-popup-border">
+            <div class="notification-msg" id="custom-notification-text">Notification text content...</div>
+            <button class="notification-ok-btn" id="custom-notification-ok-btn">[OK]</button>
         </div>
-        <button class="btn-primary" id="btn-purchase-item">PRODUCE QUANTUM ASSET TOKEN</button>
-        <div id="shop-token-output" class="hidden" style="margin-top:12px; font-family:monospace; color:#2ed573; border:1px dashed #2ed573; padding:10px; text-align:center; font-size:0.85rem; word-break:break-all;"></div>
     </div>
 
-    <div class="controller-touch-bar hidden" id="touch-controller-deck">
-        <div class="touch-node" id="ctrl-left">◀</div>
-        <div class="touch-node" id="ctrl-action">🎮</div>
-        <div class="touch-node" id="ctrl-right">▶</div>
+    <div class="card">
+        <div class="icon-art-container">
+            <svg viewBox="0 0 500 500" style="width:100%; height:100%;">
+                <path d="M 320,320 L 350,320 L 350,450 L 310,450 Z" fill="#b82e3d"/>
+                <path d="M 220,320 L 250,320 L 250,430 L 215,430 Z" fill="#b82e3d"/>
+                <path d="M 180,180 C 130,180 120,240 140,300 C 150,330 170,450 200,450 C 230,450 230,350 260,350 C 290,350 290,450 320,450 C 350,450 370,380 380,320 C 400,240 370,160 300,160 C 240,160 200,180 180,180 Z" fill="#e63946"/>
+                <path d="M 140,280 C 120,320 120,380 150,450 C 165,450 175,430 165,380 C 155,340 160,310 175,290 Z" fill="#d92b3a"/>
+                <path d="M 280,180 C 340,180 360,260 320,300 C 280,340 260,260 280,180 Z" fill="#ff4d6d"/>
+                <circle cx="210" cy="240" r="10" fill="#1a1a1a"/>
+                <circle cx="213" cy="237" r="4" fill="#ffffff"/>
+                <g fill="#ffb703">
+                    <ellipse cx="220" cy="280" rx="3" ry="5" transform="rotate(15 220 280)"/>
+                    <ellipse cx="260" cy="250" rx="3" ry="5" transform="rotate(-10 260 250)"/>
+                    <ellipse cx="300" cy="220" rx="3" ry="5" transform="rotate(20 300 220)"/>
+                    <ellipse cx="340" cy="260" rx="3" ry="5" transform="rotate(5 340 260)"/>
+                </g>
+                <g fill="#70e000">
+                    <path d="M 240,110 C 245,130 255,130 260,165 C 245,165 240,140 240,110 Z"/>
+                    <path d="M 250,160 C 210,130 160,140 130,160 C 170,170 210,170 250,160 Z"/>
+                    <path d="M 250,160 C 280,120 330,120 370,135 C 330,155 290,160 250,160 Z"/>
+                </g>
+            </svg>
+        </div>
+        <div class="product-title">Strawberry Elephant</div>
+        <div class="description">
+            A super rare tool for your game inventory!<br>Survive lasers or outrun trains to stack cash.
+        </div>
+        <div class="price-tag">💰 $25,000</div>
+        <button class="btn" id="buy-btn">BUY PRODUCT</button>
+        <div id="code-output" class="popup-box hidden"></div>
     </div>
 
-    <div class="modal-overlay hidden" id="manual-modal">
-        <div class="panel-modal">
-            <h2>📜 OPERATIONS MANUAL</h2>
-            <div style="max-height: 50vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; padding-right: 5px;">
-                <p><strong>1. LASER DODGE:</strong> Iwasan ang pababang mapupulang laser lines sa 3D field.</p>
-                <p><strong>2. SIGMA BEAM:</strong> Wasakin ang mga umaatakeng floating orbs gamit ang iyong directional blaster vectors.</p>
-                <p><strong>3. BLOCK OPENER:</strong> Magbukas ng lucky blocks gamit ang nakaimbak na swerte para makakuha ng rare models at pera.</p>
-                <p><strong>4. METEOR RAIN:</strong> Gumalaw pakanan at pakaliwa para iwasan ang naglalakihang apocalypse falling meteors.</p>
-                <p><strong>5. NOOB SURF:</strong> Humataw sa riles! Kolektahin ang lumulutang na coins habang iniiwasan ang mga solid blocks.</p>
-                <p><strong>6. FANUM TAX:</strong> I-click ang mga Pizza Model bago sila makuha ni Fanum para protektahan ang iyong cash backup storage.</p>
-                <p><strong>7. WALL JUMPER:</strong> Ritwal na vertical obby flight mechanics. Tumingin sa timing para lumaktaw sa gumagalaw na tiles.</p>
-                <p><strong>8. NOOB CLICKER:</strong> Dagdagan ang core engine value gamit ang pure multi-clicks para mag-generate ng mabilisang cash flow.</p>
-                <p><strong>9. BRAINROT PAIRS:</strong> Isang memory matching challenge sa matrix board para i-verify ang iyong brain capacity parameters.</p>
+    <div class="game-menu-container">
+        <div class="game-column">
+            <p class="game-section-title">LASER GAME</p>
+            <button class="play-trigger-btn" id="launch-laser-btn">PLAY</button>
+        </div>
+        <div class="game-column">
+            <p class="game-section-title">TRAIN GAME</p>
+            <button class="play-trigger-btn" id="launch-train-btn">PLAY</button>
+        </div>
+        <div class="game-column">
+            <p class="game-section-title">FARM GAME</p>
+            <button class="play-trigger-btn" id="launch-farm-btn">🌾 PLAY</button>
+        </div>
+        <div class="game-column">
+            <p class="game-section-title">BURGER BOMB</p>
+            <button class="play-trigger-btn" id="launch-burger-btn">🍔 PLAY</button>
+        </div>
+
+        <div class="game-column" style="border: 1px solid #00d2d3;">
+            <p class="game-section-title" style="color: #00d2d3;">JET SHOOTER</p>
+            <button class="play-trigger-btn" id="launch-jet-btn" style="color: #00d2d3;">🚀 PLAY</button>
+        </div>
+        <div class="game-column" style="border: 1px solid #ff4757;">
+            <p class="game-section-title" style="color: #ff4757;">CHEN CHEN MAZE</p>
+            <button class="play-trigger-btn" id="launch-chen-btn" style="color: #ff4757;">👻 PLAY</button>
+        </div>
+        <div class="game-column" style="border: 1px solid #f1c40f;">
+            <p class="game-section-title" style="color: #f1c40f;">FLAPPY PLANE</p>
+            <button class="play-trigger-btn" id="launch-flappy-btn" style="color: #f1c40f;">🛩️ PLAY</button>
+        </div>
+        <div class="game-column" style="border: 1px solid #2ed573;">
+            <p class="game-section-title" style="color: #2ed573;">GUESS NUMBER</p>
+            <button class="play-trigger-btn" id="launch-guess-btn" style="color: #2ed573;">🔮 PLAY</button>
+        </div>
+        
+        <div class="game-column" style="border: 1px solid #54a0ff; flex: 1 1 100%;">
+            <p class="game-section-title" style="color: #54a0ff;">CLOUDE RESTAURANT</p>
+            <button class="play-trigger-btn" id="launch-restaurant-btn" style="color: #54a0ff;">🧑‍🍳 START COOKING</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="tutorial-modal">
+        <div class="modal-content">
+            <h3>🎮 GAMEPLAY MANUAL</h3>
+            <ol>
+                <li><b>LASER GAME:</b> Dodge the falling red laser beams.</li>
+                <li><b>TRAIN GAME:</b> Collect falling gold coins while avoiding green bushes. One hit forces a train chase!</li>
+                <li><b>FARM GAME:</b> Click the Wheat Field or an unlocked Pet plot. Actions remain persistent until manually swapped!</li>
+                <li><b>BURGER BOMB BATTLE:</b> Plant 3 landmines, then look for safe tiles. Avoid setting off enemy hazards!</li>
+                <li><b>JET SHOOTER:</b> Pilot a fighter plane at the bottom. Shoot ascending alien streams for +$10 cash per execution!</li>
+                <li><b>CHEN CHEN MAZE:</b> Click open paths to slide instantly to the end of the corridor lane. Dodge the fast-tracking ghost! Coins are registered along the path instantly.</li>
+                <li><b>FLAPPY PLANE:</b> Touch/Click to flap upward and cross volatile columns. Earnings map onto clearance score parameters.</li>
+                <li><b>GUESS A NUMBER:</b> Select your hidden number target code and guess your opponent's matrix block before your ammo cycles deplete!</li>
+                <li><b>CLOUDE RESTAURANT:</b> Look at the customer order ticket, tap ingredients to prepare them, and click DONE? to serve and receive cash!</li>
+            </ol>
+            <button class="close-modal-btn" id="close-modal-btn">GOT IT!</button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+        <div class="game-stats" id="mode-stat-label">
+            <div>Score: <span id="distance-val">0</span></div>
+            <div id="inner-stats-overlay"></div>
+            <button class="exit-btn" id="exit-game-btn">EXIT</button>
+        </div>
+        
+        <canvas id="runnerCanvas" width="360" height="360"></canvas>
+        
+        <div class="burger-game-panel hidden" id="burger-game-panel">
+            <div class="burger-mode-select">
+                <button class="mode-tab-btn active" id="burger-mode-bot-btn">🤖 BOT MATCH</button>
+                <button class="mode-tab-btn" id="burger-mode-mp-btn">👥 LOCAL PVP</button>
             </div>
-            <button class="btn-primary" id="btn-manual-close" style="margin-top: 20px; padding: 12px;">ACKNOWLEDGE PARAMETERS</button>
+            <div class="burger-instruction-banner" id="burger-instruction-text">Setup: Select 3 Burgers to hide your bombs!</div>
+            <div class="action-log-ticker" id="burger-action-log">System Ready. Please setup your board fields.</div>
+            <button class="burger-hint-btn" id="burger-hint-btn">🧐 Buy Intel Radar (-$1500 Cash)</button>
+            <div class="battle-grids-wrapper">
+                <div class="grid-section-box" id="unified-grid-container">
+                    <div class="grid-header-status">
+                        <span id="unified-board-title" style="color: #ff9f43;">🎯 Setup Phase</span>
+                        <div style="display: flex; gap: 10px;">
+                            <span id="unified-p1-hearts" style="color: #2ed573;">P1: ❤️❤️❤️</span>
+                            <span id="unified-p2-hearts" style="color: #ff4757;">P2: ❤️❤️❤️</span>
+                        </div>
+                    </div>
+                    <div class="burger-grid" id="burger-unified-grid"></div>
+                </div>
+            </div>
+            <div class="burger-end-overlay hidden" id="burger-end-overlay">
+                <div class="burger-end-title" id="burger-end-title">MATCH FINISHED!</div>
+                <div class="burger-end-buttons">
+                    <button class="burger-action-btn" style="background-color: #2ed573; color: white;" id="burger-retry-btn">Rematch</button>
+                    <button class="burger-action-btn" style="background-color: #ff4757; color: white;" id="burger-exit-btn">Leave</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="modal-overlay hidden" id="notification-overlay-system">
-        <div class="panel-modal" style="text-align: center; border-color: #ffa502;" id="note-border-node">
-            <p id="note-text-node" style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; white-space: pre-line;"></p>
-            <button class="btn-primary" id="btn-note-ok" style="background: #2ed573; padding: 10px 30px; width: auto;">EXECUTE</button>
+        <div class="guess-game-panel hidden" id="guess-game-panel">
+            <div class="burger-mode-select">
+                <button class="mode-tab-btn active" id="guess-mode-bot-btn">🤖 BOT GUESS</button>
+                <button class="mode-tab-btn" id="guess-mode-mp-btn">👥 LOCAL 1v1 DUEL</button>
+            </div>
+            <div class="burger-instruction-banner" id="guess-instruction-text">Setting setup target...</div>
+            <div class="action-log-ticker" id="guess-action-log">Attempts Remaining: 5</div>
+            <div class="guess-grid-scroll">
+                <div class="guess-matrix" id="guess-matrix-grid"></div>
+            </div>
         </div>
+
+        <div class="restaurant-panel hidden" id="restaurant-panel">
+            <div class="restaurant-recipe-book">
+                <h4>📜 Recipe Cheatsheet</h4>
+                <div class="recipe-grid">
+                    <div class="recipe-row"><span class="recipe-name">🍟 Fries:</span><span>🥔 + 🍶</span></div>
+                    <div class="recipe-row"><span class="recipe-name">🥪 Sandwich:</span><span>🍞 + 🥦 + 🥕 + 🥬 + 🥑</span></div>
+                    <div class="recipe-row"><span class="recipe-name">🌮 Tacos:</span><span>🫓 + 🌰 + 🍋 + 🍖 + 🥒</span></div>
+                    <div class="recipe-row"><span class="recipe-name">🍜 Ramen:</span><span>🍥 + 🫔 + 🍡 + 🥡 + 🥢 + 🥚</span></div>
+                    <div class="recipe-row"><span class="recipe-name">🍕 Pizza:</span><span>🫓 + 🫓 + 🍤 + 🌶</span></div>
+                </div>
+            </div>
+
+            <div class="restaurant-kitchen-bench">
+                <div class="restaurant-ingredient-strip">
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥔')">🥔</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍶')">🍶</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍞')">🍞</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥦')">🥦</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥕')">🥕</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥬')">🥬</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥑')">🥑</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🫓')">🫓</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🌰')">🌰</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍋')">🍋</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍖')">🍖</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥒')">🥒</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍥')">🍥</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🫔')">🫔</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍡')">🍡</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥡')">🥡</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥢')">🥢</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🥚')">🥚</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🍤')">🍤</div>
+                    <div class="restaurant-ingredient-bin" onclick="addRestaurantIngredient('🌶')">🌶</div>
+                </div>
+                <div class="restaurant-center-stage">
+                    <div class="restaurant-chef-avatar">👨‍🍳</div>
+                    <div class="restaurant-order-ticket" id="restaurant-order-display">Order: Loading...</div>
+                </div>
+            </div>
+            <div style="align-self: flex-start; margin-bottom: 5px; color: #a4b0be; font-size: 0.85rem; font-weight: bold;">Mixing Bowl Ingredients:</div>
+            <div class="restaurant-mixing-bowl" id="restaurant-bowl-display"></div>
+            
+            <div class="restaurant-control-row">
+                <button class="restaurant-clear-btn" onclick="clearRestaurantBowl()">Clear</button>
+                <button class="restaurant-done-btn" onclick="serveRestaurantOrder()">Done?</button>
+            </div>
+        </div>
+
+        <div id="farm-ui-bubble-container" style="margin-top: 15px; min-height: 50px; display: flex; flex-direction: column; gap: 8px; align-items: center; width: 100%; max-width: 360px;"></div>
+        
+        <div class="farm-shop-container hidden" id="farm-shop-panel">
+            <div class="farm-shop-title">🚜 PET MARKET</div>
+            <div class="farm-shop-grid">
+                <div class="farm-shop-item" onclick="buyFarmPet('🐕', 5)">
+                    <span class="farm-shop-emoji">🐕</span><span>$5</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐖', 10)">
+                    <span class="farm-shop-emoji">🐖</span><span>$10</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐑', 15)">
+                    <span class="farm-shop-emoji">🐑</span><span>$15</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐅', 20)">
+                    <span class="farm-shop-emoji">🐅</span><span>$20</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐍', 20)">
+                    <span class="farm-shop-emoji">🐍</span><span>$20</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐄', 30)">
+                    <span class="farm-shop-emoji">🐄</span><span>$30</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐊', 30)">
+                    <span class="farm-shop-emoji">🐊</span><span>$30</span>
+                </div>
+                <div class="farm-shop-item" onclick="buyFarmPet('🐢', 50)">
+                    <span class="farm-shop-emoji">🐢</span><span>$50</span>
+                </div>
+            </div>
+        </div>
+
+        <p id="control-hint" style="color: #747d8c; font-size: 0.85rem; margin-top: 5px; text-align:center; max-width:340px;"></p>
     </div>
 
     <script>
-        let cash = parseInt(localStorage.getItem("X3D_Cash")) || 5000;
-        let currentMode = "shop";
-        let activeScore = 0;
-        let gameActive = false;
+        let cash = parseInt(localStorage.getItem("Xdragon_WebCash")) || 0; 
+        let distance = 0;
+        let gameRunning = false;
+        let currentGameMode = "laser"; 
+        let canvas, ctx, runner, obstacles, activeCoins, activeBushes;
 
-        // 3D Framework Parameters
-        let scene, camera, renderer, raycaster, mouse;
-        let gameplayEntitiesGroup, machineCoreMesh;
-        let inputState = { left: false, right: false, action: false };
+        let isTrainAlertActive = false;
+        let alertEndTime = 0;
 
-        const hudCash = document.getElementById("hud-cash");
-        const selectionTower = document.getElementById("selection-tower");
-        const shopDeck = document.getElementById("shop-deck");
-        const uiLeftSurface = document.getElementById("ui-left-surface");
-        const surfaceInjector = document.getElementById("surface-content-injector");
-        const touchControllerDeck = document.getElementById("touch-controller-deck");
+        let wheatCount = parseInt(localStorage.getItem("Xdragon_WheatCount")) || 0;
+        let currentSelectedFarmTarget = null; 
 
-        function syncFinancialHUD() {
-            hudCash.innerText = cash;
-            localStorage.setItem("X3D_Cash", cash);
-        }
-        syncFinancialHUD();
+        let burgerMatchMode = "bot"; 
+        let burgerPhase = "setup-player1"; 
+        let enemyHearts = 3;
+        let playerHearts = 3; 
+        let enemyBombs = []; 
+        let playerBombs = []; 
+        let revealedEnemyTiles = []; 
+        let revealedPlayerTiles = []; 
+        let radarClueTiles = []; 
+        let burgerGameActive = false;
+        
+        let jetBullets = [];
+        let jetAliens = [];
+        let jetScore = 0;
 
-        let noteCallback = null;
-        function pushSystemAlert(message, borderHex = "#ffa502", callback = null) {
-            document.getElementById("note-text-node").innerText = message;
-            document.getElementById("note-border-node").style.borderColor = borderHex;
-            document.getElementById("notification-overlay-system").classList.remove("hidden");
-            noteCallback = callback;
-        }
-        document.getElementById("btn-note-ok").onclick = () => {
-            document.getElementById("notification-overlay-system").classList.add("hidden");
-            if(noteCallback) { let cb = noteCallback; noteCallback = null; cb(); }
-        };
+        let mazeGrid = [];
+        let mazeCols = 9;
+        let mazeRows = 9;
+        let mazeCellSize = 40; 
+        let mazePlayer = {x: 0, y: 0};
+        let mazeGhost = {x: 8, y: 8};
+        let mazeCoins = [];
+        let mazeGhostSpeedTimer = 0;
 
-        document.getElementById("btn-manual").onclick = () => document.getElementById("manual-modal").classList.remove("hidden");
-        document.getElementById("btn-manual-close").onclick = () => document.getElementById("manual-modal").classList.add("hidden");
+        let fpVelocity = 0;
+        let fpGravity = 0.4;
+        let fpJump = -6.5;
+        let fpPipes = [];
+        let fpFrameCounter = 0;
 
-        document.getElementById("btn-purchase-item").onclick = () => {
-            if(cash >= 25000) {
-                cash -= 25000; syncFinancialHUD();
-                let cryptoToken = "X3D-DRGN-" + Array.from({length:16}, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*36)]).join("");
-                document.getElementById("shop-token-output").innerText = `ASSET PAYLOAD ENCRYPTED AUTH HASH:\n${cryptoToken}`;
-                document.getElementById("shop-token-output").classList.remove("hidden");
-                pushSystemAlert("Quantum dynamic asset loop successfully unlocked!", "#2ed573");
-            } else {
-                pushSystemAlert("Transaction Aborted: Insufficient quantitative asset structures.", "#ff4757");
-            }
-        };
+        let guessMode = "bot"; 
+        let guessPhase = "setup"; 
+        let p1SecretTarget = null;
+        let p2SecretTarget = null;
+        let p1AttemptsLeft = 5;
+        let p2AttemptsLeft = 5;
+        let p1GuessesHistory = []; 
+        let p2GuessesHistory = []; 
+        let currentTurnPlayer = 1; 
+        let lastBotGuessFeedback = "";
 
-        function initializeUniversalGraphicsSandbox() {
-            const viewport = document.getElementById("webgl-engine-container");
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0a0f);
-            scene.fog = new THREE.FogExp2(0x0a0a0f, 0.015);
+        let currentRestaurantOrder = ""; 
+        let restaurantIngredientsSelected = [];
+        let restaurantOrdersCompleted = 0;
 
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 5, 12);
-            camera.lookAt(0, 1.5, 0);
+        const petRewardsTable = { '🐕': 5, '🐖': 10, '🐑': 15, '🐅': 20, '🐍': 20, '🐄': 30, '🐊': 30, '🐢': 50 };
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            viewport.appendChild(renderer.domElement);
+        let fences = [
+            { id: 0, x: 30,  y: 30,  w: 80, h: 80, locked: false, pet: null, age: 1, xp: 0 },
+            { id: 1, x: 140, y: 30,  w: 80, h: 80, locked: false, pet: null, age: 1, xp: 0 },
+            { id: 2, x: 250, y: 30,  w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 3, x: 30,  y: 130, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 4, x: 140, y: 130, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 5, x: 250, y: 130, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 6, x: 30,  y: 230, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 7, x: 140, y: 230, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 },
+            { id: 8, x: 250, y: 230, w: 80, h: 80, locked: true,  pet: null, age: 1, xp: 0 }
+        ];
+        
+        let wheatField = { x: 140, y: 315, w: 80, h: 40 };
 
-            raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2();
+        const cashEl = document.getElementById('cash-amount');
+        const buyBtn = document.getElementById('buy-btn');
+        const codeOutput = document.getElementById('code-output');
+        const gameScreen = document.getElementById('game-screen');
+        const modeStatLabel = document.getElementById('mode-stat-label');
+        const controlHint = document.getElementById('control-hint');
+        const bubbleContainer = document.getElementById('farm-ui-bubble-container');
+        const farmShopPanel = document.getElementById('farm-shop-panel');
+        const burgerGamePanel = document.getElementById('burger-game-panel');
+        const guessGamePanel = document.getElementById('guess-game-panel');
+        const restaurantPanel = document.getElementById('restaurant-panel');
+        
+        const launchLaserBtn = document.getElementById('launch-laser-btn');
+        const launchTrainBtn = document.getElementById('launch-train-btn');
+        const launchFarmBtn = document.getElementById('launch-farm-btn');
+        const launchBurgerBtn = document.getElementById('launch-burger-btn');
+        const launchJetBtn = document.getElementById('launch-jet-btn');
+        const launchChenBtn = document.getElementById('launch-chen-btn');
+        const launchFlappyBtn = document.getElementById('launch-flappy-btn');
+        const launchGuessBtn = document.getElementById('launch-guess-btn');
+        const launchRestaurantBtn = document.getElementById('launch-restaurant-btn');
 
-            scene.add(new THREE.AmbientLight(0xffffff, 0.25));
-            const platformDirLight = new THREE.DirectionalLight(0xffffff, 0.85);
-            platformDirLight.position.set(10, 20, 10);
-            scene.add(platformDirLight);
+        const howToPlayBtn = document.getElementById('how-to-play-btn');
+        const tutorialModal = document.getElementById('tutorial-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
 
-            const structuralFloorGrid = new THREE.GridHelper(100, 50, 0xff4757, 0x1e1e24);
-            structuralFloorGrid.position.y = -0.01;
-            scene.add(structuralFloorGrid);
+        cashEl.innerText = cash;
+        loadFarmProgress(); 
 
-            gameplayEntitiesGroup = new THREE.Group();
-            scene.add(gameplayEntitiesGroup);
+        howToPlayBtn.addEventListener('click', () => tutorialModal.classList.remove('hidden'));
+        closeModalBtn.addEventListener('click', () => tutorialModal.classList.add('hidden'));
 
-            machineCoreMesh = new THREE.Mesh(new THREE.BoxGeometry(4, 6, 2), new THREE.MeshStandardMaterial({ color: 0x1c1c24, roughness: 0.4, metalness: 0.8 }));
-            machineCoreMesh.position.set(0, 3, -2);
-            scene.add(machineCoreMesh);
-
-            const screenMeshInstance = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 2.5), new THREE.MeshBasicMaterial({ color: 0x121216 }));
-            screenMeshInstance.position.set(0, 4.2, -0.95);
-            scene.add(screenMeshInstance);
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-            window.addEventListener('click', handle3DSpaceRaycastInteraction);
-
-            setupInputControlSystemHooks();
-            executeEngineRenderPassLoop();
-        }
-
-        function setupInputControlSystemHooks() {
-            window.addEventListener('keydown', (e) => {
-                if(e.key === "a" || e.key === "ArrowLeft") inputState.left = true;
-                if(e.key === "d" || e.key === "ArrowRight") inputState.right = true;
-                if(e.key === " " || e.key === "Enter") inputState.action = true;
-            });
-            window.addEventListener('keyup', (e) => {
-                if(e.key === "a" || e.key === "ArrowLeft") inputState.left = false;
-                if(e.key === "d" || e.key === "ArrowRight") inputState.right = false;
-                if(e.key === " " || e.key === "Enter") inputState.action = false;
-            });
-
-            const attachTouchNode = (nodeId, keyProp) => {
-                const el = document.getElementById(nodeId);
-                el.addEventListener('touchstart', (e) => { e.preventDefault(); inputState[keyProp] = true; });
-                el.addEventListener('touchend', (e) => { e.preventDefault(); inputState[keyProp] = false; });
-            };
-            attachTouchNode("ctrl-left", "left");
-            attachTouchNode("ctrl-right", "right");
-            attachTouchNode("ctrl-action", "action");
-        }
-
-        selectionTower.addEventListener('click', (e) => {
-            const card = e.target.closest(".nav-card");
-            if(!card) return;
-            document.querySelectorAll(".nav-card").forEach(c => c.classList.remove("active"));
-            card.classList.add("active");
-
-            purgeActiveSimulationEntities();
-            currentMode = card.dataset.mode;
+        function triggerCustomNotification(message, borderHex, callback) {
+            const overlay = document.getElementById('custom-notification-module');
+            const textEl = document.getElementById('custom-notification-text');
+            const borderBox = document.getElementById('notification-popup-border');
+            const btn = document.getElementById('custom-notification-ok-btn');
             
-            shopDeck.classList.add("hidden");
-            uiLeftSurface.classList.add("hidden");
-            touchControllerDeck.classList.add("hidden");
-            gameActive = false;
+            textEl.innerText = message;
+            borderBox.style.borderColor = borderHex || "#ffa502";
+            overlay.classList.remove('hidden');
+            
+            btn.onclick = () => {
+                overlay.classList.add('hidden');
+                if(callback) callback();
+            };
+        }
 
-            if(currentMode === "shop") {
-                shopDeck.classList.remove("hidden");
-                camera.position.set(0, 5, 12); camera.lookAt(0, 1.5, 0);
-            } else {
-                camera.position.set(0, 4.5, 4); camera.lookAt(0, 4.2, -2);
-                initializeTargetGameEngineSubspace(currentMode);
-            }
+        function handleExitToShop() {
+            gameRunning = false;
+            burgerGameActive = false;
+            currentSelectedFarmTarget = null;
+            gameScreen.classList.add('hidden');
+            farmShopPanel.classList.add('hidden');
+            burgerGamePanel.classList.add('hidden');
+            guessGamePanel.classList.add('hidden');
+            restaurantPanel.classList.add('hidden');
+            bubbleContainer.innerHTML = "";
+            saveFarmProgress(); 
+            updateGlobalCash();
+        }
+
+        launchLaserBtn.addEventListener('click', () => setupArcadeMode("laser", "Distance: <span id='distance-val'>000000</span>", "Tap Left / Right sides of the screen to steer horizontally."));
+        launchTrainBtn.addEventListener('click', () => setupArcadeMode("train", "Coins: <span id='distance-val'>0</span> <span id='alert-timer-label' style='color:#ffa502; margin-left:15px;'></span>", "Dodge bushes! One hit triggers an active train chase."));
+        launchFarmBtn.addEventListener('click', () => {
+            setupArcadeMode("farm", "🌾 Wheat Inventory: <span id='distance-val'>0</span>", "Click on objects inside the canvas grid directly to load interactions.");
+            farmShopPanel.classList.remove('hidden');
+            document.getElementById('distance-val').innerText = wheatCount;
+        });
+        launchBurgerBtn.addEventListener('click', () => {
+            setupArcadeMode("burger", "<span style='color:#ff9f43;'>🍔 Burger Bomb Arena</span>", "Deduce tile hazards and find safe locations across the grid field!");
+            burgerGamePanel.classList.remove('hidden');
+        });
+        launchJetBtn.addEventListener('click', () => setupArcadeMode("jet", "Aliens Obliterated: <span id='distance-val'>0</span>", "Tap screen sides to steer. Jet fires auto-projectiles constantly."));
+        launchChenBtn.addEventListener('click', () => setupArcadeMode("chen", "Coins Kept: <span id='distance-val'>0</span>", "Click open orthogonal paths to slide safely to the wall. Run from the ghost tracker!"));
+        launchFlappyBtn.addEventListener('click', () => setupArcadeMode("flappy", "Altitude Score: <span id='distance-val'>0</span>", "Tap screen continuously to gain flight lift. Avoid cross columns!"));
+        launchGuessBtn.addEventListener('click', () => {
+            setupArcadeMode("guess", "<span style='color:#2ed573;'>🔮 Guess The Secret Number</span>", "Choose numbers from the grid matrix. Match the hidden random value!");
+            guessGamePanel.classList.remove('hidden');
+            initGuessGame();
+        });
+        launchRestaurantBtn.addEventListener('click', () => {
+            setupArcadeMode("restaurant", "Orders Served: <span id='distance-val'>0</span>", "Click items on the strip bench to add ingredients. Finish up by tapping Done!?");
+            restaurantPanel.classList.remove('hidden');
+            initRestaurantGame();
         });
 
-        function purgeActiveSimulationEntities() {
-            while(gameplayEntitiesGroup.children.length > 0){
-                gameplayEntitiesGroup.remove(gameplayEntitiesGroup.children[0]);
+        function setupArcadeMode(modeName, statsHtml, hintText) {
+            currentGameMode = modeName;
+            farmShopPanel.classList.add('hidden');
+            burgerGamePanel.classList.add('hidden');
+            guessGamePanel.classList.add('hidden');
+            restaurantPanel.classList.add('hidden');
+            bubbleContainer.innerHTML = "";
+            currentSelectedFarmTarget = null;
+            modeStatLabel.innerHTML = statsHtml + ' <button class="exit-btn" id="exit-game-btn">EXIT</button>';
+            document.getElementById('exit-game-btn').addEventListener('click', handleExitToShop);
+            controlHint.innerText = hintText;
+            gameScreen.classList.remove('hidden');
+            initGame();
+        }
+
+        function generateSecureToken(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let token = '';
+            for (let i = 0; i < length; i++) { token += characters.charAt(Math.floor(Math.random() * characters.length)); }
+            return token;
+        }
+
+        buyBtn.addEventListener('click', () => {
+            if (cash >= 25000) {
+                cash -= 25000;
+                updateGlobalCash();
+                let secureToken = generateSecureToken(16);
+                let generatedCode = "XDRG-TOOL-" + secureToken;
+                codeOutput.innerText = "CODE: " + generatedCode;
+                codeOutput.classList.remove('hidden');
+            } else { triggerCustomNotification("🚨 Insufficient Funds! You need $25,000 Cash.", "#ff4757"); }
+        });
+
+        function updateGlobalCash() {
+            cashEl.innerText = cash;
+            localStorage.setItem("Xdragon_WebCash", cash);
+        }
+
+        function saveFarmProgress() {
+            localStorage.setItem("Xdragon_WheatCount", wheatCount);
+            localStorage.setItem("Xdragon_FencesData", JSON.stringify(fences));
+        }
+
+        function loadFarmProgress() {
+            let savedFences = localStorage.getItem("Xdragon_FencesData");
+            if(savedFences) {
+                let parsedFences = JSON.parse(savedFences);
+                parsedFences.forEach((savedFence, idx) => {
+                    if (fences[idx] && savedFence) {
+                        fences[idx].locked = savedFence.locked;
+                        fences[idx].pet = savedFence.pet;
+                        fences[idx].age = savedFence.age;
+                        fences[idx].xp = savedFence.xp;
+                    }
+                });
             }
         }
 
-        function executeEngineRenderPassLoop() {
-            requestAnimationFrame(executeEngineRenderPassLoop);
-            if(gameActive) runActive3DGameSimulationTick(0.016);
-            renderer.render(scene, camera);
+
+        document.getElementById('burger-mode-bot-btn').onclick = () => {
+            if(burgerGameActive && (playerBombs.length > 0 || enemyBombs.length > 0)) return;
+            burgerMatchMode = "bot";
+            document.getElementById('burger-mode-bot-btn').classList.add('active');
+            document.getElementById('burger-mode-mp-btn').classList.remove('active');
+            initBurgerGame();
+        };
+        document.getElementById('burger-mode-mp-btn').onclick = () => {
+            if(burgerGameActive && (playerBombs.length > 0 || enemyBombs.length > 0)) return;
+            burgerMatchMode = "multiplayer";
+            document.getElementById('burger-mode-mp-btn').classList.add('active');
+            document.getElementById('burger-mode-bot-btn').classList.remove('active');
+            initBurgerGame();
+        };
+
+        function initBurgerGame() {
+            enemyHearts = 3; playerHearts = 3;
+            revealedEnemyTiles = []; revealedPlayerTiles = []; radarClueTiles = [];
+            playerBombs = []; enemyBombs = [];
+            burgerGameActive = true; burgerPhase = "setup-player1";
+            document.getElementById('burger-end-overlay').classList.add('hidden');
+            document.getElementById('unified-grid-container').style.opacity = "1";
+            document.getElementById('burger-action-log').innerText = "Setup: Click 3 tiles to plant your Landmines!";
+            document.getElementById('burger-action-log').style.color = "#2ed573";
+            
+            if(burgerMatchMode === "bot") {
+                document.getElementById('burger-instruction-text').innerText = "Setup: Select 3 Burgers to hide your bombs!";
+                document.getElementById('burger-hint-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('burger-instruction-text').innerText = "Player 1 Setup: Select 3 Burgers for your bombs!";
+                document.getElementById('burger-hint-btn').classList.add('hidden'); 
+            }
+            updateBurgerStatsUI();
+            renderUnifiedBurgerGrid();
         }
 
-        // =========================================================================
-        // NEW 9 GAME REGISTRY IMPLEMENTATION SYSTEM
-        // =========================================================================
-        let localPlayerMesh = null;
-        let internalEntitiesArray = [];
-        let executionSpawnTimer = 0;
-        let internalStateTracker = {};
+        function updateBurgerStatsUI() {
+            const p1Label = (burgerMatchMode === "multiplayer") ? "Player 1" : "You";
+            const p2Label = (burgerMatchMode === "multiplayer") ? "Player 2" : "Bot";
+            document.getElementById('unified-p1-hearts').innerText = `${p1Label}: ` + ("❤️".repeat(Math.max(0, playerHearts)) || "💀");
+            document.getElementById('unified-p2-hearts').innerText = `${p2Label}: ` + ("❤️".repeat(Math.max(0, enemyHearts)) || "💀");
+            const titleEl = document.getElementById('unified-board-title');
+            if (burgerPhase === "setup-player1") { titleEl.innerText = "🛠️ P1 Setup Map"; titleEl.style.color = "#2ed573"; }
+            else if (burgerPhase === "setup-player2") { titleEl.innerText = "🛠️ P2 Setup Map"; titleEl.style.color = "#ffa502"; }
+            else if (burgerPhase === "battle-player1-turn") { titleEl.innerText = `🎯 ${p1Label} Attacking Grid`; titleEl.style.color = "#ff4757"; }
+            else if (burgerPhase === "battle-player2-turn") { titleEl.innerText = `🎯 ${p2Label} Attacking Grid`; titleEl.style.color = "#ffa502"; }
+        }
 
-        function initializeTargetGameEngineSubspace(mode) {
-            purgeActiveSimulationEntities();
-            internalEntitiesArray = [];
-            executionSpawnTimer = 0;
-            activeScore = 0;
-            internalStateTracker = {};
-            uiLeftSurface.classList.remove("hidden");
+        function renderUnifiedBurgerGrid() {
+            const gridContainer = document.getElementById('burger-unified-grid');
+            gridContainer.innerHTML = "";
+            for(let i = 0; i < 9; i++) {
+                let tile = document.createElement('div');
+                tile.className = "burger-tile";
+                tile.dataset.index = i;
+                tile.innerText = "🍔";
+                let marker = document.createElement('span');
+                marker.className = "tile-marker-label"; marker.innerText = "#" + (i + 1);
+                tile.appendChild(marker);
 
-            // Base Wireframe Screen Box Staging
-            const playBoundsWireframeMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(3.2, 2.2, 4),
-                new THREE.MeshBasicMaterial({ color: 0xff4757, wireframe: true, transparent: true, opacity: 0.1 })
-            );
-            playBoundsWireframeMesh.position.set(0, 4.2, -1.5);
-            gameplayEntitiesGroup.add(playBoundsWireframeMesh);
-
-            // Setup movement keys for active running simulations
-            if(["laser", "sigmabeam", "meteors", "skate", "walljump"].includes(mode)) {
-                touchControllerDeck.classList.remove("hidden");
-                localPlayerMesh = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.16, 0.16, 0.16),
-                    new THREE.MeshStandardMaterial({ color: 0x00d2d3, emissive: 0x00a8ff })
-                );
-                localPlayerMesh.position.set(0, 3.3, -0.5);
-                gameplayEntitiesGroup.add(localPlayerMesh);
-                gameActive = true;
-            }
-
-            // Game UI Router Configurations
-            if(mode === "laser") {
-                surfaceInjector.innerHTML = `<h3>⚡ SURVIVE LASER</h3><div class="ticker-hud">EVADE RADIAL BEAMS</div><p>Score: <span id='game-hud-score'>0</span></p>`;
-            }
-            else if(mode === "sigmabeam") {
-                surfaceInjector.innerHTML = `<h3>👁️ SIGMA BEAM</h3><div class="ticker-hud">PRESS ACTION / SPACE TO BLAST</div><p>Eliminated: <span id='game-hud-score'>0</span></p>`;
-            }
-            else if(mode === "luckyblock") {
-                surfaceInjector.innerHTML = `<h3>📦 LUCKY BLOCK OPENER</h3><div class="ticker-hud">TEST YOUR ENGINE LUCK</div><button class="btn-primary" onclick="window.rollLuckyBlock()">OPEN LUCKY BLOCK (-$500)</button><div id="lucky-log" style="margin-top:10px; font-size:0.8rem; color:#ffd32a;">Ready to roll...</div>`;
-                build3DLuckyBlockWorld();
-            }
-            else if(mode === "meteors") {
-                surfaceInjector.innerHTML = `<h3>☄️ APOCALYPSE METEORS</h3><div class="ticker-hud">DODGE THE SKY FALLOUT</div><p>Survived: <span id='game-hud-score'>0</span></p>`;
-            }
-            else if(mode === "skate") {
-                surfaceInjector.innerHTML = `<h3>🛹 NOOB RAIL SURF</h3><div class="ticker-hud">COLLECT COINS, AVOID OBSTACLES</div><p>Coins: <span id='game-hud-score'>0</span></p>`;
-            }
-            else if(mode === "fanum") {
-                surfaceInjector.innerHTML = `<h3>🍕 FANUM TAX IMMUNITY</h3><div class="ticker-hud">CLICK INCOMING PIZZAS FAST</div><p>Saved Core: <span id='game-hud-score'>0</span></p>`;
-                gameActive = true;
-            }
-            else if(mode === "walljump") {
-                localPlayerMesh.position.set(-1.2, 3.3, -1.5);
-                internalStateTracker.jumpState = 0; // Grounded state initialization
-                surfaceInjector.innerHTML = `<h3>🧗 WALL JUMPER OBBY</h3><div class="ticker-hud">ACTION / SPACE TO JUMP WALLS</div><p>Score Trace: <span id='game-hud-score'>0</span></p>`;
-            }
-            else if(mode === "clicker") {
-                internalStateTracker.clicks = 0;
-                surfaceInjector.innerHTML = `<h3>🖱️ NOOB CLICKER MATRIX</h3><div class="ticker-hud">TAP CENTER CONSOLE SPHERE</div><p>Click Level Accumulation: <span id='click-hud-count'>0</span></p><button class="btn-primary" onclick="window.claimClickerPayout()" style="background:#2ed573; margin-top:10px;">CLAIM ASSET BONUS FLOW</button>`;
-                build3DClickerSphereNode();
-            }
-            else if(mode === "memematch") {
-                surfaceInjector.innerHTML = `<h3>🧠 BRAINROT MEME PAIRS</h3><div class="ticker-hud" id="memo-status">MATCH THE BLOCK IDENTIFIERS</div><div style="font-size:0.8rem; color:#aaa;">Click cards on the screen.</div>`;
-                build3DMemoryMatchBoardTopology();
+                if (burgerPhase === "setup-player1" && playerBombs.includes(i)) {
+                    tile.innerText = "💣"; tile.style.border = "3px dashed #2ed573";
+                } else if (burgerPhase === "setup-player2" && enemyBombs.includes(i)) {
+                    tile.innerText = "💣"; tile.style.border = "3px dashed #ff9f43";
+                } else if (burgerPhase === "battle-player1-turn") {
+                    if (revealedEnemyTiles.includes(i)) {
+                        tile.classList.add('revealed');
+                        tile.innerText = enemyBombs.includes(i) ? "💥" : "🍽️";
+                        if(enemyBombs.includes(i)) tile.style.backgroundColor = "#ff4757";
+                    } else if (radarClueTiles.includes(i)) {
+                        tile.innerText = "⚠️"; tile.style.backgroundColor = "#ffd32a";
+                    }
+                } else if (burgerPhase === "battle-player2-turn") {
+                    if (revealedPlayerTiles.includes(i)) {
+                        tile.classList.add('revealed');
+                        tile.innerText = playerBombs.includes(i) ? "💥" : "🍽️";
+                        if(playerBombs.includes(i)) tile.style.backgroundColor = "#ff4757";
+                    }
+                }
+                tile.onclick = () => handleUnifiedTileClick(i);
+                gridContainer.appendChild(tile);
             }
         }
 
-        function runActive3DGameSimulationTick(dt) {
-            executionSpawnTimer += dt;
-            const scoreLabel = document.getElementById("game-hud-score");
-            const horizontalLimitBound = 1.4;
+        function handleUnifiedTileClick(index) {
+            if (!burgerGameActive) return;
+            const logEl = document.getElementById('burger-action-log');
 
-            if(currentMode === "laser") {
-                activeScore++; if(scoreLabel) scoreLabel.innerText = activeScore;
-                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.2 * dt;
-                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.2 * dt;
-
-                if(executionSpawnTimer > 0.15) {
-                    executionSpawnTimer = 0;
-                    let m = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.3, 6), new THREE.MeshBasicMaterial({ color: 0xff4757 }));
-                    m.rotation.x = Math.PI / 2; m.position.set((Math.random()*2.8)-1.4, 3.3, -3.5);
-                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, speed: 4.8 });
-                }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.22) {
-                        gameActive = false; cash += activeScore; syncFinancialHUD();
-                        pushSystemAlert(`💥 HIT BY LASER!\nScore: ${activeScore}\nPayout: +$${activeScore}`); return;
-                    }
-                    if(ent.mesh.position.z > 0.5) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
+            if (burgerPhase === "setup-player1") {
+                if (playerBombs.includes(index)) playerBombs = playerBombs.filter(b => b !== index);
+                else if (playerBombs.length < 3) playerBombs.push(index);
+                renderUnifiedBurgerGrid();
+                if (playerBombs.length === 3) {
+                    setTimeout(() => {
+                        if (burgerMatchMode === "bot") {
+                            while (enemyBombs.length < 3) {
+                                let randSlot = Math.floor(Math.random() * 9);
+                                if (!enemyBombs.includes(randSlot)) enemyBombs.push(randSlot);
+                            }
+                            burgerPhase = "battle-player1-turn";
+                            document.getElementById('burger-instruction-text').innerText = "BATTLE! Attack the Bot's field!";
+                            logEl.innerText = "Match Commenced! Choose an attacking target slot.";
+                            logEl.style.color = "#ffffa0";
+                            updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+                        } else {
+                            burgerPhase = "setup-player2";
+                            document.getElementById('burger-instruction-text').innerText = "Player 2 Setup: Choose 3 locations.";
+                            logEl.innerText = "Player 2: Choose 3 locations to place your secret mines.";
+                            updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+                        }
+                    }, 400);
                 }
             }
-
-            else if(currentMode === "sigmabeam") {
-                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.5 * dt;
-                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.5 * dt;
-
-                if(inputState.action && executionSpawnTimer > 0.2) {
-                    executionSpawnTimer = 0;
-                    let b = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.2), new THREE.MeshBasicMaterial({color:0x00ffcc}));
-                    b.position.set(localPlayerMesh.position.x, localPlayerMesh.position.y, localPlayerMesh.position.z - 0.1);
-                    gameplayEntitiesGroup.add(b); internalEntitiesArray.push({ mesh: b, type: "laser_beam", speed: -6.0 });
+            else if (burgerPhase === "setup-player2") {
+                if (enemyBombs.includes(index)) enemyBombs = enemyBombs.filter(b => b !== index);
+                else if (enemyBombs.length < 3) enemyBombs.push(index);
+                renderUnifiedBurgerGrid();
+                if (enemyBombs.length === 3) {
+                    setTimeout(() => {
+                        burgerPhase = "battle-player1-turn";
+                        document.getElementById('burger-instruction-text').innerText = "Player 1 Turn: Attack target!";
+                        logEl.innerText = "Battle Phase! Player 1 select an attack target vector.";
+                        updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+                    }, 400);
                 }
-                if(Math.random() < 0.04) {
-                    let o = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshStandardMaterial({color:0xff00ff, wireframe:true}));
-                    o.position.set((Math.random()*2.6)-1.3, 3.3, -3.5);
-                    gameplayEntitiesGroup.add(o); internalEntitiesArray.push({ mesh: o, type: "skibidi_orb", speed: 1.8 });
+            }
+            else if (burgerPhase === "battle-player1-turn") {
+                if (revealedEnemyTiles.includes(index)) return;
+                revealedEnemyTiles.push(index); radarClueTiles = radarClueTiles.filter(t => t !== index);
+                
+                if (enemyBombs.includes(index)) { 
+                    playerHearts--; 
+                    logEl.innerText = `💥 BOOM! You hit Bot's Mine at Slot #${index+1}!`;
+                    logEl.style.color = "#ff4757";
+                    updateBurgerStatsUI(); 
+                    triggerCustomNotification(`💥 EXPLOSION!\n\nYou blew up your own health at Slot #${index+1}!`, "#ff4757", () => {
+                        if (checkBurgerGameEnd()) return;
+                        proceedAfterP1Turn();
+                    });
+                } else {
+                    logEl.innerText = `✅ Safe Tile Discovered at Slot #${index+1}!`;
+                    logEl.style.color = "#2ed573";
+                    triggerCustomNotification(`✅ SAFE!\n\nSlot #${index+1} is clear of explosives.`, "#2ed573", () => {
+                        if (checkBurgerGameEnd()) return;
+                        proceedAfterP1Turn();
+                    });
                 }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
-                    if(ent.type === "skibidi_orb" && ent.mesh.position.z > -0.3) {
-                        gameActive = false; pushSystemAlert("🚨 THREAT PENETRATION INTEGRITY FAILURE."); return;
+            }
+            else if (burgerPhase === "battle-player2-turn" && burgerMatchMode === "multiplayer") {
+                if (revealedPlayerTiles.includes(index)) return;
+                revealedPlayerTiles.push(index);
+                
+                if (playerBombs.includes(index)) { 
+                    enemyHearts--; 
+                    logEl.innerText = `💥 BOOM! Player 2 struck Player 1's mine at Slot #${index+1}!`;
+                    logEl.style.color = "#ff4757";
+                    updateBurgerStatsUI(); 
+                    triggerCustomNotification(`💥 EXPLOSION!\n\nPlayer 2 hit a bomb at Slot #${index+1}!`, "#ff4757", () => {
+                        if (checkBurgerGameEnd()) return;
+                        burgerPhase = "battle-player1-turn"; document.getElementById('burger-instruction-text').innerText = "Player 1 Turn: Attack target!";
+                        updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+                    });
+                } else {
+                    logEl.innerText = `✅ Safe Tile Discovered at Slot #${index+1}!`;
+                    logEl.style.color = "#2ed573";
+                    triggerCustomNotification(`✅ SAFE!\n\nSlot #${index+1} is clear of explosives.`, "#2ed573", () => {
+                        if (checkBurgerGameEnd()) return;
+                        burgerPhase = "battle-player1-turn"; document.getElementById('burger-instruction-text').innerText = "Player 1 Turn: Attack target!";
+                        updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+                    });
+                }
+            }
+        }
+
+        function proceedAfterP1Turn() {
+            if (burgerMatchMode === "bot") {
+                burgerPhase = "battle-player2-turn"; document.getElementById('burger-instruction-text').innerText = "🤖 Bot scanning...";
+                updateBurgerStatsUI(); renderUnifiedBurgerGrid(); executeBotAIAction();
+            } else {
+                burgerPhase = "battle-player2-turn"; document.getElementById('burger-instruction-text').innerText = "Player 2 Turn: Click target!";
+                updateBurgerStatsUI(); renderUnifiedBurgerGrid();
+            }
+        }
+
+        function executeBotAIAction() {
+            setTimeout(() => {
+                let availableSlots = [];
+                const logEl = document.getElementById('burger-action-log');
+                for(let i = 0; i < 9; i++) { if(!revealedPlayerTiles.includes(i)) availableSlots.push(i); }
+                if(availableSlots.length > 0) {
+                    let botChoice = availableSlots[Math.floor(Math.random() * availableSlots.length)];
+                    revealedPlayerTiles.push(botChoice);
+                    if(playerBombs.includes(botChoice)) { 
+                        enemyHearts--; 
+                        logEl.innerText = `💥 Enemy Action: Bot detonated your Mine at Slot #${botChoice+1}!`;
+                        logEl.style.color = "#ff4757";
+                        updateBurgerStatsUI(); 
+                        triggerCustomNotification(`💥 BOT ATTACK!\n\nThe Bot blew itself up on your bomb at Slot #${botChoice+1}!`, "#ff4757", () => {
+                            if(checkBurgerGameEnd()) return;
+                            burgerPhase = "battle-player1-turn"; document.getElementById('burger-instruction-text').innerText = "Your Turn! Launch attack!";
+                            renderUnifiedBurgerGrid();
+                        });
+                    } else {
+                        logEl.innerText = `🤖 Enemy Action: Bot swept your safe tile at Slot #${botChoice+1}.`;
+                        logEl.style.color = "#2ed573";
+                        triggerCustomNotification(`✅ BOT MISSED!\n\nThe Bot selected safe Slot #${botChoice+1}.`, "#2ed573", () => {
+                            if(checkBurgerGameEnd()) return;
+                            burgerPhase = "battle-player1-turn"; document.getElementById('burger-instruction-text').innerText = "Your Turn! Launch attack!";
+                            renderUnifiedBurgerGrid();
+                        });
                     }
-                    if(ent.type === "laser_beam" && ent.mesh.position.z < -3.6) {
-                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); continue;
+                }
+            }, 600);
+        }
+
+        document.getElementById('burger-hint-btn').onclick = () => {
+            if(!burgerGameActive || burgerPhase !== "battle-player1-turn") return;
+            if(cash < 1500) { triggerCustomNotification("🚨 Intel Radar costs $1,500!", "#ff4757"); return; }
+            let unrevealedBombs = enemyBombs.filter(b => !revealedEnemyTiles.includes(b) && !radarClueTiles.includes(b));
+            if(unrevealedBombs.length > 0) {
+                cash -= 1500; updateGlobalCash();
+                let chosenSecretBomb = unrevealedBombs[Math.floor(Math.random() * unrevealedBombs.length)];
+                radarClueTiles.push(chosenSecretBomb); renderUnifiedBurgerGrid();
+                document.getElementById('burger-action-log').innerText = "🧐 Threat tracker updated! Hazard highlighted in Yellow.";
+                document.getElementById('burger-action-log').style.color = "#ffd32a";
+            }
+        };
+
+        function checkBurgerGameEnd() {
+            if(enemyHearts <= 0) { endBurgerMatch(true); return true; }
+            if(playerHearts <= 0) { endBurgerMatch(false); return true; }
+            return false;
+        }
+
+        function endBurgerMatch(isPlayer1Winner) {
+            burgerGameActive = false;
+            document.getElementById('burger-end-overlay').classList.remove('hidden');
+            let title = document.getElementById('burger-end-title');
+            if(burgerMatchMode === "bot") {
+                if(isPlayer1Winner) { cash += 500; title.innerText = "🏆 YOU WIN! (+$500 Reward)"; title.style.color = "#2ed573"; }
+                else { cash = Math.max(0, cash - 500); title.innerText = "💀 YOU LOSE! (-$500 Penalty)"; title.style.color = "#ff4757"; }
+                updateGlobalCash();
+            } else {
+                title.innerText = isPlayer1Winner ? "👑 PLAYER 1 WINS!" : "👑 PLAYER 2 WINS!";
+                title.style.color = isPlayer1Winner ? "#2ed573" : "#ffa502";
+            }
+        }
+        document.getElementById('burger-retry-btn').onclick = () => initBurgerGame();
+        document.getElementById('burger-exit-btn').onclick = () => handleExitToShop();
+
+
+        document.getElementById('guess-mode-bot-btn').onclick = () => { guessMode = "bot"; initGuessGame(); };
+        document.getElementById('guess-mode-mp-btn').onclick = () => { guessMode = "multiplayer"; initGuessGame(); };
+
+        function initGuessGame() {
+            p1SecretTarget = null;
+            p2SecretTarget = null;
+            p1AttemptsLeft = 5;
+            p2AttemptsLeft = 5;
+            p1GuessesHistory = [];
+            p2GuessesHistory = [];
+            currentTurnPlayer = 1;
+            lastBotGuessFeedback = "";
+
+            if (guessMode === "bot") {
+                guessPhase = "setup";
+                document.getElementById('guess-instruction-text').innerText = "Choose your secret number (1 - 100) for the bot to guess!";
+                document.getElementById('guess-action-log').innerText = "Waiting for your number choice...";
+                document.getElementById('guess-action-log').style.color = "#1e90ff";
+            } else {
+                guessPhase = "setup";
+                document.getElementById('guess-instruction-text').innerText = "Player 1: Select your secret number to hide!";
+                document.getElementById('guess-action-log').innerText = "Player 1 Choice Pending...";
+                document.getElementById('guess-action-log').style.color = "#1e90ff";
+            }
+            renderGuessGridMatrix();
+        }
+
+        function renderGuessGridMatrix() {
+            const matrixContainer = document.getElementById('guess-matrix-grid');
+            matrixContainer.innerHTML = "";
+            for (let i = 1; i <= 100; i++) {
+                let btn = document.createElement('button');
+                btn.className = "guess-num-btn";
+                btn.innerText = i;
+
+                if (guessMode === "bot" && guessPhase === "play") {
+                    if (p1GuessesHistory.includes(i)) {
+                        btn.classList.add('selected-p1');
                     }
-                    if(ent.type === "skibidi_orb") {
-                        for(let j = internalEntitiesArray.length - 1; j >= 0; j--) {
-                            let bCheck = internalEntitiesArray[j];
-                            if(bCheck.type === "laser_beam" && bCheck.mesh.position.distanceTo(ent.mesh.position) < 0.22) {
-                                activeScore++; cash += 25; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
-                                gameplayEntitiesGroup.remove(ent.mesh); gameplayEntitiesGroup.remove(bCheck.mesh);
-                                internalEntitiesArray.splice(i, 1); internalEntitiesArray.splice(j, 1); break;
+                }
+                btn.onclick = () => handleGuessSelection(i);
+                matrixContainer.appendChild(btn);
+            }
+        }
+
+        function handleGuessSelection(selectedNumber) {
+            const logEl = document.getElementById('guess-action-log');
+
+            if (guessPhase === "setup" && guessMode === "bot") {
+                p1SecretTarget = selectedNumber; 
+                p2SecretTarget = Math.floor(Math.random() * 100) + 1; 
+                guessPhase = "play";
+                currentTurnPlayer = 1;
+                document.getElementById('guess-instruction-text').innerText = "Crack the Bot's Target! Your Turns are Blinded.";
+                logEl.innerText = `Your secret number: ${p1SecretTarget}. Attempts: ${p1AttemptsLeft}`;
+                logEl.style.color = "#2ed573";
+                triggerCustomNotification(`Secret Confirmed!\n\nYou locked in ${p1SecretTarget}. The Bot has locked in its number. Start guessing!`, "#2ed573");
+                renderGuessGridMatrix();
+                return;
+            }
+
+            if (guessPhase === "setup" && guessMode === "multiplayer") {
+                if (p1SecretTarget === null) {
+                    p1SecretTarget = selectedNumber;
+                    document.getElementById('guess-instruction-text').innerText = "Player 2: Select your secret number to hide!";
+                    logEl.innerText = "Player 2 Choice Pending...";
+                    logEl.style.color = "#ff4757";
+                    triggerCustomNotification("Player 1 Code Confirmed!\n\nHand device over to Player 2 now.", "#1e90ff");
+                } else if (p2SecretTarget === null) {
+                    p2SecretTarget = selectedNumber;
+                    guessPhase = "play";
+                    currentTurnPlayer = 1;
+                    document.getElementById('guess-instruction-text').innerText = "Player 1 Turn: Guess Player 2's target!";
+                    logEl.innerText = "Attempts Remaining: " + p1AttemptsLeft;
+                    logEl.style.color = "#1e90ff";
+                    triggerCustomNotification("Player 2 Code Confirmed!\n\nPlayer 1, prepare to make your first guess.", "#2ed573");
+                    renderGuessGridMatrix();
+                }
+                return;
+            }
+
+            if (guessPhase === "play") {
+                if (guessMode === "bot") {
+                    if (p1GuessesHistory.includes(selectedNumber)) return;
+                    p1GuessesHistory.push(selectedNumber);
+
+                    if (selectedNumber === p2SecretTarget) {
+                        cash += 1500; updateGlobalCash();
+                        triggerCustomNotification(`🎉 YOU WIN!\n\nYou matched the bot's target (${p2SecretTarget}) first! Earned +$1,500 Cash!`, "#2ed573", () => {
+                            initGuessGame();
+                        });
+                        return;
+                    } else {
+                        p1AttemptsLeft--;
+                        let userHintDirection = (selectedNumber < p2SecretTarget) ? "HIGHER ⬆️" : "LOWER ⬇️";
+                        
+                        if (p1AttemptsLeft <= 0) {
+                            cash = Math.max(0, cash - 1500); updateGlobalCash();
+                            triggerCustomNotification(`💀 BOT WINS!\n\nYou ran out of turns. Bot's target was: ${p2SecretTarget}. Penalized -$1,500 Cash.`, "#ff4757", () => {
+                                initGuessGame();
+                            });
+                            return;
+                        }
+
+                        executeBotGuessingTurn(userHintDirection);
+                    }
+                } 
+                else if (guessMode === "multiplayer") {
+                    if (currentTurnPlayer === 1) {
+                        if (p1GuessesHistory.includes(selectedNumber)) return;
+                        p1GuessesHistory.push(selectedNumber);
+
+                        if (selectedNumber === p2SecretTarget) {
+                            triggerCustomNotification(`🎉 PLAYER 1 WINS!\n\nSuccessfully matched Player 2's target core code: ${p2SecretTarget}!`, "#2ed573", () => {
+                                initGuessGame();
+                            });
+                            return;
+                        } else {
+                            p1AttemptsLeft--;
+                            if (p1AttemptsLeft <= 0 && p2AttemptsLeft <= 0) {
+                                triggerCustomNotification(`💀 DRAW MATCH!\n\nNo available attempts remaining.\nTargets: P1 [${p1SecretTarget}] | P2 [${p2SecretTarget}]`, "#ffa502", () => {
+                                    initGuessGame();
+                                });
+                                return;
+                            }
+                            let personalHint = (selectedNumber < p2SecretTarget) ? "HIGHER ⬆️" : "LOWER ⬇️";
+                            
+                            if (p2AttemptsLeft > 0) {
+                                currentTurnPlayer = 2;
+                                document.getElementById('guess-instruction-text').innerText = "Player 2 Turn: Guess Player 1's target!";
+                                logEl.innerText = `P2 Turn Setup. Player 2 Attempts Left: ${p2AttemptsLeft}`;
+                                logEl.style.color = "#ff4757";
+                            }
+                            triggerCustomNotification(`❌ MISSED!\n\nPlayer 1 guessed ${selectedNumber}, which is ${personalHint}.\n\nHand device to Player 2.`, "#ff4757", () => {
+                                renderGuessGridMatrix();
+                            });
+                        }
+                    } 
+                    else if (currentTurnPlayer === 2) {
+                        if (p2GuessesHistory.includes(selectedNumber)) return;
+                        p2GuessesHistory.push(selectedNumber);
+
+                        if (selectedNumber === p1SecretTarget) {
+                            triggerCustomNotification(`🎉 PLAYER 2 WINS!\n\nSuccessfully matched Player 1's target core code: ${p1SecretTarget}!`, "#2ed573", () => {
+                                initGuessGame();
+                            });
+                            return;
+                        } else {
+                            p2AttemptsLeft--;
+                            if (p1AttemptsLeft <= 0 && p2AttemptsLeft <= 0) {
+                                triggerCustomNotification(`💀 DRAW MATCH!\n\nNo available attempts remaining.\nTargets: P1 [${p1SecretTarget}] | P2 [${p2SecretTarget}]`, "#ffa502", () => {
+                                    initGuessGame();
+                                });
+                                return;
+                            }
+                            let personalHint = (selectedNumber < p1SecretTarget) ? "HIGHER ⬆️" : "LOWER ⬇️";
+                            
+                            if (p1AttemptsLeft > 0) {
+                                currentTurnPlayer = 1;
+                                document.getElementById('guess-instruction-text').innerText = "Player 1 Turn: Guess Player 2's target!";
+                                logEl.innerText = `P1 Turn Setup. Player 1 Attempts Left: ${p1AttemptsLeft}`;
+                                logEl.style.color = "#1e90ff";
+                            }
+                            triggerCustomNotification(`❌ MISSED!\n\nPlayer 2 guessed ${selectedNumber}, which is ${personalHint}.\n\nHand device to Player 1.`, "#ff4757", () => {
+                                renderGuessGridMatrix();
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        function executeBotGuessingTurn(userHintDirection) {
+            let botLowBound = 1;
+            let botHighBound = 100;
+            
+            p2GuessesHistory.forEach(g => {
+                if (g < p1SecretTarget && g > botLowBound) botLowBound = g + 1;
+                if (g > p1SecretTarget && g < botHighBound) botHighBound = g - 1;
+            });
+
+            let botGuess = Math.floor(Math.random() * (botHighBound - botLowBound + 1)) + botLowBound;
+            p2GuessesHistory.push(botGuess);
+
+            if (botGuess === p1SecretTarget) {
+                cash = Math.max(0, cash - 1500); updateGlobalCash();
+                triggerCustomNotification(`💀 BOT WINS!\n\nThe bot guessed your number ${p1SecretTarget} correctly! Penalized -$1,500 Cash.`, "#ff4757", () => {
+                    initGuessGame();
+                });
+            } else {
+                p2AttemptsLeft--;
+                let botHintFeedback = (botGuess < p1SecretTarget) ? "higher" : "lower";
+                lastBotGuessFeedback = `🤖 Bot guessed ${botGuess} (Too ${botHintFeedback}!)`;
+
+                if (p2AttemptsLeft <= 0) {
+                    cash += 1500; updateGlobalCash();
+                    triggerCustomNotification(`🎉 YOU WIN!\n\nThe Bot failed all guesses! Target was uncracked. Earned +$1,500 Cash!`, "#2ed573", () => {
+                        initGuessGame();
+                    });
+                    return;
+                }
+
+                const logEl = document.getElementById('guess-action-log');
+                logEl.innerText = `Your last guess was ${userHintDirection}. ${lastBotGuessFeedback} | Turns Left: ${p1AttemptsLeft}`;
+                logEl.style.color = "#ffa502";
+                renderGuessGridMatrix();
+            }
+        }
+
+
+        /* UPDATED RESTAURANT GAME ENGINE */
+        function initRestaurantGame() {
+            restaurantOrdersCompleted = 0;
+            document.getElementById('distance-val').innerText = restaurantOrdersCompleted;
+            generateNewRestaurantOrder();
+        }
+
+        function generateNewRestaurantOrder() {
+            const types = ["Fries 🍟", "Sandwich 🥪", "Tacos 🌮", "Ramen 🍜", "Pizza 🍕"];
+            currentRestaurantOrder = types[Math.floor(Math.random() * types.length)];
+            document.getElementById('restaurant-order-display').innerText = `Order: ${currentRestaurantOrder}`;
+            clearRestaurantBowl();
+        }
+
+        function addRestaurantIngredient(emoji) {
+            restaurantIngredientsSelected.push(emoji);
+            renderRestaurantBowl();
+        }
+
+        function clearRestaurantBowl() {
+            restaurantIngredientsSelected = [];
+            renderRestaurantBowl();
+        }
+
+        function renderRestaurantBowl() {
+            const bowlEl = document.getElementById('restaurant-bowl-display');
+            if (restaurantIngredientsSelected.length === 0) {
+                bowlEl.innerText = "[Empty Mixing Bowl]";
+                bowlEl.style.color = "#747d8c";
+            } else {
+                bowlEl.innerText = restaurantIngredientsSelected.join(" ");
+                bowlEl.style.color = "#ffffff";
+            }
+        }
+
+        function serveRestaurantOrder() {
+            let matchesProfile = false;
+            let currentString = [...restaurantIngredientsSelected].sort().join("");
+
+            if (currentRestaurantOrder.includes("Fries")) {
+                let friesTarget = ["🥔", "🍶"].sort().join("");
+                if (currentString === friesTarget) matchesProfile = true;
+            } 
+            else if (currentRestaurantOrder.includes("Sandwich")) {
+                let sandwichTarget = ["🍞", "🥦", "🥕", "🥬", "🥑"].sort().join("");
+                if (currentString === sandwichTarget) matchesProfile = true;
+            } 
+            else if (currentRestaurantOrder.includes("Tacos")) {
+                let tacosTarget = ["🫓", "🌰", "🍋", "🍖", "🥒"].sort().join("");
+                if (currentString === tacosTarget) matchesProfile = true;
+            } 
+            else if (currentRestaurantOrder.includes("Ramen")) {
+                let ramenTarget = ["🍥", "🫔", "🍡", "🥡", "🥢", "🥚"].sort().join("");
+                if (currentString === ramenTarget) matchesProfile = true;
+            } 
+            else if (currentRestaurantOrder.includes("Pizza")) {
+                let pizzaTarget = ["🫓", "🫓", "🍤", "🌶"].sort().join("");
+                if (currentString === pizzaTarget) matchesProfile = true;
+            }
+
+            let generatedPayout = 0;
+            let statusMessage = "";
+            let colorTheme = "";
+
+            if (matchesProfile) {
+                generatedPayout = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+                statusMessage = `✨ PERFECT RECIPE!\nThe customer loved your beautifully cooked ${currentRestaurantOrder}!`;
+                colorTheme = "#2ed573";
+                restaurantOrdersCompleted++;
+                document.getElementById('distance-val').innerText = restaurantOrdersCompleted;
+            } else {
+                generatedPayout = Math.floor(Math.random() * (40 - 5 + 1)) + 5;
+                statusMessage = `🤢 WRONG INGREDIENTS!\nYou scrambled the recipe requirements for the ${currentRestaurantOrder}.`;
+                colorTheme = "#ff4757";
+            }
+
+            cash += generatedPayout;
+            updateGlobalCash();
+
+            triggerCustomNotification(`${statusMessage}\n\nEarnings Received: +$${generatedPayout} Cash.`, colorTheme, () => {
+                generateNewRestaurantOrder();
+            });
+        }
+
+
+        function initGame() {
+            canvas = document.getElementById('runnerCanvas');
+            ctx = canvas.getContext('2d');
+            distance = 0; obstacles = []; activeCoins = []; activeBushes = [];
+            isTrainAlertActive = false; alertEndTime = 0;
+            
+            jetBullets = []; jetAliens = []; jetScore = 0;
+            fpVelocity = 0; fpPipes = []; fpFrameCounter = 0;
+
+            if (currentGameMode === "burger" || currentGameMode === "guess" || currentGameMode === "restaurant") {
+                canvas.classList.add('hidden');
+                if(currentGameMode === "burger") { burgerGamePanel.classList.remove('hidden'); initBurgerGame(); }
+                return;
+            } else { canvas.classList.remove('hidden'); }
+
+            gameRunning = true;
+            runner = {
+                x: canvas.width / 2 - 15, y: canvas.height - 100, 
+                w: 30, h: 30, speed: 8.5,
+                targetX: canvas.width / 2 - 15, targetY: canvas.height - 100,
+                moveLeft: false, moveRight: false
+            };
+
+            if (currentGameMode === "farm") {
+                runner.x = 165; runner.y = 220; runner.speed = 5;
+                canvas.onclick = processFarmCanvasClick;
+            } else if (currentGameMode === "chen") {
+                canvas.onclick = processChenMazeClick;
+                generateRandomMazeMatrix();
+            } else if (currentGameMode === "flappy") {
+                runner.y = canvas.height / 2; runner.w = 34; runner.h = 24;
+                canvas.onclick = () => { fpVelocity = fpJump; };
+            } else { canvas.onclick = null; }
+
+            if(currentGameMode === "train") {
+                obstacles.push({ x: canvas.width / 2 - 40, y: canvas.height + 120, w: 80, h: 65, targetY: canvas.height + 120 });
+            }
+
+            window.onkeydown = (e) => {
+                if(["farm", "burger", "guess", "flappy", "chen", "restaurant"].includes(currentGameMode)) return;
+                if(e.key === 'a' || e.key === 'ArrowLeft') runner.moveLeft = true;
+                if(e.key === 'd' || e.key === 'ArrowRight') runner.moveRight = true;
+            };
+            window.onkeyup = (e) => {
+                if(["farm", "burger", "guess", "flappy", "chen", "restaurant"].includes(currentGameMode)) return;
+                if(e.key === 'a' || e.key === 'ArrowLeft') runner.moveLeft = false;
+                if(e.key === 'd' || e.key === 'ArrowRight') runner.moveRight = false;
+            };
+
+            canvas.ontouchstart = (e) => {
+                if(currentGameMode === "flappy") { fpVelocity = fpJump; return; }
+                if(["farm", "burger", "guess", "chen", "restaurant"].includes(currentGameMode)) return;
+                let rect = canvas.getBoundingClientRect();
+                let touchX = e.touches[0].clientX - rect.left;
+                if(touchX < canvas.width / 2) runner.moveLeft = true;
+                else runner.moveRight = true;
+            };
+            canvas.ontouchend = () => {
+                if(["farm", "burger", "guess", "flappy", "chen", "restaurant"].includes(currentGameMode)) return;
+                runner.moveLeft = false; runner.moveRight = false;
+            };
+
+            gameLoop();
+        }
+
+        function generateRandomMazeMatrix() {
+            mazeGrid = []; mazeCoins = [];
+            const layoutTemplate = [
+                [0,0,0,0,1,0,0,0,0],
+                [0,1,1,0,1,0,1,1,0],
+                [0,1,0,0,0,0,0,1,0],
+                [0,0,0,1,1,1,0,0,0],
+                [1,1,0,1,0,1,0,1,1],
+                [0,0,0,1,1,1,0,0,0],
+                [0,1,0,0,0,0,0,1,0],
+                [0,1,1,0,1,0,1,1,0],
+                [0,0,0,0,1,0,0,0,0]
+            ];
+            
+            for(let r=0; r<mazeRows; r++) {
+                mazeGrid[r] = [];
+                for(let c=0; c<mazeCols; c++) {
+                    mazeGrid[r][c] = layoutTemplate[r][c];
+                    if(layoutTemplate[r][c] === 0 && Math.random() < 0.25 && !(r===0 && c===0) && !(r===8 && c===8)) {
+                        mazeCoins.push({r: r, c: c});
+                    }
+                }
+            }
+            mazePlayer.x = 0; mazePlayer.y = 0;
+            mazeGhost.x = 8; mazeGhost.y = 8;
+            mazeGhostSpeedTimer = 0;
+        }
+
+        function processChenMazeClick(e) {
+            let rect = canvas.getBoundingClientRect();
+            let clickX = e.clientX - rect.left;
+            let clickY = e.clientY - rect.top;
+
+            let targetCol = Math.floor(clickX / mazeCellSize);
+            let targetRow = Math.floor(clickY / mazeCellSize);
+
+            if(targetCol >= 0 && targetCol < mazeCols && targetRow >= 0 && targetRow < mazeRows) {
+                if (targetCol === mazePlayer.x && targetRow === mazePlayer.y) return;
+                
+                let dx = targetCol - mazePlayer.x;
+                let dy = targetRow - mazePlayer.y;
+                
+                let stepX = 0;
+                let stepY = 0;
+                
+                if (Math.abs(dx) > Math.abs(dy)) { stepX = dx > 0 ? 1 : -1; } 
+                else { stepY = dy > 0 ? 1 : -1; }
+                
+                let currentX = mazePlayer.x;
+                let currentY = mazePlayer.y;
+                
+                while (true) {
+                    let nextX = currentX + stepX;
+                    let nextY = currentY + stepY;
+                    
+                    if (nextX >= 0 && nextX < mazeCols && nextY >= 0 && nextY < mazeRows && mazeGrid[nextY][nextX] === 0) {
+                        currentX = nextX;
+                        currentY = nextY;
+                        
+                        for(let i = mazeCoins.length - 1; i >= 0; i--) {
+                            if(mazeCoins[i].r === currentY && mazeCoins[i].c === currentX) {
+                                mazeCoins.splice(i, 1);
+                                distance += 1; cash += 5; updateGlobalCash();
+                                document.getElementById('distance-val').innerText = distance;
                             }
                         }
-                    }
+                    } else { break; }
                 }
-            }
-
-            else if(currentMode === "meteors") {
-                activeScore++; if(scoreLabel) scoreLabel.innerText = activeScore;
-                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.0 * dt;
-                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.0 * dt;
-
-                if(executionSpawnTimer > 0.25) {
-                    executionSpawnTimer = 0;
-                    let m = new THREE.Mesh(new THREE.DodecahedronGeometry(0.16, 0), new THREE.MeshStandardMaterial({color:0xeccc68, roughness:0.9}));
-                    m.position.set((Math.random()*2.8)-1.4, 4.8, -2.0 - (Math.random()*1.5));
-                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, vy: -2.5, vz: 1.5 });
-                }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i];
-                    ent.mesh.position.y += ent.vy * dt; ent.mesh.position.z += ent.vz * dt;
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.26) {
-                        gameActive = false; cash += activeScore * 2; syncFinancialHUD();
-                        pushSystemAlert(`☄️ METEOR COLLISION TERMINATION!\nEarned: +$${activeScore * 2}`); return;
-                    }
-                    if(ent.mesh.position.y < 3.0) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
-                }
-            }
-
-            else if(currentMode === "skate") {
-                if(inputState.left && localPlayerMesh.position.x > -1.0) localPlayerMesh.position.x = -1.0;
-                if(inputState.right && localPlayerMesh.position.x < 1.0) localPlayerMesh.position.x = 1.0;
-                if(!inputState.left && !inputState.right) localPlayerMesh.position.x = 0;
-
-                if(executionSpawnTimer > 0.4) {
-                    executionSpawnTimer = 0;
-                    let isCoin = Math.random() < 0.6;
-                    let lane = [ -1.0, 0, 1.0 ][Math.floor(Math.random()*3)];
-                    let geo = isCoin ? new THREE.TorusGeometry(0.06, 0.02, 4, 8) : new THREE.BoxGeometry(0.2, 0.3, 0.2);
-                    let mat = isCoin ? new THREE.MeshBasicMaterial({color:0xffd32a}) : new THREE.MeshStandardMaterial({color:0xff4757});
-                    let m = new THREE.Mesh(geo, mat); m.position.set(lane, 3.3, -3.8);
-                    gameplayEntitiesGroup.add(m); internalEntitiesArray.push({ mesh: m, isCoin: isCoin, speed: 4.5 });
-                }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i]; ent.mesh.position.z += ent.speed * dt;
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
-                        if(ent.isCoin) {
-                            activeScore++; cash += 50; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
-                        } else {
-                            gameActive = false; pushSystemAlert("💥 RAILWAY OBSTACLE CRASH OUT!"); return;
-                        }
-                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); continue;
-                    }
-                    if(ent.mesh.position.z > 0.5) { gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1); }
-                }
-            }
-
-            else if(currentMode === "fanum") {
-                if(executionSpawnTimer > 0.5) {
-                    executionSpawnTimer = 0;
-                    let p = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.02, 8), new THREE.MeshStandardMaterial({color:0xffa502}));
-                    p.rotation.x = Math.PI / 2; p.position.set((Math.random()*2.4)-1.2, (Math.random()*1.4)+3.4, -2.5);
-                    p.userData = { type: "fanum_pizza" };
-                    gameplayEntitiesGroup.add(p); internalEntitiesArray.push({ mesh: p, timer: 1.5 });
-                }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i]; ent.timer -= dt;
-                    ent.mesh.scale.setScalar(ent.timer / 1.5);
-                    if(ent.timer <= 0) {
-                        gameActive = false; cash = Math.max(0, cash - 800); syncFinancialHUD();
-                        pushSystemAlert("🍕 PIZZA TAXED BY FANUM!\nLost: -$800 Backup Resources."); return;
-                    }
-                }
-            }
-
-            else if(currentMode === "walljump") {
-                if(inputState.action && internalStateTracker.jumpState === 0) {
-                    internalStateTracker.jumpState = 1; internalStateTracker.vy = 3.5;
-                }
-                if(internalStateTracker.jumpState === 1) {
-                    localPlayerMesh.position.y += internalStateTracker.vy * dt;
-                    internalStateTracker.vy -= 9.8 * dt;
-                    if(localPlayerMesh.position.y <= 3.3) {
-                        localPlayerMesh.position.y = 3.3; internalStateTracker.jumpState = 0;
-                    }
-                }
-                if(executionSpawnTimer > 0.8) {
-                    executionSpawnTimer = 0;
-                    let w = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.4, 0.2), new THREE.MeshStandardMaterial({color:0xa4b0be}));
-                    w.position.set(1.5, 3.3, -1.5);
-                    gameplayEntitiesGroup.add(w); internalEntitiesArray.push({ mesh: w });
-                }
-                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
-                    let ent = internalEntitiesArray[i]; ent.mesh.position.x -= 2.0 * dt;
-                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
-                        gameActive = false; pushSystemAlert("🧗 OBBY TRIPPED: RESET PROGRESSION NODE."); return;
-                    }
-                    if(ent.mesh.position.x < -1.5) {
-                        activeScore++; cash += 100; syncFinancialHUD(); if(scoreLabel) scoreLabel.innerText = activeScore;
-                        gameplayEntitiesGroup.remove(ent.mesh); internalEntitiesArray.splice(i, 1);
-                    }
+                
+                if (currentX !== mazePlayer.x || currentY !== mazePlayer.y) {
+                    mazePlayer.x = currentX;
+                    mazePlayer.y = currentY;
+                    processMazeLogicEvaluation();
                 }
             }
         }
 
-        // =========================================================================
-        // STATIC & CLICKEABLE GAME SUBSYSTEM CONSTRUCTORS
-        // =========================================================================
-        function build3DLuckyBlockWorld() {
-            let b = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({color:0xffd32a, metalness:0.5, roughness:0.2}));
-            b.position.set(0, 4.2, -1.5); b.userData = { type: "lucky_block_root" };
-            gameplayEntitiesGroup.add(b); internalStateTracker.blockRef = b;
-        }
-
-        window.rollLuckyBlock = () => {
-            if(cash < 500) { pushSystemAlert("Insufficient funds to open block."); return; }
-            cash -= 500; syncFinancialHUD();
-
-            let roll = Math.random();
-            let log = document.getElementById("lucky-log");
-            if(roll > 0.85) {
-                cash += 8000; log.innerText = "⭐ MYTHICAL BLOCK OPENED! +$8,000";
-                internalStateTracker.blockRef.material.color.setHex(0x2ed573);
-            } else if(roll > 0.4) {
-                cash += 1000; log.innerText = "📦 RARE DROP! +$1,000 Cash Payload Added.";
-                internalStateTracker.blockRef.material.color.setHex(0x1e90ff);
+        function processChenMazeLogicEvaluation() {
+            let gdx = mazePlayer.x - mazeGhost.x;
+            let gdy = mazePlayer.y - mazeGhost.y;
+            
+            if(Math.abs(gdx) > Math.abs(gdy)) {
+                let step = gdx > 0 ? 1 : -1;
+                if(mazeGrid[mazeGhost.y][mazeGhost.x + step] === 0) mazeGhost.x += step;
+                else if(mazeGrid[mazeGhost.y + (gdy > 0 ? 1 : -1)]?.[mazeGhost.x] === 0) mazeGhost.y += (gdy > 0 ? 1 : -1);
             } else {
-                log.innerText = "💩 COMMON BRAINROT NOOB GARBAGE TRASH ITEM.";
-                internalStateTracker.blockRef.material.color.setHex(0xff4757);
+                let step = gdy > 0 ? 1 : -1;
+                if(mazeGrid[mazeGhost.y + step]?.[mazeGhost.x] === 0) mazeGhost.y += step;
+                else if(mazeGrid[mazeGhost.y][mazeGhost.x + (gdx > 0 ? 1 : -1)] === 0) mazeGhost.x += (gdx > 0 ? 1 : -1);
             }
-            syncFinancialHUD();
-        };
 
-        function build3DClickerSphereNode() {
-            let s = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 16), new THREE.MeshStandardMaterial({color:0x2ed573, emissive:0x10ac84}));
-            s.position.set(0, 4.2, -1.5); s.userData = { type: "clicker_target_node" };
-            gameplayEntitiesGroup.add(s);
-        }
-
-        window.claimClickerPayout = () => {
-            let amount = internalStateTracker.clicks * 15;
-            cash += amount; syncFinancialHUD();
-            pushSystemAlert(`💰 CLICK EXTRACTION COMPLETE!\nGenerated Allocation Dividend: +$${amount}`);
-            internalStateTracker.clicks = 0;
-            document.getElementById("click-hud-count").innerText = 0;
-        };
-
-        let memoReferences = [];
-        function build3DMemoryMatchBoardTopology() {
-            memoReferences = [];
-            let pool = ["🔥","🔥","⚡","⚡","👑","👑","🚀","🚀"];
-            pool.sort(() => Math.random() - 0.5);
-
-            internalStateTracker.cardsData = pool.map((icon, idx) => ({ id: idx, icon: icon, flipped: false, matched: false }));
-            internalStateTracker.selectedSlots = [];
-
-            for(let i=0; i<8; i++) {
-                let rx = ((i % 4) - 1.5) * 0.7;
-                let rz = -1.2 - (Math.floor(i / 4) * 0.8);
-                let c = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.6, 0.05), new THREE.MeshStandardMaterial({color:0x2f3542}));
-                c.position.set(rx, 4.2, rz); c.userData = { type: "memo_card_node", cardIndex: i };
-                gameplayEntitiesGroup.add(c); memoReferences.push(c);
+            if(mazePlayer.x === mazeGhost.x && mazePlayer.y === mazeGhost.y) {
+                gameRunning = false;
+                triggerCustomNotification("💀 CAUGHT BY CHEN CHEN!\n\nYou were trapped inside the maze core matrix.", "#ff4757", () => {
+                    gameScreen.classList.add('hidden');
+                });
             }
         }
 
-        function handle3DSpaceRaycastInteraction(e) {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            const hits = raycaster.intersectObjects(gameplayEntitiesGroup.children, true);
-            if(hits.length === 0) return;
-
-            let obj = hits[0].object; if(!obj.userData) return;
-            let meta = obj.userData;
-
-            if(currentMode === "fanum" && meta.type === "fanum_pizza") {
-                gameplayEntitiesGroup.remove(obj);
-                activeScore++; cash += 150; syncFinancialHUD();
-                document.getElementById("game-hud-score").innerText = activeScore;
-                internalEntitiesArray = internalEntitiesArray.filter(ent => ent.mesh !== obj);
+        function processFarmCanvasClick(e) {
+            let rect = canvas.getBoundingClientRect();
+            let clickX = e.clientX - rect.left;
+            let clickY = e.clientY - rect.top;
+            
+            if (clickX >= wheatField.x && clickX <= wheatField.x + wheatField.w && clickY >= wheatField.y && clickY <= wheatField.y + wheatField.h) {
+                runner.targetX = wheatField.x + wheatField.w / 2 - 15;
+                runner.targetY = wheatField.y - 15;
+                
+                currentSelectedFarmTarget = "wheat";
+                refreshFarmUIBubble();
+                return;
             }
-            else if(currentMode === "clicker" && meta.type === "clicker_target_node") {
-                internalStateTracker.clicks++;
-                obj.scale.setScalar(1.1); setTimeout(() => obj.scale.setScalar(1.0), 60);
-                document.getElementById("click-hud-count").innerText = internalStateTracker.clicks;
-            }
-            else if(currentMode === "memematch" && meta.type === "memo_card_node") {
-                let idx = meta.cardIndex; let st = internalStateTracker;
-                if(st.cardsData[idx].flipped || st.cardsData[idx].matched || st.selectedSlots.length >= 2) return;
 
-                st.cardsData[idx].flipped = true; obj.material.color.setHex(0xffa502);
-                st.selectedSlots.push(idx);
-
-                if(st.selectedSlots.length === 2) {
-                    let first = st.selectedSlots[0]; let second = st.selectedSlots[1];
-                    if(st.cardsData[first].icon === st.cardsData[second].icon) {
-                        st.cardsData[first].matched = st.cardsData[second].matched = true;
-                        memoReferences[first].material.color.setHex(0x2ed573);
-                        memoReferences[second].material.color.setHex(0x2ed573);
-                        st.selectedSlots = [];
-                        if(st.cardsData.every(c => c.matched)) {
-                            cash += 3000; syncFinancialHUD();
-                            pushSystemAlert("🏆 BOARD CLEARED! Brain intelligence fully verified. +$3,000");
-                            build3DMemoryMatchBoardTopology();
-                        }
-                    } else {
-                        document.getElementById("memo-status").innerText = "MISMATCH! PINALTI";
-                        setTimeout(() => {
-                            st.cardsData[first].flipped = st.cardsData[second].flipped = false;
-                            memoReferences[first].material.color.setHex(0x2f3542);
-                            memoReferences[second].material.color.setHex(0x2f3542);
-                            st.selectedSlots = [];
-                            document.getElementById("memo-status").innerText = "MATCH THE IDENTIFIERS";
-                        }, 1000);
-                    }
+            for (let i = 0; i < fences.length; i++) {
+                let f = fences[i];
+                if (f && clickX >= f.x && clickX <= f.x + f.w && clickY >= f.y && clickY <= f.y + f.h) {
+                    runner.targetX = f.x + f.w / 2 - 15; 
+                    runner.targetY = f.y + f.h / 2 - 15;
+                    
+                    currentSelectedFarmTarget = { type: "fence", index: i };
+                    refreshFarmUIBubble();
+                    return;
                 }
             }
         }
 
-        window.onload = () => { initializeUniversalGraphicsSandbox(); };
+        function refreshFarmUIBubble() {
+            if (!currentSelectedFarmTarget) {
+                bubbleContainer.innerHTML = "";
+                return;
+            }
+
+            if (currentSelectedFarmTarget === "wheat") {
+                bubbleContainer.innerHTML = `
+                    <button class="farm-action-bubble" onclick="executeContextualHarvest()">
+                        🌾 Harvest Crop / Gather Wheat (+1 Stack)
+                    </button>
+                `;
+            } else if (currentSelectedFarmTarget.type === "fence") {
+                let idx = currentSelectedFarmTarget.index;
+                let f = fences[idx];
+                if (!f) return;
+
+                if (f.locked) {
+                    bubbleContainer.innerHTML = `
+                        <button class="farm-action-bubble lock-style" onclick="unlockPlot(${idx})">
+                            🔓 Unlock Plot #${idx+1}? (Costs $150 Cash)
+                        </button>
+                    `;
+                } else if (f.pet) {
+                    bubbleContainer.innerHTML = `
+                        <button class="farm-action-bubble feed-style" onclick="executeContextualFeed(${idx})">
+                            🍖 Feed standard Wheat to Level ${f.age} ${f.pet}
+                        </button>
+                    `;
+                } else {
+                    bubbleContainer.innerHTML = `
+                        <div style="color: #747d8c; font-size: 0.95rem; font-weight: bold; padding: 10px;">
+                            Plot #${idx+1} is empty. Buy a Pet from the market below!
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function executeContextualHarvest() {
+            wheatCount += 1;
+            document.getElementById('distance-val').innerText = wheatCount;
+            saveFarmProgress();
+        }
+
+        function executeContextualFeed(index) {
+            let f = fences[index];
+            if (!f || f.locked || !f.pet) return;
+
+            if (wheatCount <= 0) {
+                triggerCustomNotification("🚨 Out of wheat! Click the golden Wheat Field to harvest some crops first.", "#ffa502");
+                return;
+            }
+
+            wheatCount--;
+            document.getElementById('distance-val').innerText = wheatCount;
+            f.xp += 34;
+            
+            if (f.xp >= 100) {
+                f.xp = 0; 
+                f.age += 1;
+                let reward = (petRewardsTable[f.pet] || 5) * f.age;
+                
+                cash += reward;
+                updateGlobalCash();
+                triggerCustomNotification(`🎁 UPGRADE!\n\nYour ${f.pet} grew to Level ${f.age}! Received +$${reward} bonus!`, "#2ed573");
+            }
+            
+            saveFarmProgress();
+            refreshFarmUIBubble(); 
+        }
+
+        function unlockPlot(index) {
+            if (cash >= 150) {
+                cash -= 150; fences[index].locked = false;
+                updateGlobalCash(); saveFarmProgress(); 
+                refreshFarmUIBubble();
+            } else { triggerCustomNotification("🚨 Requires $150 Cash!", "#ff4757"); }
+        }
+
+        function buyFarmPet(emoji, cost) {
+            if (currentGameMode !== "farm") { triggerCustomNotification("Enter Farm Game first!", "#ffa502"); return; }
+            if (cash < cost) { triggerCustomNotification("🚨 Insufficient funds!", "#ff4757"); return; }
+            let slotFound = false;
+            for (let i = 0; i < fences.length; i++) {
+                if (fences[i] && !fences[i].locked && fences[i].pet === null) {
+                    cash -= cost; fences[i].pet = emoji; fences[i].age = 1; fences[i].xp = 0;
+                    updateGlobalCash(); saveFarmProgress(); slotFound = true;
+                    if (currentSelectedFarmTarget && currentSelectedFarmTarget.index === i) {
+                        refreshFarmUIBubble();
+                    }
+                    break;
+                }
+            }
+            if (!slotFound) triggerCustomNotification("🚧 No open, unlocked plots available!", "#ffa502");
+        }
+
+
+        function gameLoop() {
+            if(!gameRunning || ["burger", "guess", "restaurant"].includes(currentGameMode)) return;
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+
+            if (currentGameMode === "jet") {
+                runner.y = canvas.height - 40; 
+                if(runner.moveLeft && runner.x > 0) runner.x -= runner.speed;
+                if(runner.moveRight && runner.x < canvas.width - runner.w) runner.x += runner.speed;
+
+                if (Math.random() < 0.15) { jetBullets.push({ x: runner.x + 13, y: runner.y - 8, w: 4, h: 12 }); }
+                if (Math.random() < 0.04) { jetAliens.push({ x: Math.random() * (canvas.width - 30), y: -20, w: 26, h: 22, speed: 2 }); }
+
+                ctx.fillStyle = '#ffff00';
+                for (let b = jetBullets.length - 1; b >= 0; b--) {
+                    jetBullets[b].y -= 9;
+                    ctx.fillRect(jetBullets[b].x, jetBullets[b].y, jetBullets[b].w, jetBullets[b].h);
+                    if (jetBullets[b].y < -20) jetBullets.splice(b, 1);
+                }
+
+                for (let a = jetAliens.length - 1; a >= 0; a--) {
+                    jetAliens[a].y += jetAliens[a].speed;
+                    ctx.font = "20px sans-serif";
+                    ctx.fillText("👽", jetAliens[a].x, jetAliens[a].y + 16);
+
+                    for (let b = jetBullets.length - 1; b >= 0; b--) {
+                        if (jetBullets[b] && jetBullets[b].x > jetAliens[a].x && jetBullets[b].x < jetAliens[a].x + jetAliens[a].w &&
+                            jetBullets[b].y < jetAliens[a].y + jetAliens[a].h && jetBullets[b].y > jetAliens[a].y) {
+                            
+                            jetAliens.splice(a, 1);
+                            jetBullets.splice(b, 1);
+                            jetScore += 1; cash += 10; updateGlobalCash();
+                            document.getElementById('distance-val').innerText = jetScore;
+                            break;
+                        }
+                    }
+
+                    if (jetAliens[a] && jetAliens[a].y > canvas.height) {
+                        gameRunning = false;
+                        triggerCustomNotification("🚨 BASE DEFENSE INFILTRATED!", "#ff4757", () => {
+                            gameScreen.classList.add('hidden');
+                        });
+                        return;
+                    }
+                }
+
+                ctx.fillStyle = '#00d2d3'; ctx.font = "28px sans-serif";
+                ctx.fillText("🚀", runner.x, runner.y + 24);
+                requestAnimationFrame(gameLoop); return;
+            }
+
+            if (currentGameMode === "chen") {
+                for (let r = 0; r < mazeRows; r++) {
+                    for (let c = 0; c < mazeCols; c++) {
+                        if (mazeGrid[r][c] === 1) {
+                            ctx.fillStyle = "#2c3e50"; ctx.fillRect(c * mazeCellSize, r * mazeCellSize, mazeCellSize, mazeCellSize);
+                            ctx.strokeStyle = "#ff4757"; ctx.strokeRect(c * mazeCellSize, r * mazeCellSize, mazeCellSize, mazeCellSize);
+                        } else { ctx.fillStyle = "#1e1e1e"; ctx.fillRect(c * mazeCellSize, r * mazeCellSize, mazeCellSize, mazeCellSize); }
+                    }
+                }
+
+                ctx.fillStyle = "#ffd32a";
+                mazeCoins.forEach(coin => {
+                    ctx.beginPath(); ctx.arc(coin.c * mazeCellSize + mazeCellSize/2, coin.r * mazeCellSize + mazeCellSize/2, 6, 0, Math.PI*2); ctx.fill();
+                });
+
+                ctx.font = "24px Arial";
+                ctx.fillText("🧒", mazePlayer.x * mazeCellSize + 8, mazePlayer.y * mazeCellSize + 30);
+                ctx.fillText("💀", mazeGhost.x * mazeCellSize + 8, mazeGhost.y * mazeCellSize + 30);
+
+                mazeGhostSpeedTimer++;
+                if(mazeGhostSpeedTimer % 35 === 0) { processChenMazeLogicEvaluation(); }
+                requestAnimationFrame(gameLoop); return;
+            }
+
+            if (currentGameMode === "flappy") {
+                fpVelocity += fpGravity; runner.y += fpVelocity;
+                fpFrameCounter++;
+                if (fpFrameCounter % 90 === 0) {
+                    let clearanceGap = 120;
+                    let targetHeight = Math.floor(Math.random() * (canvas.height - 200)) + 40;
+                    fpPipes.push({ x: canvas.width, topHeight: targetHeight, bottomY: targetHeight + clearanceGap, w: 55, passed: false });
+                }
+
+                ctx.fillStyle = "#2ed573";
+                for (let p = fpPipes.length - 1; p >= 0; p--) {
+                    let pipe = fpPipes[p]; pipe.x -= 3.5;
+                    ctx.fillRect(pipe.x, 0, pipe.w, pipe.topHeight);
+                    ctx.lineWidth = 2; ctx.strokeStyle = "#ffffff"; ctx.strokeRect(pipe.x, 0, pipe.w, pipe.topHeight);
+                    ctx.fillRect(pipe.x, pipe.bottomY, pipe.w, canvas.height - pipe.bottomY); ctx.strokeRect(pipe.x, pipe.bottomY, pipe.w, canvas.height - pipe.bottomY);
+
+                    if (runner.x + runner.w > pipe.x && runner.x < pipe.x + pipe.w) {
+                        if (runner.y < pipe.topHeight || runner.y + runner.h > pipe.bottomY) {
+                            gameRunning = false; 
+                            triggerCustomNotification("💥 FLIGHT TERMINATED!", "#ff4757", () => {
+                                gameScreen.classList.add('hidden');
+                            });
+                            return;
+                        }
+                    }
+
+                    if (!pipe.passed && pipe.x < runner.x) {
+                        pipe.passed = true; distance++; cash += 1; updateGlobalCash();
+                        document.getElementById('distance-val').innerText = distance;
+                    }
+                    if (pipe.x + pipe.w < 0) fpPipes.splice(p, 1);
+                }
+
+                if (runner.y > canvas.height || runner.y < -40) {
+                    gameRunning = false; 
+                    triggerCustomNotification("💥 BOUNDS CRASH BOUNDARY!", "#ff4757", () => {
+                        gameScreen.classList.add('hidden');
+                    });
+                    return;
+                }
+
+                ctx.font = "26px Arial"; ctx.fillText("🛩️", runner.x, runner.y + 18);
+                requestAnimationFrame(gameLoop); return;
+            }
+
+            if (currentGameMode === "farm") {
+                ctx.fillStyle = '#f1c40f'; ctx.fillRect(wheatField.x, wheatField.y, wheatField.w, wheatField.h);
+                ctx.fillStyle = '#27ae60'; ctx.fillRect(wheatField.x - 4, wheatField.y + wheatField.h - 4, wheatField.w + 8, 5);
+                ctx.font = "20px Arial"; ctx.fillText("🌾 🌾 🌾", wheatField.x + 6, wheatField.y + 26);
+
+                fences.forEach((f, idx) => {
+                    if (!f) return;
+                    if (f.locked) {
+                        ctx.fillStyle = 'rgba(139, 69, 19, 0.4)'; ctx.fillRect(f.x, f.y, f.w, f.h);
+                        ctx.lineWidth = 2; ctx.strokeStyle = '#d63031'; ctx.strokeRect(f.x, f.y, f.w, f.h);
+                        ctx.fillStyle = '#ffffff'; ctx.font = "12px sans-serif"; ctx.fillText(`🔒 Plot ${idx+1}`, f.x + 16, f.y + 35);
+                        ctx.fillText("$150", f.x + 24, f.y + 55);
+                    } else {
+                        ctx.fillStyle = '#2ed573'; ctx.fillRect(f.x + 3, f.y + 3, f.w - 6, f.h - 6);
+                        ctx.lineWidth = 4; ctx.strokeStyle = '#8b4513'; ctx.strokeRect(f.x, f.y, f.w, f.h);
+                        if (f.pet) {
+                            ctx.font = "24px Arial"; ctx.fillText(f.pet, f.x + f.w/2 - 12, f.y + f.h/2 + 2);
+                            ctx.fillStyle = '#121212'; ctx.font = "bold 10px Arial"; ctx.fillText(`Lv.${f.age} (${f.xp}%)`, f.x + 8, f.y + f.h - 8);
+                        } else { ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = "10px sans-serif"; ctx.fillText(`Plot ${idx+1} Empty`, f.x + 8, f.y + 45); }
+                    }
+                });
+
+                let dx = runner.targetX - runner.x; let dy = runner.targetY - runner.y; let distVec = Math.hypot(dx, dy);
+                if (distVec > 3) { runner.x += (dx / distVec) * runner.speed; runner.y += (dy / distVec) * runner.speed; } 
+
+                ctx.font = "26px Arial"; ctx.fillText("👨‍🌾", runner.x, runner.y + 22);
+                requestAnimationFrame(gameLoop); return;
+            }
+
+            if(runner.moveLeft && runner.x > 0) runner.x -= runner.speed;
+            if(runner.moveRight && runner.x < canvas.width - runner.w) runner.x += runner.speed;
+
+            ctx.fillStyle = '#00a8ff'; ctx.beginPath(); ctx.arc(runner.x + 15, runner.y + 15, 15, 0, Math.PI*2); ctx.fill();
+
+            if(currentGameMode === "laser") {
+                distance += 1; document.getElementById('distance-val').innerText = String(distance).padStart(6, '0');
+                let spawnChance = 0.035 + (distance * 0.00004);
+                if(Math.random() < Math.min(spawnChance, 0.15)) {
+                    obstacles.push({
+                        x: Math.random() * (canvas.width - 50), y: -20, w: Math.random() * 60 + 30, h: 14,
+                        speed: 5.5 + (distance * 0.001) + Math.random() * 3.5
+                    });
+                }
+                for(let i = obstacles.length - 1; i >= 0; i--) {
+                    let o = obstacles[i]; o.y += o.speed;
+                    ctx.fillStyle = '#ff4757'; ctx.fillRect(o.x, o.y, o.w, o.h);
+                    if (o.x < runner.x + runner.w && o.x + o.w > runner.x && o.y < runner.y + runner.h && o.y + o.h > runner.y) {
+                        gameRunning = false; cash += distance; updateGlobalCash();
+                        triggerCustomNotification(`💥 CRASHED!\n\nDistance Cleared: ${distance}\nEarned: +$${distance}`, "#ff4757", () => {
+                            gameScreen.classList.add('hidden');
+                        });
+                        return;
+                    }
+                    if(o.y > canvas.height) obstacles.splice(i, 1);
+                }
+            } 
+            else if(currentGameMode === "train") {
+                let train = obstacles[0]; let currentTime = Date.now();
+                if (isTrainAlertActive) {
+                    let remaining = Math.ceil((alertEndTime - currentTime) / 1000);
+                    if (remaining > 0) { document.getElementById('alert-timer-label').innerText = "⚠️ Train Close! " + remaining + "s"; train.targetY = runner.y + 35; } 
+                    else { isTrainAlertActive = false; document.getElementById('alert-timer-label').innerText = ""; train.targetY = canvas.height + 120; }
+                } else { train.targetY = canvas.height + 120; }
+
+                train.y += (train.targetY - train.y) * 0.1;
+                if(train.x + train.w/2 < runner.x + 15) train.x += 3.5; else train.x -= 3.5;
+
+                ctx.fillStyle = '#4b4b4b'; ctx.fillRect(train.x, train.y, train.w, train.h);
+                ctx.fillStyle = '#ff4757'; ctx.fillRect(train.x - 2, train.y, train.w + 4, 10);
+                ctx.fillStyle = '#ff9f43'; ctx.fillRect(train.x + 10, train.y + 15, 12, 10); ctx.fillRect(train.x + train.w - 22, train.y + 15, 12, 10);
+
+                if(Math.random() < 0.025 && activeCoins.length < 4) activeCoins.push({ x: Math.random() * (canvas.width - 40) + 20, y: -10, r: 8, speed: 3 });
+                if(Math.random() < 0.015 && activeBushes.length < 3) activeBushes.push({ x: Math.random() * (canvas.width - 45) + 10, y: -20, w: 35, h: 25, speed: 3.5 });
+
+                for(let c = activeCoins.length - 1; c >= 0; c--) {
+                    let coin = activeCoins[c]; coin.y += coin.speed;
+                    ctx.fillStyle = '#ffd32a'; ctx.beginPath(); ctx.arc(coin.x, coin.y, coin.r, 0, Math.PI*2); ctx.fill();
+                    if(Math.hypot((runner.x + 15) - coin.x, (runner.y + 15) - coin.y) < 15 + coin.r) {
+                        activeCoins.splice(c, 1); distance += 1; cash += 5; updateGlobalCash();
+                        document.getElementById('distance-val').innerText = distance; continue;
+                    }
+                    if(coin.y > canvas.height) activeCoins.splice(c, 1);
+                }
+
+                for(let b = activeBushes.length - 1; b >= 0; b--) {
+                    let bush = activeBushes[b]; bush.y += bush.speed;
+                    ctx.fillStyle = '#2ed573'; ctx.beginPath(); ctx.arc(bush.x + 10, bush.y + 12, 12, 0, Math.PI*2); ctx.arc(bush.x + 25, bush.y + 12, 12, 0, Math.PI*2); ctx.arc(bush.x + 17, bush.y + 6, 12, 0, Math.PI*2); ctx.fill();
+                    if (bush.x < runner.x + runner.w && bush.x + bush.w > runner.x && bush.y < runner.y + runner.h && bush.y + bush.h > runner.y) {
+                        activeBushes.splice(b, 1); 
+                        if (!isTrainAlertActive) { isTrainAlertActive = true; alertEndTime = Date.now() + 5000; } 
+                        else { 
+                            gameRunning = false; 
+                            triggerCustomNotification("🚂 CHASED DOWN BY TRAIN!", "#ff4757", () => {
+                                gameScreen.classList.add('hidden');
+                            });
+                            return; 
+                        }
+                        continue;
+                    }
+                    if(bush.y > canvas.height) activeBushes.splice(b, 1);
+                }
+                if (train.y <= runner.y + runner.h && train.y + train.h >= runner.y && train.x < runner.x + runner.w && train.x + train.w > runner.x) {
+                    gameRunning = false; 
+                    triggerCustomNotification("🚂 TRAIN COLLISION STATE TARGETED!", "#ff4757", () => {
+                        gameScreen.classList.add('hidden');
+                    });
+                    return;
+                }
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
     </script>
 </body>
 </html>
