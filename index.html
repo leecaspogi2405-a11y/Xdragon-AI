@@ -3,169 +3,1370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xdragon 3D Arcade Prototype</title>
+    <title>Xdragon Web Shop & 3D Arcade Matrix</title>
     <style>
         body {
             margin: 0;
-            background-color: #121212;
+            background-color: #09090b;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            user-select: none;
+            -webkit-user-select: none;
         }
-        #ui-overlay {
+
+        #webgl-engine-container {
             position: absolute;
-            top: 20px;
-            z-index: 10;
-            display: flex;
-            gap: 20px;
-            background: rgba(30,30,30,0.85);
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 2px solid #ff4757;
-        }
-        #threejs-container {
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
+            z-index: 1;
+        }
+
+        .heads-up-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 30, 35, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 14px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        .brand-meta h1 {
+            margin: 0;
+            font-size: 1.15rem;
+            color: #ff4757;
+            text-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+        }
+
+        .manual-trigger {
+            background: none;
+            border: none;
+            color: #2ed573;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .currency-badge {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+        }
+
+        .arcade-cabinet-interface {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 440px;
+            background: rgba(20, 20, 25, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 2px solid #ff4757;
+            padding: 24px;
+            box-sizing: border-box;
+            z-index: 5;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .hidden { display: none !important; }
+
+        .btn-primary {
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background: #ff6b81; }
+
+        .game-selection-matrix {
+            position: absolute;
+            right: 20px;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+            max-height: 75vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .nav-card {
+            background: rgba(30, 30, 35, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            min-width: 120px;
+            transition: all 0.2s;
+        }
+        .nav-card:hover, .nav-card.active {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.15);
+            transform: translateX(-5px);
+        }
+
+        .nav-card h3 { margin: 0 0 4px 0; font-size: 0.75rem; color: #a4b0be; text-transform: uppercase; }
+        .nav-card p { margin: 0; font-size: 1.1rem; font-weight: bold; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+
+        .panel-modal {
+            background: #1e1e24;
+            border: 2px solid #ff4757;
+            border-radius: 20px;
+            width: 90%; max-width: 400px;
+            padding: 30px; box-sizing: border-box;
+        }
+
+        .panel-modal h2 { margin-top: 0; color: #ff4757; text-align: center; }
+
+        .controller-touch-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            z-index: 15;
+        }
+
+        .touch-node {
+            width: 75px; height: 75px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; font-weight: bold;
+            color: white; backdrop-filter: blur(4px);
+        }
+
+        .interactive-overlay-surface {
+            position: absolute;
+            top: 110px;
+            left: 30px;
+            z-index: 10;
+            background: rgba(15, 15, 20, 0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 16px;
+            width: 280px;
+            max-height: 60vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .ticker-hud {
+            font-family: monospace;
+            background: #0b0b0d;
+            border: 1px solid #2ed573;
+            color: #2ed573;
+            padding: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 12px;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-    <div id="ui-overlay">
-        <div>Score: <span id="score-val">0</span></div>
-        <div>Controls: Use A / D or Left / Right Arrows</div>
+    <div id="webgl-engine-container"></div>
+
+    <div class="heads-up-display">
+        <div class="brand-meta">
+            <h1>🎮 XDRAGON 3D ARCADE</h1>
+            <button class="manual-trigger" id="btn-manual">System Operations Manual</button>
+        </div>
+        <div class="currency-badge">💰 $<span id="hud-cash">0</span></div>
     </div>
 
-    <div id="threejs-container"></div>
+    <div class="game-selection-matrix" id="selection-tower">
+        <div class="nav-card active" data-mode="shop"><h3>Vendor</h3><p>🛍️ Core Shop</p></div>
+        <div class="nav-card" data-mode="laser"><h3>Laser Game</h3><p>⚡ Matrix</p></div>
+        <div class="nav-card" data-mode="train"><h3>Train Game</h3><p>🚂 Chase</p></div>
+        <div class="nav-card" data-mode="farm"><h3>Farm Simulator</h3><p>🌾 Fields</p></div>
+        <div class="nav-card" data-mode="burger"><h3>Burger Bomb</h3><p>🍔 Mines</p></div>
+        <div class="nav-card" data-mode="jet"><h3>Jet Shooter</h3><p>🚀 Fighter</p></div>
+        <div class="nav-card" data-mode="chen"><h3>Maze Runner</h3><p>👻 Corridor</p></div>
+        <div class="nav-card" data-mode="flappy"><h3>Flappy Plane</h3><p>🛩️ Flight</p></div>
+        <div class="nav-card" data-mode="guess"><h3>Guess Number</h3><p>🔮 Oracle</p></div>
+        <div class="nav-card" data-mode="restaurant"><h3>Restaurant</h3><p>🧑‍🍳 Kitchen</p></div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div class="interactive-overlay-surface hidden" id="ui-left-surface">
+        <div id="surface-content-injector"></div>
+    </div>
+
+    <div class="arcade-cabinet-interface" id="shop-deck">
+        <div style="text-align: center; margin-bottom: 12px;">
+            <h2 style="color: #ff4757; margin: 0 0 6px 0; font-size: 1.6rem;">Strawberry Elephant</h2>
+            <p style="color: #a4b0be; margin: 0; font-size: 0.9rem;">Ultra-rare inventory token asset payload instance structure loop.</p>
+            <h3 style="color: #2ed573; margin: 12px 0; font-size: 1.8rem;">💰 $25,000</h3>
+        </div>
+        <button class="btn-primary" id="btn-purchase-item">PRODUCE QUANTUM ASSET TOKEN</button>
+        <div id="shop-token-output" class="hidden" style="margin-top:12px; font-family:monospace; color:#2ed573; border:1px dashed #2ed573; padding:10px; text-align:center; font-size:0.85rem; word-break:break-all;"></div>
+    </div>
+
+    <div class="controller-touch-bar hidden" id="touch-controller-deck">
+        <div class="touch-node" id="ctrl-left">◀</div>
+        <div class="touch-node" id="ctrl-action">🎮</div>
+        <div class="touch-node" id="ctrl-right">▶</div>
+    </div>
+
+    <div class="modal-overlay hidden" id="manual-modal">
+        <div class="panel-modal">
+            <h2>📜 OPERATIONS MANUAL</h2>
+            <div style="max-height: 50vh; overflow-y: auto; font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; padding-right: 5px;">
+                <p><strong>1. CORE VENDOR:</strong> Purchase items via cash reserves. Generates immutable cryptographic string hashes.</p>
+                <p><strong>2. LASER MATRIX:</strong> 3D vertical kinetic workspace dodge. Avoid crimson beams descending down track lines.</p>
+                <p><strong>3. TRAIN CHASE:</strong> Gather gold tokens. Hitting a natural wall flora obstacle triggers a rear-bound high-speed locomotive chase script block.</p>
+                <p><strong>4. FARM FIELDS:</strong> Click dynamic geometric field parcels. Grow pets, update matrix plots, apply wheat resources.</p>
+                <p><strong>5. BURGER BOMB:</strong> Local node matching selection topology matrix grid. Map hidden explosives, sweep sector matrices safely.</p>
+                <p><strong>6. JET FIGHTER:</strong> Auto-fire horizontal sweeping projectile system map workspace stack vectors. Eliminate hostiles.</p>
+                <p><strong>7. MAZE CORRIDOR:</strong> Orthogonal vector shifts. Outmaneuver tracking phantom AI entities across corridors loop.</p>
+                <p><strong>8. FLAPPY PLANE:</strong> Maintain rhythmic hover states via continuous vertical force allocations.</p>
+                <p><strong>9. GUESS ORACLE:</strong> Deduce target constants from numeric binary bounds fields.</p>
+                <p><strong>10. RESTAURANT KITCHEN:</strong> Assemble multi-part inventory recipe vectors matching requested client stack configurations.</p>
+            </div>
+            <button class="btn-primary" id="btn-manual-close" style="margin-top: 20px; padding: 12px;">ACKNOWLEDGE SYSTEM PARAMETERS</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="notification-overlay-system">
+        <div class="panel-modal" style="text-align: center; border-color: #ffa502;" id="note-border-node">
+            <p id="note-text-node" style="font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; white-space: pre-line;"></p>
+            <button class="btn-primary" id="btn-note-ok" style="background: #2ed573; padding: 10px 30px; width: auto;">EXECUTE</button>
+        </div>
+    </div>
 
     <script>
-        // --- 1. CORE SETUP SETUP ENGINE CONFIGURATION ---
-        const container = document.getElementById('threejs-container');
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x121212);
-        scene.fog = new THREE.FogExp2(0x121212, 0.015); // Adds a smooth depth fog atmosphere
+        // Data and Core Persistence Architectures
+        let cash = parseInt(localStorage.getItem("X3D_Cash")) || 5000; // Default buffer allocation for convenient staging verification
+        let currentMode = "shop";
+        let activeScore = 0;
+        let gameActive = false;
+        let wheatInventory = parseInt(localStorage.getItem("X3D_Wheat")) || 0;
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
+        // 3D Engine Core Properties
+        let scene, camera, renderer, raycaster, mouse;
+        let environmentLights = [], gameplayEntitiesGroup;
+        let machineCoreMesh; 
 
-        // --- 2. GAME VARIABLES & GROUND WORK STRUCTURE ---
-        let score = 0;
-        let gameRunning = true;
-        let obstacles = [];
-        const laneWidth = 4;
+        // Shared Input Vector Struct States
+        let inputState = { left: false, right: false, action: false };
 
-        // Add Ambient & Directional Neon Lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-        scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xff4757, 0.8);
-        directionalLight.position.set(0, 10, 5);
-        scene.add(directionalLight);
+        // Initialization Hooks
+        const hudCash = document.getElementById("hud-cash");
+        const selectionTower = document.getElementById("selection-tower");
+        const shopDeck = document.getElementById("shop-deck");
+        const uiLeftSurface = document.getElementById("ui-left-surface");
+        const surfaceInjector = document.getElementById("surface-content-injector");
+        const touchControllerDeck = document.getElementById("touch-controller-deck");
 
-        // Create 3D Track Run Way Plane (Ground grid)
-        const trackGeometry = new THREE.PlaneGeometry(14, 500);
-        const trackMaterial = new THREE.MeshBasicMaterial({ color: 0x1e1e1e, side: THREE.DoubleSide });
-        const track = new THREE.Mesh(trackGeometry, trackMaterial);
-        track.rotation.x = Math.PI / 2; // Lay flat
-        track.position.z = -200;
-        scene.add(track);
-
-        // Grid overlay helper line indicator grid map
-        const gridHelper = new THREE.GridHelper(500, 100, 0xff4757, 0x444444);
-        gridHelper.position.y = 0.01;
-        gridHelper.position.z = -200;
-        scene.add(gridHelper);
-
-        // --- 3. CREATE PLAYER ELEMENT (A Neon 3D Sphere Core) ---
-        const playerGeometry = new THREE.SphereGeometry(1, 32, 32);
-        const playerMaterial = new THREE.MeshStandardMaterial({ color: 0x00a8ff, roughness: 0.2, metalness: 0.5 });
-        const player = new THREE.Mesh(playerGeometry, playerMaterial);
-        player.position.set(0, 1, -5); // Position slightly above the grid map runway track
-        scene.add(player);
-
-        // Camera Tracking Profile Offset Viewpoint LookAt Position Setup
-        camera.position.set(0, 6, 3);
-        camera.lookAt(player.position.x, player.position.y + 1, player.position.z - 5);
-
-        // --- 4. PLAYER MOVEMENT MECHANICS EVENT TRACKERS ---
-        let inputDirection = 0;
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'a' || e.key === 'ArrowLeft') inputDirection = -0.15;
-            if (e.key === 'd' || e.key === 'ArrowRight') inputDirection = 0.15;
-        });
-        window.addEventListener('keyup', () => inputDirection = 0);
-
-        // --- 5. ENEMY OBSTACLE INJECTION VECTOR MECHANICS ---
-        function spawnLaserWall() {
-            if(!gameRunning) return;
-            const width = Math.random() * 4 + 2;
-            const obstacleGeometry = new THREE.BoxGeometry(width, 0.8, 1);
-            const obstacleMaterial = new THREE.MeshStandardMaterial({ color: 0xff4757, emissive: 0xff4757, emissiveIntensity: 0.5 });
-            const obsMesh = new THREE.Mesh(obstacleGeometry, obstacleMaterial);
-
-            // Choose random placement vector
-            obsMesh.position.set((Math.random() - 0.5) * 10, 0.4, -150);
-            scene.add(obsMesh);
-            obstacles.push(obsMesh);
-
-            // Re-call execution queue recursively with slight variability
-            setTimeout(spawnLaserWall, Math.max(400, 1500 - score * 2));
+        function syncFinancialHUD() {
+            hudCash.innerText = cash;
+            localStorage.setItem("X3D_Cash", cash);
         }
-        spawnLaserWall();
+        syncFinancialHUD();
 
-        // --- 6. REAL-TIME RENDER MECHANICS INTERACTION MATRIX ---
-        function animate() {
-            if (!gameRunning) return;
-            requestAnimationFrame(animate);
+        // System Notification Modal Interceptor Loop
+        let noteCallback = null;
+        function pushSystemAlert(message, borderHex = "#ffa502", callback = null) {
+            document.getElementById("note-text-node").innerText = message;
+            document.getElementById("note-border-node").style.borderColor = borderHex;
+            document.getElementById("notification-overlay-system").classList.remove("hidden");
+            noteCallback = callback;
+        }
+        document.getElementById("btn-note-ok").onclick = () => {
+            document.getElementById("notification-overlay-system").classList.add("hidden");
+            if(noteCallback) { let cb = noteCallback; noteCallback = null; cb(); }
+        };
 
-            // Handle player tracking frame steps boundary limits
-            player.position.x += inputDirection;
-            if (player.position.x > 6) player.position.x = 6;
-            if (player.position.x < -6) player.position.x = -6;
+        // Manual Navigation Events Handling Setup
+        document.getElementById("btn-manual").onclick = () => document.getElementById("manual-modal").classList.remove("hidden");
+        document.getElementById("btn-manual-close").onclick = () => document.getElementById("manual-modal").classList.add("hidden");
 
-            // Track continuous linear progression parameters
-            score++;
-            document.getElementById('score-val').innerText = score;
+        // Vendor Asset Token System Engine Generator
+        document.getElementById("btn-purchase-item").onclick = () => {
+            if(cash >= 25000) {
+                cash -= 25000; syncFinancialHUD();
+                let cryptoToken = "X3D-DRGN-" + Array.from({length:16}, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random()*36)]).join("");
+                let outNode = document.getElementById("shop-token-output");
+                outNode.innerText = `ASSET PAYLOAD ENCRYPTED AUTH HASH:\n${cryptoToken}`;
+                outNode.classList.remove("hidden");
+                pushSystemAlert("Asset runtime token allocated inside local storage segment array architecture.", "#2ed573");
+            } else {
+                pushSystemAlert("Transaction Aborted: Insufficient quantitative financial assets for inventory sequence.", "#ff4757");
+            }
+        };
 
-            // Update & Move 3D Obstacle Elements Towards Player camera view field
-            for (let i = obstacles.length - 1; i >= 0; i--) {
-                let obs = obstacles[i];
-                obs.position.z += 1.2 + (score * 0.0005); // Speed multiplier upscaling smoothly
+        // Standard Universal System Workspace Factory Architecture Initialization
+        function initializeUniversalGraphicsSandbox() {
+            const viewport = document.getElementById("webgl-engine-container");
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a0f);
+            scene.fog = new THREE.FogExp2(0x0a0a0f, 0.015);
 
-                // Box Intersect Bounding Processing Check (Collision Evaluator Core Logic Matrix)
-                let playerBox = new THREE.Box3().setFromObject(player);
-                let obsBox = new THREE.Box3().setFromObject(obs);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 5, 12);
+            camera.lookAt(0, 1.5, 0);
 
-                if (playerBox.intersectsBox(obsBox)) {
-                    gameRunning = false;
-                    alert(`💥 CRASHED AT A DISTANCE OF: ${score} POINTS!`);
-                    location.reload(); // Reload script array back to pristine base vector defaults
-                }
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            viewport.appendChild(renderer.domElement);
 
-                // Cleanup meshes when they slide safely past camera clipping bounds
-                if (obs.position.z > 10) {
-                    scene.remove(obs);
-                    obstacles.splice(i, 1);
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            // Lighting Setup Elements
+            const ambient = new THREE.AmbientLight(0xffffff, 0.2);
+            scene.add(ambient);
+
+            const platformDirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            platformDirLight.position.set(10, 20, 10);
+            platformDirLight.castShadow = true;
+            scene.add(platformDirLight);
+
+            // Construct Aesthetic 3D Cyberpunk Grid Arena Space Floors
+            const structuralFloorGrid = new THREE.GridHelper(100, 50, 0xff4757, 0x1e1e24);
+            structuralFloorGrid.position.y = -0.01;
+            scene.add(structuralFloorGrid);
+
+            // Universal Object Tracking Target Nodes Core Group Allocation Workspace
+            gameplayEntitiesGroup = new THREE.Group();
+            scene.add(gameplayEntitiesGroup);
+
+            // Assemble Centralized Multi-Cabinet Base Machine Visual Frame Representation Anchor
+            const frameGeometry = new THREE.BoxGeometry(4, 6, 2);
+            const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x1c1c24, roughness: 0.4, metalness: 0.8, edgecolor: 0xff4757 });
+            machineCoreMesh = new THREE.Mesh(frameGeometry, frameMaterial);
+            machineCoreMesh.position.set(0, 3, -2);
+            scene.add(machineCoreMesh);
+
+            const marqueeScreenGeom = new THREE.PlaneGeometry(3.6, 2.5);
+            const marqueeScreenMat = new THREE.MeshBasicMaterial({ color: 0x121216 });
+            const screenMeshInstance = new THREE.Mesh(marqueeScreenGeom, marqueeScreenMat);
+            screenMeshInstance.position.set(0, 4.2, -0.95);
+            scene.add(screenMeshInstance);
+
+            window.addEventListener('resize', handleViewportResizingResolution);
+            window.addEventListener('click', handle3DSpaceRaycastInteraction);
+
+            setupInputControlSystemHooks();
+            executeEngineRenderPassLoop();
+        }
+
+        function handleViewportResizingResolution() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Standard Keyboard + Screen Virtual Node Mappings Input Core Handler Map Array
+        function setupInputControlSystemHooks() {
+            window.addEventListener('keydown', (e) => {
+                if(e.key === "a" || e.key === "ArrowLeft") inputState.left = true;
+                if(e.key === "d" || e.key === "ArrowRight") inputState.right = true;
+                if(e.key === " " || e.key === "Enter") inputState.action = true;
+            });
+            window.addEventListener('keyup', (e) => {
+                if(e.key === "a" || e.key === "ArrowLeft") inputState.left = false;
+                if(e.key === "d" || e.key === "ArrowRight") inputState.right = false;
+                if(e.key === " " || e.key === "Enter") inputState.action = false;
+            });
+
+            // Touch Interface Binding Mechanics Setup Loop Map Vector Instance Structures
+            const attachTouchNode = (nodeId, keyProp) => {
+                const el = document.getElementById(nodeId);
+                el.addEventListener('touchstart', (e) => { e.preventDefault(); inputState[keyProp] = true; });
+                el.addEventListener('touchend', (e) => { e.preventDefault(); inputState[keyProp] = false; });
+            };
+            attachTouchNode("ctrl-left", "left");
+            attachTouchNode("ctrl-right", "right");
+            attachTouchNode("ctrl-action", "action");
+        }
+
+        // Modular Switching Terminal System Router Config
+        selectionTower.addEventListener('click', (e) => {
+            const card = e.target.closest(".nav-card");
+            if(!card) return;
+            document.querySelectorAll(".nav-card").forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
+
+            purgeActiveSimulationEntities();
+            currentMode = card.dataset.mode;
+            
+            // Standard GUI Configuration Interface Pipeline States Core Directives
+            shopDeck.classList.add("hidden");
+            uiLeftSurface.classList.add("hidden");
+            touchControllerDeck.classList.add("hidden");
+            gameActive = false;
+
+            // Focus Reset Matrix Vectors Camera Core Viewport Position Alignments Map Array Structure Setup
+            if(currentMode === "shop") {
+                shopDeck.classList.remove("hidden");
+                transformCameraTrackTarget(0, 5, 12, 0, 1.5, 0);
+            } else {
+                transformCameraTrackTarget(0, 4.5, 4, 0, 4.2, -2);
+                initializeTargetGameEngineSubspace(currentMode);
+            }
+        });
+
+        function transformCameraTrackTarget(px, py, pz, tx, ty, tz) {
+            camera.position.set(px, py, pz);
+            camera.lookAt(tx, ty, tz);
+        }
+
+        function purgeActiveSimulationEntities() {
+            while(gameplayEntitiesGroup.children.length > 0){
+                const obj = gameplayEntitiesGroup.children[0];
+                gameplayEntitiesGroup.remove(obj);
+            }
+        }
+
+        // 3D Runtime Global Scene Graph Simulation Processing Loop Step Function Array
+        function executeEngineRenderPassLoop() {
+            requestAnimationFrame(executeEngineRenderPassLoop);
+            const deltaTicks = 0.016; // Fixed timestep standardization vector frame proxy
+
+            if(gameActive) {
+                runActive3DGameSimulationTick(deltaTicks);
+            }
+
+            // Animate idle background visualizer components parameters properties indices configurations arrays
+            if(machineCoreMesh) {
+                if(!gameActive) {
+                    machineCoreMesh.position.y = 3 + Math.sin(Date.now() * 0.0015) * 0.15;
+                } else {
+                    machineCoreMesh.position.y = 3;
                 }
             }
 
             renderer.render(scene, camera);
         }
-        animate();
 
-        // Dynamically Handle Screen/Viewport Scaling Resizes instantly
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        // =========================================================================
+        // MULTI-GAME 3D ENGINE ARCHITECTURAL ENGINE LOGIC SUBSPACE IMPLEMENTATIONS
+        // =========================================================================
+        
+        // Game Engine Tracking Struct References Local Array Context Blocks
+        let localPlayerMesh = null;
+        let internalEntitiesArray = [];
+        let executionSpawnTimer = 0;
+        let internalStateTracker = {};
+
+        function initializeTargetGameEngineSubspace(mode) {
+            purgeActiveSimulationEntities();
+            internalEntitiesArray = [];
+            executionSpawnTimer = 0;
+            activeScore = 0;
+            internalStateTracker = {};
+            uiLeftSurface.classList.remove("hidden");
+            
+            // Generate Screen Boundaries Backplate Playfield Grid Reference Wireframe Boxes
+            const playBoundsWireframeMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(3.2, 2.2, 4),
+                new THREE.MeshBasicMaterial({ color: 0xff4757, wireframe: true, transparent: true, opacity: 0.15 })
+            );
+            playBoundsWireframeMesh.position.set(0, 4.2, -1.5);
+            gameplayEntitiesGroup.add(playBoundsWireframeMesh);
+
+            // Construct 3D Representative Object Mesh Node Structures Framework
+            if(["laser", "train", "jet", "flappy"].includes(mode)) {
+                touchControllerDeck.classList.remove("hidden");
+                
+                let geometryForm = mode === "flappy" ? new THREE.ConeGeometry(0.08, 0.25, 8) : new THREE.BoxGeometry(0.15, 0.15, 0.15);
+                let matForm = new THREE.MeshStandardMaterial({ color: 0x00d2d3, emissive: 0x00a8ff });
+                localPlayerMesh = new THREE.Mesh(geometryForm, matForm);
+                
+                if(mode === "flappy") {
+                    localPlayerMesh.rotation.z = Math.PI / 2;
+                    localPlayerMesh.position.set(-1, 4.2, -0.5);
+                } else {
+                    localPlayerMesh.position.set(0, 3.3, -0.5);
+                }
+                gameplayEntitiesGroup.add(localPlayerMesh);
+                gameActive = true;
+            }
+
+            // Map and Deploy Concrete Game Sub-modes Dynamic HUD Structural Components Loops
+            if(mode === "laser") {
+                surfaceInjector.innerHTML = `
+                    <h3>⚡ LASER MATRIX</h3>
+                    <div class="ticker-hud">SYSTEM: READY</div>
+                    <p style="font-size:0.85rem; color:#a4b0be;">Score Level Trace: <span id='game-hud-score'>0</span></p>
+                `;
+            } 
+            else if(mode === "train") {
+                internalStateTracker.isAlertActive = false;
+                internalStateTracker.alertEnds = 0;
+                
+                // Append Locomotive Agent Mesh Node Representational Staging Core Geometry Object
+                let locomotiveGroup = new THREE.Group();
+                let bodyMesh = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.8), new THREE.MeshStandardMaterial({color: 0x4b4b4b}));
+                let cabinMesh = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.3, 0.35), new THREE.MeshStandardMaterial({color: 0xff4757}));
+                cabinMesh.position.set(0, 0.2, -0.2);
+                locomotiveGroup.add(bodyMesh, cabinMesh);
+                locomotiveGroup.position.set(0, 3.3, -3.2); // Sits at back of simulation tray array map zone
+                gameplayEntitiesGroup.add(locomotiveGroup);
+                internalStateTracker.trainMeshRef = locomotiveGroup;
+
+                surfaceInjector.innerHTML = `
+                    <h3>🚂 TRAIN CHASE 3D</h3>
+                    <div class="ticker-hud" id="train-status-ticker">TRACK SECURE</div>
+                    <p style="font-size:0.85rem; color:#a4b0be;">Tokens Harvested: <span id='game-hud-score'>0</span></p>
+                `;
+            }
+            else if(mode === "farm") {
+                touchControllerDeck.classList.add("hidden");
+                surfaceInjector.innerHTML = `
+                    <h3>🌾 3D FARM MATRIX</h3>
+                    <div class="ticker-hud">WHEAT STOCK: ${wheatInventory}</div>
+                    <div id="farm-dynamic-deck">Click on grid parcels inside machine array view to step tracking properties loops.</div>
+                `;
+                build3DFarmFieldsSpatialGraph();
+            }
+            else if(mode === "burger") {
+                touchControllerDeck.classList.add("hidden");
+                surfaceInjector.innerHTML = `
+                    <h3>🍔 BURGER BOMB 3D</h3>
+                    <div class="ticker-hud" id="burger-hud-alert">SETUP PHASE: DEPLOY 3 MINES</div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:10px;">
+                        <span id="burger-p1-h">YOU: ❤️❤️❤️</span>
+                        <span id="burger-p2-h">BOT: ❤️❤️❤️</span>
+                    </div>
+                    <button class="btn-primary" id="btn-burger-radar" style="font-size:0.8rem; padding:8px; margin-bottom:10px;">Buy Intel Radar (-$1500)</button>
+                    <div id="burger-interactive-log" style="font-size:0.75rem; color:#2ed573; max-height:80px; overflow-y:auto; font-family:monospace;">System primed. Click grid blocks inside screen mesh.</div>
+                `;
+                build3DBurgerBombSimulationBoard();
+            }
+            else if(mode === "jet") {
+                surfaceInjector.innerHTML = `
+                    <h3>🚀 JET FIGHTER STACK</h3>
+                    <div class="ticker-hud">DEFENSE ENVELOPE HIGH ALIGNMENT</div>
+                    <p style="font-size:0.85rem; color:#a4b0be;">Aliens Neutralized: <span id='game-hud-score'>0</span></p>
+                `;
+            }
+            else if(mode === "chen") {
+                touchControllerDeck.classList.add("hidden");
+                surfaceInjector.innerHTML = `
+                    <h3>👻 MAZE TRACKER CORRIDOR</h3>
+                    <div class="ticker-hud" id="chen-ticker">CLICK CORRIDORS TO SHIFT POSITION MATRIX</div>
+                    <p style="font-size:0.85rem; color:#a4b0be;">Tokens Kept: <span id='game-hud-score'>0</span></p>
+                `;
+                build3DChenMazeGraphGridStructure();
+            }
+            else if(mode === "flappy") {
+                surfaceInjector.innerHTML = `
+                    <h3>🛩️ FLAPPY FLIGHT 3D</h3>
+                    <div class="ticker-hud">TAP CTR ACTION OR SPACE TO JUMP</div>
+                    <p style="font-size:0.85rem; color:#a4b0be;">Altitude Clearance: <span id='game-hud-score'>0</span></p>
+                `;
+                internalStateTracker.velocity = 0;
+            }
+            else if(mode === "guess") {
+                touchControllerDeck.classList.add("hidden");
+                surfaceInjector.innerHTML = `
+                    <h3>🔮 ORACLE BINARY SECTOR</h3>
+                    <div class="ticker-hud" id="guess-ticker-status">INITIALIZING TARGET FIELD CODE</div>
+                    <div id="guess-injection-matrix-deck" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:4px; max-height:180px; overflow-y:auto; background:#0e0e12; padding:6px; border-radius:6px;"></div>
+                `;
+                build3DGuessGameMatrixGridStructure();
+            }
+            else if(mode === "restaurant") {
+                touchControllerDeck.classList.add("hidden");
+                surfaceInjector.innerHTML = `
+                    <h3>🧑‍🍳 CLOUDE RESTAURANT 3D</h3>
+                    <div class="ticker-hud" id="rest-order-badge">TICKET: Loading...</div>
+                    <div style="font-size:0.8rem; color:#ffa502; margin-bottom:6px; font-weight:bold;">Kitchen Ingredient Assembly Array:</div>
+                    <div id="rest-ingredients-rack" style="display:grid; grid-template-columns: repeat(4,1fr); gap:4px; margin-bottom:10px;"></div>
+                    <div style="font-size:0.75rem; color:#888;">Mixing Bowl State Node:</div>
+                    <div id="rest-bowl-node" style="background:#111; padding:6px; border-radius:4px; min-height:24px; text-align:center; font-size:1.1rem; margin-bottom:10px; border:1px dashed #444;">[Empty]</div>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn-primary" onclick="window.clear3DRestaurantBowl()" style="background:#747d8c; padding:8px; font-size:0.9rem;">Clear</button>
+                        <button class="btn-primary" onclick="window.serve3DRestaurantOrder()" style="background:#2ed573; padding:8px; font-size:0.9rem;">SERVE</button>
+                    </div>
+                `;
+                build3DRestaurantKitchenWorkspace();
+            }
+        }
+
+        // Processing Continuous Delta Framework Updates Core Target Iteration Loops Arrays
+        function runActive3DGameSimulationTick(dt) {
+            executionSpawnTimer += dt;
+            const scoreLabel = document.getElementById("game-hud-score");
+
+            // Define Global Dynamic Boundaries
+            const horizontalLimitBound = 1.4;
+
+            if(currentMode === "laser") {
+                activeScore += 1;
+                if(scoreLabel) scoreLabel.innerText = activeScore;
+
+                // Move Player based on dynamic inputs maps
+                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.0 * dt;
+                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.0 * dt;
+
+                // Spawn Cylindrical Laser Node Elements down the track Z line vectors
+                if(executionSpawnTimer > 0.12) {
+                    executionSpawnTimer = 0;
+                    let laserGeom = new THREE.CylinderGeometry(0.04, 0.04, 0.4, 6);
+                    let laserMat = new THREE.MeshBasicMaterial({ color: 0xff4757 });
+                    let laserMesh = new THREE.Mesh(laserGeom, laserMat);
+                    laserMesh.rotation.x = Math.PI / 2;
+                    laserMesh.position.set((Math.random() * 2.8) - 1.4, (Math.random() * 1.8) + 3.2, -3.5);
+                    gameplayEntitiesGroup.add(laserMesh);
+                    internalEntitiesArray.push({ mesh: laserMesh, type: "laser", speed: 4.5 });
+                }
+
+                // Object Iteration System Updates Pipeline Map Trace Loop Arrays
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i];
+                    ent.mesh.position.z += ent.speed * dt;
+
+                    // Evaluate Core Intersection Vector Spaces Matrix Collision State Loop Parameters Properties
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.22) {
+                        gameActive = false;
+                        cash += activeScore; syncFinancialHUD();
+                        pushSystemAlert(`💥 KINETIC LASER INTERACTION SHUTDOWN!\nScore Vector Frame Captured: ${activeScore}\nQuantitative Cash Transferred: +$${activeScore}`, "#ff4757");
+                        return;
+                    }
+
+                    if(ent.mesh.position.z > 0.5) {
+                        gameplayEntitiesGroup.remove(ent.mesh);
+                        internalEntitiesArray.splice(i, 1);
+                    }
+                }
+            }
+            else if(currentMode === "train") {
+                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.2 * dt;
+                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.2 * dt;
+
+                let trainControl = internalStateTracker;
+                let tMesh = trainControl.trainMeshRef;
+
+                if(trainControl.isAlertActive) {
+                    let timeLeft = trainControl.alertEnds - Date.now();
+                    document.getElementById("train-status-ticker").innerText = `⚠️ INCOMING LOCOMOTIVE: ${Math.ceil(timeLeft/1000)}s`;
+                    document.getElementById("train-status-ticker").style.color = "#ffa502";
+                    
+                    // Trace Intercept Vector Target Paths towards Tracking Player Nodes Core X positions
+                    tMesh.position.z += ( (-0.6) - tMesh.position.z ) * 0.08;
+                    tMesh.position.x += ( localPlayerMesh.position.x - tMesh.position.x ) * 0.05;
+
+                    if(tMesh.position.distanceTo(localPlayerMesh.position) < 0.35) {
+                        gameActive = false;
+                        pushSystemAlert("🚂 REAR-BOUND TRAIN CHASE INTERCEPT COMPLETE: RUNTIME DESTROYED.", "#ff4757");
+                        return;
+                    }
+
+                    if(timeLeft <= 0) {
+                        trainControl.isAlertActive = false;
+                        document.getElementById("train-status-ticker").innerText = "TRACK SECURE";
+                        document.getElementById("train-status-ticker").style.color = "#2ed573";
+                    }
+                } else {
+                    tMesh.position.z += ( (-3.2) - tMesh.position.z ) * 0.05;
+                }
+
+                // Random Target Generation for Spawning Coins and Green Shrub Obstacle Vectors
+                if(executionSpawnTimer > 0.4) {
+                    executionSpawnTimer = 0;
+                    let isFloraObstacle = Math.random() < 0.4;
+                    let geom = isFloraObstacle ? new THREE.SphereGeometry(0.12, 8, 8) : new THREE.TorusGeometry(0.08, 0.02, 4, 12);
+                    let mat = isFloraObstacle ? new THREE.MeshStandardMaterial({color:0x2ed573}) : new THREE.MeshStandardMaterial({color:0xffd32a, metalness:0.9});
+                    let itemMesh = new THREE.Mesh(geom, mat);
+                    itemMesh.position.set((Math.random() * 2.6) - 1.3, 3.3, -3.5);
+                    gameplayEntitiesGroup.add(itemMesh);
+                    internalEntitiesArray.push({ mesh: itemMesh, type: isFloraObstacle ? "bush" : "coin", speed: 3.0 });
+                }
+
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i];
+                    ent.mesh.position.z += ent.speed * dt;
+
+                    if(ent.mesh.position.distanceTo(localPlayerMesh.position) < 0.25) {
+                        if(ent.type === "coin") {
+                            activeScore += 1; cash += 5; syncFinancialHUD();
+                            if(scoreLabel) scoreLabel.innerText = activeScore;
+                        } else {
+                            if(!trainControl.isAlertActive) {
+                                trainControl.isAlertActive = true;
+                                trainControl.alertEnds = Date.now() + 5000;
+                            } else {
+                                gameActive = false;
+                                pushSystemAlert("🚂 DUAL BOUND LOCOMOTIVE IMPACT TRACK COLLISION TRACE RECORDED.", "#ff4757");
+                                return;
+                            }
+                        }
+                        gameplayEntitiesGroup.remove(ent.mesh);
+                        internalEntitiesArray.splice(i, 1);
+                        continue;
+                    }
+
+                    if(ent.mesh.position.z > 0.5) {
+                        gameplayEntitiesGroup.remove(ent.mesh);
+                        internalEntitiesArray.splice(i, 1);
+                    }
+                }
+            }
+            else if(currentMode === "jet") {
+                if(inputState.left && localPlayerMesh.position.x > -horizontalLimitBound) localPlayerMesh.position.x -= 2.0 * dt;
+                if(inputState.right && localPlayerMesh.position.x < horizontalLimitBound) localPlayerMesh.position.x += 2.0 * dt;
+
+                // Automatic Weapon Projectile Firing Output Loop Mapping Setup Trace
+                if(executionSpawnTimer > 0.15) {
+                    let bulletGeom = new THREE.BoxGeometry(0.02, 0.02, 0.15);
+                    let bulletMat = new THREE.MeshBasicMaterial({color:0xffff00});
+                    let bMesh = new THREE.Mesh(bulletGeom, bulletMat);
+                    bMesh.position.set(localPlayerMesh.position.x, localPlayerMesh.position.y, localPlayerMesh.position.z - 0.1);
+                    gameplayEntitiesGroup.add(bMesh);
+                    internalEntitiesArray.push({ mesh: bMesh, type: "bullet", speed: -5.0 });
+                    
+                    // Throttle hostile entity asset spawning pipelines
+                    if(Math.random() < 0.3) {
+                        let alienGeom = new THREE.OctahedronGeometry(0.12, 0);
+                        let alienMat = new THREE.MeshStandardMaterial({color:0xff00ff, wireframe:true});
+                        let aMesh = new THREE.Mesh(alienGeom, alienMat);
+                        aMesh.position.set((Math.random()*2.6)-1.3, 3.3, -3.5);
+                        gameplayEntitiesGroup.add(aMesh);
+                        internalEntitiesArray.push({ mesh: aMesh, type: "alien", speed: 1.5 });
+                    }
+                    executionSpawnTimer = 0;
+                }
+
+                // Bullet and Threat Object Processing Loops Mapping Setup Array Framework
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i];
+                    ent.mesh.position.z += ent.speed * dt;
+
+                    if(ent.type === "bullet" && ent.mesh.position.z < -3.6) {
+                        gameplayEntitiesGroup.remove(ent.mesh);
+                        internalEntitiesArray.splice(i, 1);
+                        continue;
+                    }
+
+                    if(ent.type === "alien") {
+                        if(ent.mesh.position.z > -0.3) {
+                            gameActive = false;
+                            pushSystemAlert("🚨 SHIELD ENVELOPE PENETRATED: HOSTILE TARGET CAPTURE CRITICAL NODE.", "#ff4757");
+                            return;
+                        }
+                        
+                        // Check Intercept against Player Bullet Arrays
+                        for(let j = internalEntitiesArray.length - 1; j >= 0; j--) {
+                            let bulletCheck = internalEntitiesArray[j];
+                            if(bulletCheck.type === "bullet" && bulletCheck.mesh.position.distanceTo(ent.mesh.position) < 0.2) {
+                                activeScore++; cash += 10; syncFinancialHUD();
+                                if(scoreLabel) scoreLabel.innerText = activeScore;
+                                gameplayEntitiesGroup.remove(ent.mesh);
+                                gameplayEntitiesGroup.remove(bulletCheck.mesh);
+                                internalEntitiesArray.splice(i, 1);
+                                internalEntitiesArray.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else if(currentMode === "flappy") {
+                let state = internalStateTracker;
+                state.velocity += 9.8 * dt * 0.15; 
+                localPlayerMesh.position.y -= state.velocity * dt;
+
+                if(inputState.action || inputState.left || inputState.right) {
+                    state.velocity = -1.8;
+                }
+
+                // Render Moving Structural Pipeline Column Pillars Blocks Core Parameters Setup
+                if(executionSpawnTimer > 1.2) {
+                    executionSpawnTimer = 0;
+                    let passageGapY = (Math.random() * 0.8) + 3.8; // Central opening window offset array vector trace
+                    
+                    let upperGeom = new THREE.BoxGeometry(0.2, 2.0, 0.2);
+                    let upperMat = new THREE.MeshStandardMaterial({color:0x2ed573});
+                    let upperMesh = new THREE.Mesh(upperGeom, upperMat);
+                    upperMesh.position.set(1.6, passageGapY + 1.2, -0.5);
+
+                    let lowerGeom = new THREE.BoxGeometry(0.2, 2.0, 0.2);
+                    let lowerMesh = new THREE.Mesh(lowerGeom, upperMat);
+                    lowerMesh.position.set(1.6, passageGapY - 1.2, -0.5);
+
+                    gameplayEntitiesGroup.add(upperMesh, lowerMesh);
+                    internalEntitiesArray.push({ mesh: upperMesh, mesh2: lowerMesh, type: "pipe", speed: -1.8, verified: false });
+                }
+
+                if(localPlayerMesh.position.y > 5.3 || localPlayerMesh.position.y < 3.1) {
+                    gameActive = false;
+                    pushSystemAlert("💥 JET FLIGHT BOUNDS CRASH STRUCTURAL TERMINATION ERROR.", "#ff4757");
+                    return;
+                }
+
+                for(let i = internalEntitiesArray.length - 1; i >= 0; i--) {
+                    let ent = internalEntitiesArray[i];
+                    ent.mesh.position.x += ent.speed * dt;
+                    ent.mesh2.position.x += ent.speed * dt;
+
+                    // Compute Proximity Overlap Envelopes for Intercept Logic
+                    if(Math.abs(ent.mesh.position.x - localPlayerMesh.position.x) < 0.15) {
+                        if(localPlayerMesh.position.y > (ent.mesh.position.y - 1.0) || localPlayerMesh.position.y < (ent.mesh2.position.y + 1.0)) {
+                            gameActive = false;
+                            pushSystemAlert("💥 HIGH VELOCITY BOUNDARY PILLAR COLLISION RECOGNIZED.", "#ff4757");
+                            return;
+                        }
+                    }
+
+                    if(!ent.verified && ent.mesh.position.x < localPlayerMesh.position.x) {
+                        ent.verified = true;
+                        activeScore++; cash += 2; syncFinancialHUD();
+                        if(scoreLabel) scoreLabel.innerText = activeScore;
+                    }
+
+                    if(ent.mesh.position.x < -1.8) {
+                        gameplayEntitiesGroup.remove(ent.mesh);
+                        gameplayEntitiesGroup.remove(ent.mesh2);
+                        internalEntitiesArray.splice(i, 1);
+                    }
+                }
+            }
+        }
+
+        // =========================================================================
+        // RAYCAST INTERACTION HANDLER FOR SIMULATED GRID MOUSE ACTIONS (FARM, MAZE, MINES)
+        // =========================================================================
+        function handle3DSpaceRaycastInteraction(e) {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersectionsList = raycaster.intersectObjects(gameplayEntitiesGroup.children, true);
+            if(intersectionsList.length === 0) return;
+
+            const selectedPrimitiveTarget = intersectionsList[0].object;
+            if(!selectedPrimitiveTarget.userData) return;
+            
+            const metadata = selectedPrimitiveTarget.userData;
+
+            if(currentMode === "farm") {
+                process3DFarmClickActionNode(metadata);
+            }
+            else if(currentMode === "burger") {
+                process3DBurgerClickActionNode(metadata);
+            }
+            else if(currentMode === "chen") {
+                process3DChenMazeClickActionNode(metadata);
+            }
+        }
+
+        // =========================================================================
+        // FARM SYSTEM DESIGN PATTERN ENGINE (3D HOOKS)
+        // =========================================================================
+        let farmParcelMeshReferences = [];
+        function build3DFarmFieldsSpatialGraph() {
+            farmParcelMeshReferences = [];
+            // Parse local matrix properties structures loops
+            let fieldRegistry = JSON.parse(localStorage.getItem("X3D_FencesData")) || [
+                { id: 0, locked: false, pet: null, age: 1, xp: 0 },
+                { id: 1, locked: false, pet: null, age: 1, xp: 0 },
+                { id: 2, locked: true,  pet: null, age: 1, xp: 0 },
+                { id: 3, locked: true,  pet: null, age: 1, xp: 0 },
+                { id: 4, locked: true,  pet: null, age: 1, xp: 0 },
+                { id: 5, locked: true,  pet: null, age: 1, xp: 0 }
+            ];
+            internalStateTracker.fields = fieldRegistry;
+
+            // Generate Master Harvest Field Hub Base Block
+            const harvestHubGeom = new THREE.BoxGeometry(0.8, 0.1, 0.4);
+            const harvestHubMat = new THREE.MeshStandardMaterial({ color: 0xffa500, roughness: 0.9 });
+            const harvestMeshInstance = new THREE.Mesh(harvestHubGeom, harvestHubMat);
+            harvestMeshInstance.position.set(0, 3.2, -0.6);
+            harvestMeshInstance.userData = { type: "crop_master" };
+            gameplayEntitiesGroup.add(harvestMeshInstance);
+
+            // Populate Sub-parcel Geometry Elements Grid Map Matrices
+            fieldRegistry.forEach((parcel, index) => {
+                let cx = ((index % 3) - 1) * 0.8;
+                let cz = -1.4 - (Math.floor(index / 3) * 0.8);
+                
+                let parcelGroup = new THREE.Group();
+                let baseMesh = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.6, 0.08, 0.6),
+                    new THREE.MeshStandardMaterial({ color: parcel.locked ? 0x3a2323 : 0x2ed573 })
+                );
+                parcelGroup.add(baseMesh);
+
+                if(parcel.pet) {
+                    let petAvatarGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+                    let petAvatarMat = new THREE.MeshStandardMaterial({color: 0x1e90ff});
+                    let petMesh = new THREE.Mesh(petAvatarGeo, petAvatarMat);
+                    petMesh.position.y = 0.15;
+                    parcelGroup.add(petMesh);
+                }
+
+                parcelGroup.position.set(cx, 3.2, cz);
+                // Attach targeting contextual tags directly to standard object instances properties pointers
+                baseMesh.userData = { type: "parcel_node", arrayIndex: index };
+                
+                gameplayEntitiesGroup.add(parcelGroup);
+                farmParcelMeshReferences.push(parcelGroup);
+            });
+        }
+
+        function process3DFarmClickActionNode(meta) {
+            const outputDeck = document.getElementById("farm-dynamic-deck");
+            if(meta.type === "crop_master") {
+                wheatInventory++;
+                localStorage.setItem("X3D_Wheat", wheatInventory);
+                document.querySelector(".ticker-hud").innerText = `WHEAT STOCK: ${wheatInventory}`;
+                outputDeck.innerHTML = `💸 Generated agricultural item load stack units. Current wheat stock holds: <strong>${wheatInventory} Stacks</strong>`;
+            }
+            else if(meta.type === "parcel_node") {
+                let idx = meta.arrayIndex;
+                let data = internalStateTracker.fields[idx];
+                
+                if(data.locked) {
+                    outputDeck.innerHTML = `
+                        <p>Plot Vector Allocation Parcel #${idx+1} is Locked.</p>
+                        <button class="btn-primary" onclick="window.processPlotClearance(${idx})" style="font-size:0.85rem; padding:6px;">Unlock Plot Node Vector (-$150)</button>
+                    `;
+                } else if(!data.pet) {
+                    outputDeck.innerHTML = `
+                        <p>Plot Vector Space #${idx+1} Available. Deploy livestock unit payload:</p>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+                            <button class="btn-primary" onclick="window.acquireLiveAsset(${idx}, '🐕', 100)" style="font-size:0.75rem; padding:4px;">K9 Unit ($100)</button>
+                            <button class="btn-primary" onclick="window.acquireLiveAsset(${idx}, '🐄', 250)" style="font-size:0.75rem; padding:4px;">Bovine Unit ($250)</button>
+                        </div>
+                    `;
+                } else {
+                    outputDeck.innerHTML = `
+                        <p>Livestock Type: ${data.pet} | Evolution Phase: Level ${data.age} (${data.xp}%)</p>
+                        <button class="btn-primary" onclick="window.nourishLiveAsset(${idx})" style="font-size:0.85rem; padding:6px; background:#ffa502;">Apply Wheat Feed Allocation Node</button>
+                    `;
+                }
+            }
+        }
+
+        window.processPlotClearance = (idx) => {
+            if(cash >= 150) {
+                cash -= 150; syncFinancialHUD();
+                internalStateTracker.fields[idx].locked = false;
+                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
+                build3DFarmFieldsSpatialGraph();
+                document.getElementById("farm-dynamic-deck").innerText = "Parcel spatial envelope mapping updated to Clear state.";
+            } else { pushSystemAlert("Insufficient transactional capability value markers.", "#ff4757"); }
+        };
+
+        window.acquireLiveAsset = (idx, petSign, value) => {
+            if(cash >= value) {
+                cash -= value; syncFinancialHUD();
+                let f = internalStateTracker.fields[idx];
+                f.pet = petSign; f.age = 1; f.xp = 0;
+                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
+                build3DFarmFieldsSpatialGraph();
+                document.getElementById("farm-dynamic-deck").innerText = "Biological instance asset vector appended.";
+            } else { pushSystemAlert("Insufficient assets.", "#ff4757"); }
+        };
+
+        window.nourishLiveAsset = (idx) => {
+            if(wheatInventory > 0) {
+                wheatInventory--;
+                localStorage.setItem("X3D_Wheat", wheatInventory);
+                document.querySelector(".ticker-hud").innerText = `WHEAT STOCK: ${wheatInventory}`;
+                
+                let f = internalStateTracker.fields[idx];
+                f.xp += 35;
+                if(f.xp >= 100) {
+                    f.xp = 0; f.age++;
+                    let bonusPayout = f.age * 75;
+                    cash += bonusPayout; syncFinancialHUD();
+                    pushSystemAlert(`✨ BIOLOGICAL EVOLUTION ADVANCED!\nUnit matched evolution criteria to Level ${f.age}.\nQuantitative Payout Granted: +$${bonusPayout}`, "#2ed573");
+                }
+                localStorage.setItem("X3D_FencesData", JSON.stringify(internalStateTracker.fields));
+                build3DFarmFieldsSpatialGraph();
+                document.getElementById("farm-dynamic-deck").innerText = "Nutrient processing operation loop evaluated.";
+            } else { pushSystemAlert("Agricultural resource stores depleted.", "#ffa502"); }
+        };
+
+        // =========================================================================
+        // BURGER BOMB HAZARD TOPOLOGY SWEEPER MECHANICAL ARCHITECTURE
+        // =========================================================================
+        let burgerTilesMeshList = [];
+        function build3DBurgerBombSimulationBoard() {
+            burgerTilesMeshList = [];
+            internalStateTracker.playerBombs = [];
+            internalStateTracker.botBombs = [];
+            internalStateTracker.revealedByPlayer = [];
+            internalStateTracker.revealedByBot = [];
+            internalStateTracker.phase = "setup";
+            internalStateTracker.playerHearts = 3;
+            internalStateTracker.botHearts = 3;
+
+            for(let i=0; i<9; i++) {
+                let rx = ((i % 3) - 1) * 0.8;
+                let rz = -1.2 - (Math.floor(i / 3) * 0.8);
+
+                let tileMesh = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.6, 0.1, 0.6),
+                    new THREE.MeshStandardMaterial({ color: 0x2f3542, roughness: 0.5 })
+                );
+                tileMesh.position.set(rx, 3.2, rz);
+                tileMesh.userData = { type: "burger_node", gridIndex: i };
+                gameplayEntitiesGroup.add(tileMesh);
+                burgerTilesMeshList.push(tileMesh);
+            }
+        }
+
+        function process3DBurgerClickActionNode(meta) {
+            if(meta.type !== "burger_node") return;
+            let idx = meta.gridIndex;
+            let st = internalStateTracker;
+            let log = document.getElementById("burger-interactive-log");
+
+            if(st.phase === "setup") {
+                if(!st.playerBombs.includes(idx)) {
+                    st.playerBombs.push(idx);
+                    burgerTilesMeshList[idx].material.color.setHex(0x2ed573);
+                    log.innerHTML += `<br>Placed structural mine protection node on Cell #${idx+1}`;
+                    
+                    if(st.playerBombs.length === 3) {
+                        // Generate opposing AI hazard configuration parameters arrays securely
+                        while(st.botBombs.length < 3) {
+                            let rSlot = Math.floor(Math.random()*9);
+                            if(!st.botBombs.includes(rSlot)) st.botBombs.push(rSlot);
+                        }
+                        st.phase = "battle";
+                        document.getElementById("burger-hud-alert").innerText = "COMBAT PHASE: DISCOVER SAFE NODES";
+                        document.getElementById("burger-hud-alert").style.color = "#ff4757";
+                        // Reset architectural color profiles interfaces maps models representation indices arrays
+                        burgerTilesMeshList.forEach(m => m.material.color.setHex(0x57606f));
+                    }
+                }
+            } 
+            else if(st.phase === "battle") {
+                if(st.revealedByPlayer.includes(idx)) return;
+                st.revealedByPlayer.push(idx);
+
+                if(st.botBombs.includes(idx)) {
+                    st.playerHearts--;
+                    document.getElementById("burger-p1-h").innerText = "YOU: " + ("❤️".repeat(st.playerHearts) || "💀");
+                    burgerTilesMeshList[idx].material.color.setHex(0xff4757);
+                    pushSystemAlert(`💥 COUNTER-HAZARD DETONATION CRITICAL DETECTED AT NODE #${idx+1}!`, "#ff4757", () => {
+                        evaluate3DBurgerGameVictoryStateRules();
+                        if(st.phase === "battle") triggerAutomatedEnemyBotTurnActionSequence();
+                    });
+                } else {
+                    burgerTilesMeshList[idx].material.color.setHex(0x1e90ff);
+                    log.innerHTML += `<br>Discovered clear path vectors structure segment inside sector #${idx+1}`;
+                    evaluate3DBurgerGameVictoryStateRules();
+                    if(st.phase === "battle") triggerAutomatedEnemyBotTurnActionSequence();
+                }
+            }
+        }
+
+        function triggerAutomatedEnemyBotTurnActionSequence() {
+            let st = internalStateTracker;
+            let openSlots = Array.from({length:9}, (_,i)=>i).filter(x => !st.revealedByBot.includes(x));
+            if(openSlots.length === 0) return;
+
+            let botSelectionIdx = openSlots[Math.floor(Math.random()*openSlots.length)];
+            st.revealedByBot.push(botSelectionIdx);
+
+            if(st.playerBombs.includes(botSelectionIdx)) {
+                st.botHearts--;
+                document.getElementById("burger-p2-h").innerText = "BOT: " + ("❤️".repeat(st.botHearts) || "💀");
+                pushSystemAlert(`🤖 AUTOMATED BOT ENGINE DETONATED ENEMY BOMB GRID BLOCK NODE AT POSITION #${botSelectionIdx+1}!`, "#2ed573", () => {
+                    evaluate3DBurgerGameVictoryStateRules();
+                });
+            } else {
+                evaluate3DBurgerGameVictoryStateRules();
+            }
+        }
+
+        function evaluate3DBurgerGameVictoryStateRules() {
+            let st = internalStateTracker;
+            if(st.botHearts <= 0) {
+                st.phase = "game_over"; gameActive = false;
+                cash += 1000; syncFinancialHUD();
+                pushSystemAlert("🏆 CONGRATULATIONS: ENEMY HAZARD THREAT CORES OFFLINE. +$1000 GRANTED.", "#2ed573");
+            } else if(st.playerHearts <= 0) {
+                st.phase = "game_over"; gameActive = false;
+                cash = Math.max(0, cash - 500); syncFinancialHUD();
+                pushSystemAlert("💀 CRITICAL INTEGRITY DEGRADATION FAILURE: MATCH PENALTY -$500 RESERVES.", "#ff4757");
+            }
+        }
+
+        document.body.addEventListener('click', (e) => {
+            if(e.target && e.target.id === "btn-burger-radar") {
+                if(currentMode !== "burger" || internalStateTracker.phase !== "battle") return;
+                if(cash >= 1500) {
+                    cash -= 1500; syncFinancialHUD();
+                    let unrevealedHazards = internalStateTracker.botBombs.filter(b => !internalStateTracker.revealedByPlayer.includes(b));
+                    if(unrevealedHazards.length > 0) {
+                        let targetClueIndex = unrevealedHazards[Math.floor(Math.random()*unrevealedHazards.length)];
+                        burgerTilesMeshList[targetClueIndex].material.color.setHex(0xffa502);
+                        pushSystemAlert(`🧐 Intel radar sweeps revealed warning hazard configurations inside Node Vector Array block reference index value map parameter: #${targetClueIndex+1}`, "#ffd32a");
+                    }
+                } else { pushSystemAlert("Insufficient verification payload tokens.", "#ff4757"); }
+            }
         });
+
+        // =========================================================================
+        // CHEN CHEN MULTI-CORRIDOR SPATIAL ORIENTATION MAZE
+        // =========================================================================
+        let mazeStructuralMeshReferencesArray = [];
+        let mazeInternalGridStorageMap = [];
+        let playerTokenSpatialMarker, ghostTokenSpatialMarker;
+
+        function build3DChenMazeGraphGridStructure() {
+            mazeStructuralMeshReferencesArray = [];
+            mazeInternalGridStorageMap = [
+                [0,0,0,1,0,0,0],
+                [0,1,0,1,0,1,0],
+                [0,1,0,0,0,1,0],
+                [0,0,1,1,1,0,0],
+                [0,1,0,0,0,1,0],
+                [0,0,0,1,0,0,0]
+            ];
+
+            internalStateTracker.px = 0; internalStateTracker.py = 0;
+            internalStateTracker.gx = 6; internalStateTracker.gy = 5;
+            internalStateTracker.mazeTokensCount = 0;
+            internalStateTracker.stepTickerCount = 0;
+
+            for(let r=0; r<6; r++) {
+                for(let c=0; c<7; c++) {
+                    let mx = (c - 3) * 0.45;
+                    let mz = -1.0 - (r * 0.45);
+                    
+                    let isBlockWall = mazeInternalGridStorageMap[r][c] === 1;
+                    let blockGeo = new THREE.BoxGeometry(0.4, isBlockWall ? 0.3 : 0.04, 0.4);
+                    let blockMat = new THREE.MeshStandardMaterial({
+                        color: isBlockWall ? 0x2c3e50 : 0x111115,
+                        roughness: 0.8
+                    });
+                    let cellMesh = new THREE.Mesh(blockGeo, blockMat);
+                    cellMesh.position.set(mx, 3.2 + (isBlockWall ? 0.13 : 0), mz);
+                    cellMesh.userData = { type: "maze_tile_node", cx: c, cy: r, wallFlag: isBlockWall };
+                    gameplayEntitiesGroup.add(cellMesh);
+                    mazeStructuralMeshReferencesArray.push(cellMesh);
+                }
+            }
+
+            // Append Object Representational Node Tokens directly into the spatial array
+            playerTokenSpatialMarker = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({color: 0x00ff7f}));
+            ghostTokenSpatialMarker = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.14, 0.1), new THREE.MeshBasicMaterial({color: 0xff0055}));
+            gameplayEntitiesGroup.add(playerTokenSpatialMarker, ghostTokenSpatialMarker);
+
+            realignChenMazeVisualTokenVectorsPositions();
+        }
+
+        function realignChenMazeVisualTokenVectorsPositions() {
+            let st = internalStateTracker;
+            playerTokenSpatialMarker.position.set((st.px - 3)*0.45, 3.32, -1.0 - (st.py * 0.45));
+            ghostTokenSpatialMarker.position.set((st.gx - 3)*0.45, 3.35, -1.0 - (st.gy * 0.45));
+        }
+
+        function process3DChenMazeClickActionNode(meta) {
+            if(meta.type !== "maze_tile_node" || meta.wallFlag) return;
+            let st = internalStateTracker;
+
+            // Direct Path Clearance Step Vectors Calculation Loop Pipeline Array Map Core Logic
+            let dx = meta.cx - st.px;
+            let dy = meta.cy - st.py;
+
+            if(Math.abs(dx) > 0 && dy === 0) {
+                let step = dx > 0 ? 1 : -1;
+                while(st.px + step >= 0 && st.px + step < 7 && mazeInternalGridStorageMap[st.py][st.px + step] === 0) {
+                    st.px += step;
+                    st.mazeTokensCount++; cash += 5; syncFinancialHUD();
+                }
+            } 
+            else if(Math.abs(dy) > 0 && dx === 0) {
+                let step = dy > 0 ? 1 : -1;
+                while(st.py + step >= 0 && st.py + step < 6 && mazeInternalGridStorageMap[st.py + step][st.px] === 0) {
+                    st.py += step;
+                    st.mazeTokensCount++; cash += 5; syncFinancialHUD();
+                }
+            }
+
+            document.getElementById("game-hud-score").innerText = st.mazeTokensCount;
+            executeAutomatedGhostPathingStepAllocation();
+            realignChenMazeVisualTokenVectorsPositions();
+
+            if(st.px === st.gx && st.py === st.gy) {
+                gameActive = false;
+                pushSystemAlert(`💀 ENEMY PHANTOM INTERCEPT DISRUPTED RUNTIME MATRIX!\nCollected Path Iteration Token Payouts: $${st.mazeTokensCount * 5}`, "#ff4757");
+            }
+        }
+
+        function executeAutomatedGhostPathingStepAllocation() {
+            let st = internalStateTracker;
+            let targetXStep = st.px - st.gx;
+            let targetYStep = st.py - st.gy;
+
+            if(Math.abs(targetXStep) > Math.abs(targetYStep)) {
+                let shift = targetXStep > 0 ? 1 : -1;
+                if(mazeInternalGridStorageMap[st.gy][st.gx + shift] === 0) st.gx += shift;
+            } else {
+                let shift = targetYStep > 0 ? 1 : -1;
+                if(mazeInternalGridStorageMap[st.gy + shift]?.[st.gx] === 0) st.gy += shift;
+            }
+        }
+
+        // =========================================================================
+        // GUESS CODE ORACLE ENGINE ARCHITECTURE SUBSPACE BLOCK
+        // =========================================================================
+        function build3DGuessGameMatrixGridStructure() {
+            const matrixBox = document.getElementById("guess-injection-matrix-deck");
+            matrixBox.innerHTML = "";
+            internalStateTracker.secretCodeTarget = Math.floor(Math.random() * 50) + 1;
+            internalStateTracker.turnsRemainingCount = 6;
+
+            document.getElementById("guess-ticker-status").innerText = `ATTEMPTS REGISTERED ENVELOPE STRUCT: 6`;
+
+            for(let i=1; i<=50; i++) {
+                let gridNodeBtn = document.createElement("button");
+                gridNodeBtn.className = "btn-primary";
+                gridNodeBtn.style.padding = "6px"; gridNodeBtn.style.fontSize = "0.75rem";
+                gridNodeBtn.innerText = i;
+                gridNodeBtn.onclick = () => evaluateBinaryOracleGuessActionLoop(i, gridNodeBtn);
+                matrixBox.appendChild(gridNodeBtn);
+            }
+        }
+
+        function evaluateBinaryOracleGuessActionLoop(guessedVal, elementButtonRef) {
+            let st = internalStateTracker;
+            if(st.turnsRemainingCount <= 0) return;
+
+            elementButtonRef.disabled = true;
+            elementButtonRef.style.background = "#3f4452";
+
+            if(guessedVal === st.secretCodeTarget) {
+                cash += 1500; syncFinancialHUD();
+                pushSystemAlert(`🎉 ORACLE COMPASS SYNCHRONIZATION PERFECT!\nTarget value core discovered inside memory segment [${st.secretCodeTarget}].\nQuantitative Financial Allocation: +$1,500`, "#2ed573");
+                build3DGuessGameMatrixGridStructure();
+            } else {
+                st.turnsRemainingCount--;
+                document.getElementById("guess-ticker-status").innerText = `ATTEMPTS REGISTERED ENVELOPE STRUCT: ${st.turnsRemainingCount}`;
+                
+                let conditionalDirectionHint = guessedVal < st.secretCodeTarget ? "HIGHER AXIS VECTOR ⬆️" : "LOWER AXIS VECTOR ⬇️";
+                pushSystemAlert(`❌ INTERCEPT MISSED!\nEvaluated spatial signal vector registers parameter target alignment as: ${conditionalDirectionHint}`, "#ffa502");
+
+                if(st.turnsRemainingCount <= 0) {
+                    cash = Math.max(0, cash - 1000); syncFinancialHUD();
+                    pushSystemAlert(`💀 SYSTEM FLUSH PARSING ERROR: Target storage matrix index was locked at reference position [${st.secretCodeTarget}]. Core Penalty: -$1000`, "#ff4757");
+                    build3DGuessGameMatrixGridStructure();
+                }
+            }
+        }
+
+        // =========================================================================
+        // 3D KITCHEN WORKSPACE ASSEMBLY SIMULATOR SYSTEM DIRECTIVES
+        // =========================================================================
+        function build3DRestaurantKitchenWorkspace() {
+            internalStateTracker.activeRecipeProfile = "";
+            internalStateTracker.selectedIngredientsStackArray = [];
+            
+            const listRack = document.getElementById("rest-ingredients-rack");
+            listRack.innerHTML = "";
+            
+            const rawIngredientsMetadataArray = ['🥔','🍶','🍞','🥦','🥕','🥬','🥑','🫓','🍖','🍋'];
+            rawIngredientsMetadataArray.forEach(item => {
+                let binBtn = document.createElement("button");
+                binBtn.className = "btn-primary";
+                binBtn.style.padding = "8px 2px"; binBtn.style.fontSize = "1.1rem";
+                binBtn.innerText = item;
+                binBtn.onclick = () => {
+                    internalStateTracker.selectedIngredientsStackArray.push(item);
+                    document.getElementById("rest-bowl-node").innerText = internalStateTracker.selectedIngredientsStackArray.join(" ");
+                };
+                listRack.appendChild(binBtn);
+            });
+
+            generateSequentialClientOrderTicketNode();
+        }
+
+        function generateSequentialClientOrderTicketNode() {
+            const recipeProfilesBook = ["Fries Node [🥔+🍶]", "Sandwich Unit [🍞+🥦+🥕]", "Taco Vector [🫓+🍖+🍋]"];
+            internalStateTracker.activeRecipeProfile = recipeProfilesBook[Math.floor(Math.random()*recipeProfilesBook.length)];
+            document.getElementById("rest-order-badge").innerText = `CLIENT TICKET REQUIREMENT: ${internalStateTracker.activeRecipeProfile}`;
+            window.clear3DRestaurantBowl();
+        }
+
+        window.clear3DRestaurantBowl = () => {
+            if(internalStateTracker && internalStateTracker.selectedIngredientsStackArray) {
+                internalStateTracker.selectedIngredientsStackArray = [];
+                document.getElementById("rest-bowl-node").innerText = "[Empty]";
+            }
+        };
+
+        window.serve3DRestaurantOrder = () => {
+            let st = internalStateTracker;
+            let evaluationSignatureString = [...st.selectedIngredientsStackArray].sort().join("");
+            
+            let matchedCoreFlag = false;
+            if(st.activeRecipeProfile.includes("Fries") && evaluationSignatureString === ['🥔','🍶'].sort().join("")) matchedCoreFlag = true;
+            if(st.activeRecipeProfile.includes("Sandwich") && evaluationSignatureString === ['🍞','🥦','🥕'].sort().join("")) matchedCoreFlag = true;
+            if(st.activeRecipeProfile.includes("Taco") && evaluationSignatureString === ['🫓','🍖','🍋'].sort().join("")) matchedCoreFlag = true;
+
+            if(matchedCoreFlag) {
+                let payloadDividend = Math.floor(Math.random()*150) + 100;
+                cash += payloadDividend; syncFinancialHUD();
+                pushSystemAlert(`✨ INVENTORY VECTOR CONFIGURATION VALID!\nClient interface processed completely.\nAsset generation value: +$${payloadDividend}`, "#2ed573", () => {
+                    generateSequentialClientOrderTicketNode();
+                });
+            } else {
+                pushSystemAlert("🤢 SCRAMBLED MATRIX PROFILE PAYLOAD CONFIGURATION DETECTED: Execution Aborted.", "#ff4757", () => {
+                    generateSequentialClientOrderTicketNode();
+                });
+            }
+        };
+
+        // Trigger Main Processing Execution Sequence Context Setup Lifecycle Hooks
+        window.onload = () => {
+            initializeUniversalGraphicsSandbox();
+        };
     </script>
 </body>
 </html>
