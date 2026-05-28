@@ -99,7 +99,7 @@
 
         function manualResetKey() {
             localStorage.removeItem("gemini_api_key");
-            alert("API Key cleared from local storage! Reloading page to set up a new one...");
+            alert("API Key cleared! Page will reload...");
             window.location.reload();
         }
 
@@ -121,18 +121,26 @@
             inputField.value = "";
 
             const loadingDiv = appendMessage("Dragon is thinking...", "ai-message");
-
             const activeKey = localStorage.getItem("gemini_api_key");
             
-            // Fixed stable endpoint format for standard production models
-            const targetUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
+            // Standard safe production URL
+            const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
 
             try {
+                // FIXED STRUCTURAL PAYLOAD FOR NEW 2026 KEY GENERATIONS
                 const response = await fetch(targetUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `${SYSTEM_INSTRUCTION}\n\nUser request: ${messageText}` }] }]
+                        contents: [
+                            {
+                                role: "user",
+                                parts: [{ text: messageText }]
+                            }
+                        ],
+                        systemInstruction: {
+                            parts: [{ text: SYSTEM_INSTRUCTION }]
+                        }
                     })
                 });
 
@@ -141,12 +149,11 @@
                 if (data.candidates && data.candidates[0].content.parts[0].text) {
                     loadingDiv.innerText = data.candidates[0].content.parts[0].text;
                 } else {
-                    localStorage.removeItem("gemini_api_key");
-                    loadingDiv.innerText = `API Error! The key saved was rejected. Refresh or click Reset Key to try a different one.\n\nDetails: ${data.error ? data.error.message : "Structure error."}`;
+                    loadingDiv.innerText = `System Error: ${data.error ? data.error.message : "JSON verification error."}`;
                 }
 
             } catch (error) {
-                loadingDiv.innerText = "Network pipeline error! Please check your internet connection.";
+                loadingDiv.innerText = "Network pipeline error! Please check your connection.";
             }
 
             chatContainer.scrollTop = chatContainer.scrollHeight;
