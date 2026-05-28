@@ -123,10 +123,11 @@
             const loadingDiv = appendMessage("Dragon is thinking...", "ai-message");
             const activeKey = localStorage.getItem("gemini_api_key");
             
-            // REMOVED v1beta -> SWITCHED TO STABLE GENERATIVE v1 ENDPOINT
+            // Fixed connection endpoint mapping pattern
             const targetUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
 
             try {
+                // FIXED JSON FORMAT: Combined text injection mapping to avoid underscore naming parameter drops
                 const response = await fetch(targetUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -134,12 +135,9 @@
                         contents: [
                             {
                                 role: "user",
-                                parts: [{ text: messageText }]
+                                parts: [{ text: `Instruction: ${SYSTEM_INSTRUCTION}\n\nUser text: ${messageText}` }]
                             }
-                        ],
-                        systemInstruction: {
-                            parts: [{ text: SYSTEM_INSTRUCTION }]
-                        }
+                        ]
                     })
                 });
 
@@ -148,7 +146,7 @@
                 if (data.candidates && data.candidates[0].content.parts[0].text) {
                     loadingDiv.innerText = data.candidates[0].content.parts[0].text;
                 } else {
-                    loadingDiv.innerText = `System Error: ${data.error ? data.error.message : "Structure check configuration error."}`;
+                    loadingDiv.innerText = `System Error: ${data.error ? data.error.message : "JSON layout verify configuration error."}`;
                 }
 
             } catch (error) {
