@@ -3,167 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xdragon-AI</title>
+    <title>Xdragon 3D Arcade Prototype</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f0f12; color: #e0e0e0; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        header { background: linear-gradient(90deg, #ff4500, #ff8c00); padding: 15px; text-align: center; font-size: 1.4rem; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; position: relative; }
-        
-        .reset-btn { position: absolute; right: 15px; background: rgba(0,0,0,0.4); border: 1px solid #ff4500; color: #ff8c00; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
-        .reset-btn:hover { background: #ff4500; color: white; }
-
-        /* Login Overlays Style */
-        #login-overlay, #key-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0f0f12; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; gap: 15px; }
-        .login-box { background-color: #141419; padding: 30px; border-radius: 12px; border: 1px solid #333; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 90%; max-width: 400px; }
-        
-        #chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background-color: #141419; display: none; }
-        .message { max-width: 80%; padding: 12px 16px; border-radius: 15px; line-height: 1.4; word-wrap: break-word; font-size: 1rem; }
-        .user-message { background-color: #ff4500; color: white; align-self: flex-end; border-bottom-right-radius: 2px; box-shadow: 0 2px 5px rgba(255,69,0,0.3); }
-        .ai-message { background-color: #22222a; color: #e0e0e0; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #333; }
-        #input-container { background-color: #1a1a24; padding: 15px; display: flex; gap: 10px; border-top: 1px solid #2d2d3d; display: none; }
-        input { background-color: #252532; border: 1px solid #444; color: white; padding: 14px; border-radius: 8px; outline: none; font-size: 1rem; }
-        #user-input { flex: 1; }
-        input:focus { border-color: #ff8c00; }
-        button { background: linear-gradient(135deg, #ff4500, #ff8c00); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
-        button:hover { transform: scale(1.03); opacity: 0.9; }
+        body {
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            background: rgba(30,30,30,0.85);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #ff4757;
+        }
+        #threejs-container {
+            width: 100vw;
+            height: 100vh;
+        }
     </style>
 </head>
 <body>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <h2 style="color: #ff4500; margin-top: 0;">🐉 Xdragon Access</h2>
-            <p style="color: #aaa; font-size: 0.9rem;">Enter password to unlock access:</p>
-            <input type="password" id="pass-input" placeholder="Enter password..." style="margin-bottom: 15px; width: 100%;" onkeydown="if(event.key === 'Enter') checkPassword()"><br>
-            <button onclick="checkPassword()" style="width: 100%;">Access Terminal</button>
-            <p id="login-error" style="color: red; font-size: 0.85rem; margin-top: 10px; display: none;">Invalid password, access denied!</p>
-        </div>
+    <div id="ui-overlay">
+        <div>Score: <span id="score-val">0</span></div>
+        <div>Controls: Use A / D or Left / Right Arrows</div>
     </div>
 
-    <div id="key-overlay" style="display: none;">
-        <div class="login-box">
-            <h2 style="color: #ff8c00; margin-top: 0;">🔑 API Configuration</h2>
-            <p style="color: #aaa; font-size: 0.9rem;">Provide your new Gemini API Key. It will be saved locally on your device.</p>
-            <input type="password" id="key-input" placeholder="AIzaSy..." style="margin-bottom: 15px; width: 100%;" onkeydown="if(event.key === 'Enter') saveApiKey()"><br>
-            <button onclick="saveApiKey()" style="width: 100%;">Initialize Core</button>
-        </div>
-    </div>
+    <div id="threejs-container"></div>
 
-    <header>
-        🐉 XDRAGON-AI ASSISTANT 🐉
-        <button class="reset-btn" onclick="manualResetKey()">⚙️ Reset Key</button>
-    </header>
-
-    <div id="chat-container">
-        <div class="message ai-message">Yo! I am Xdragon-AI. Access granted, boss! What are we working on or talking about today? 🔥</div>
-    </div>
-
-    <div id="input-container">
-        <input type="text" id="user-input" placeholder="Type a message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()">Send</button>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
-        const passPart1 = "Xdragonofficial558724050990";
-        const passPart2 = ".Real Account";
-        const MY_PASSWORD = passPart1 + passPart2; 
+        // --- 1. CORE SETUP SETUP ENGINE CONFIGURATION ---
+        const container = document.getElementById('threejs-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x121212);
+        scene.fog = new THREE.FogExp2(0x121212, 0.015); // Adds a smooth depth fog atmosphere
 
-        function checkPassword() {
-            const enteredPass = document.getElementById("pass-input").value;
-            const errorMsg = document.getElementById("login-error");
-            
-            if(enteredPass === MY_PASSWORD) {
-                document.getElementById("login-overlay").style.display = "none";
-                
-                if (!localStorage.getItem("gemini_api_key")) {
-                    document.getElementById("key-overlay").style.display = "flex";
-                } else {
-                    launchMainInterface();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // --- 2. GAME VARIABLES & GROUND WORK STRUCTURE ---
+        let score = 0;
+        let gameRunning = true;
+        let obstacles = [];
+        const laneWidth = 4;
+
+        // Add Ambient & Directional Neon Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xff4757, 0.8);
+        directionalLight.position.set(0, 10, 5);
+        scene.add(directionalLight);
+
+        // Create 3D Track Run Way Plane (Ground grid)
+        const trackGeometry = new THREE.PlaneGeometry(14, 500);
+        const trackMaterial = new THREE.MeshBasicMaterial({ color: 0x1e1e1e, side: THREE.DoubleSide });
+        const track = new THREE.Mesh(trackGeometry, trackMaterial);
+        track.rotation.x = Math.PI / 2; // Lay flat
+        track.position.z = -200;
+        scene.add(track);
+
+        // Grid overlay helper line indicator grid map
+        const gridHelper = new THREE.GridHelper(500, 100, 0xff4757, 0x444444);
+        gridHelper.position.y = 0.01;
+        gridHelper.position.z = -200;
+        scene.add(gridHelper);
+
+        // --- 3. CREATE PLAYER ELEMENT (A Neon 3D Sphere Core) ---
+        const playerGeometry = new THREE.SphereGeometry(1, 32, 32);
+        const playerMaterial = new THREE.MeshStandardMaterial({ color: 0x00a8ff, roughness: 0.2, metalness: 0.5 });
+        const player = new THREE.Mesh(playerGeometry, playerMaterial);
+        player.position.set(0, 1, -5); // Position slightly above the grid map runway track
+        scene.add(player);
+
+        // Camera Tracking Profile Offset Viewpoint LookAt Position Setup
+        camera.position.set(0, 6, 3);
+        camera.lookAt(player.position.x, player.position.y + 1, player.position.z - 5);
+
+        // --- 4. PLAYER MOVEMENT MECHANICS EVENT TRACKERS ---
+        let inputDirection = 0;
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'a' || e.key === 'ArrowLeft') inputDirection = -0.15;
+            if (e.key === 'd' || e.key === 'ArrowRight') inputDirection = 0.15;
+        });
+        window.addEventListener('keyup', () => inputDirection = 0);
+
+        // --- 5. ENEMY OBSTACLE INJECTION VECTOR MECHANICS ---
+        function spawnLaserWall() {
+            if(!gameRunning) return;
+            const width = Math.random() * 4 + 2;
+            const obstacleGeometry = new THREE.BoxGeometry(width, 0.8, 1);
+            const obstacleMaterial = new THREE.MeshStandardMaterial({ color: 0xff4757, emissive: 0xff4757, emissiveIntensity: 0.5 });
+            const obsMesh = new THREE.Mesh(obstacleGeometry, obstacleMaterial);
+
+            // Choose random placement vector
+            obsMesh.position.set((Math.random() - 0.5) * 10, 0.4, -150);
+            scene.add(obsMesh);
+            obstacles.push(obsMesh);
+
+            // Re-call execution queue recursively with slight variability
+            setTimeout(spawnLaserWall, Math.max(400, 1500 - score * 2));
+        }
+        spawnLaserWall();
+
+        // --- 6. REAL-TIME RENDER MECHANICS INTERACTION MATRIX ---
+        function animate() {
+            if (!gameRunning) return;
+            requestAnimationFrame(animate);
+
+            // Handle player tracking frame steps boundary limits
+            player.position.x += inputDirection;
+            if (player.position.x > 6) player.position.x = 6;
+            if (player.position.x < -6) player.position.x = -6;
+
+            // Track continuous linear progression parameters
+            score++;
+            document.getElementById('score-val').innerText = score;
+
+            // Update & Move 3D Obstacle Elements Towards Player camera view field
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.position.z += 1.2 + (score * 0.0005); // Speed multiplier upscaling smoothly
+
+                // Box Intersect Bounding Processing Check (Collision Evaluator Core Logic Matrix)
+                let playerBox = new THREE.Box3().setFromObject(player);
+                let obsBox = new THREE.Box3().setFromObject(obs);
+
+                if (playerBox.intersectsBox(obsBox)) {
+                    gameRunning = false;
+                    alert(`💥 CRASHED AT A DISTANCE OF: ${score} POINTS!`);
+                    location.reload(); // Reload script array back to pristine base vector defaults
                 }
-            } else {
-                errorMsg.style.display = "block";
-                document.getElementById("pass-input").value = "";
-            }
-        }
 
-        function saveApiKey() {
-            const keyVal = document.getElementById("key-input").value.trim();
-            if (keyVal.startsWith("AIzaSy")) {
-                localStorage.setItem("gemini_api_key", keyVal);
-                document.getElementById("key-overlay").style.display = "none";
-                launchMainInterface();
-            } else {
-                alert("Invalid format! Gemini keys usually start with 'AIzaSy'.");
-            }
-        }
-
-        function manualResetKey() {
-            localStorage.removeItem("gemini_api_key");
-            alert("API Key cleared! Page will reload...");
-            window.location.reload();
-        }
-
-        function launchMainInterface() {
-            document.getElementById("chat-container").style.display = "flex";
-            document.getElementById("input-container").style.display = "flex";
-        }
-
-        const SYSTEM_INSTRUCTION = "You are Xdragon-AI, a cool, hype, and witty AI companion. Speak entirely in English. You love gaming, meme culture, programming, and tech. Use emojis like 🐉, 🔥, 💀, or 🚀.";
-
-        async function sendMessage() {
-            const inputField = document.getElementById("user-input");
-            const chatContainer = document.getElementById("chat-container");
-            const messageText = inputField.value.trim();
-
-            if (messageText === "") return;
-
-            appendMessage(messageText, "user-message");
-            inputField.value = "";
-
-            const loadingDiv = appendMessage("Dragon is thinking...", "ai-message");
-            const activeKey = localStorage.getItem("gemini_api_key");
-            
-            // FIXED: CHANGED TO THE STABLE v1 PRODUCTION ENDPOINT AND EXPLICIT '-latest' MODEL IDENTIFIER
-            const targetUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${activeKey}`;
-
-            try {
-                const response = await fetch(targetUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [
-                            {
-                                role: "user",
-                                parts: [{ text: `System Command: ${SYSTEM_INSTRUCTION}\n\nUser Message: ${messageText}` }]
-                            }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    loadingDiv.innerText = data.candidates[0].content.parts[0].text;
-                } else {
-                    loadingDiv.innerText = `System Error: ${data.error ? data.error.message : "Data parsing layout error."}`;
+                // Cleanup meshes when they slide safely past camera clipping bounds
+                if (obs.position.z > 10) {
+                    scene.remove(obs);
+                    obstacles.splice(i, 1);
                 }
-
-            } catch (error) {
-                loadingDiv.innerText = "Network pipeline error! Please check your connection.";
             }
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            renderer.render(scene, camera);
         }
+        animate();
 
-        function appendMessage(text, className) {
-            const chatContainer = document.getElementById("chat-container");
-            const messageDiv = document.createElement("div");
-            messageDiv.className = `message ${className}`;
-            messageDiv.innerText = text;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            return messageDiv;
-        }
+        // Dynamically Handle Screen/Viewport Scaling Resizes instantly
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
